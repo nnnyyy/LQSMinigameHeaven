@@ -1,13 +1,13 @@
 <template>
     <div id="main" v-if="showInfo">
-        <title-canvas></title-canvas>
+        <top-menu></top-menu>
     </div>
 </template>
 <script>
     import G from './global'
     import P from '../common/protocol'
     import $ from 'jquery'   
-    import titleCanvas from './components/titlecanvas.vue' 
+    import TopMenu from './components/TopMenuMobile.vue' 
 
     export default {
         data: function() {
@@ -16,7 +16,7 @@
             }
         },
         components: { 
-            'title-canvas': titleCanvas           
+            'top-menu': TopMenu
         },
         created: function() {            
         },

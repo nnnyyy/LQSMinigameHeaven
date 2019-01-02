@@ -11,10 +11,10 @@ class PixiTitleCanvas {
     constructor() {
     }
 
-    create(element) {        
-        cvs.width = 800
-        cvs.height = 540
-        this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xffffff, view: element, antialias: true} )
+    create(width, height, element) {        
+        cvs.width = width
+        cvs.height = height
+        this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xff007f, view: element, antialias: true} )
         this.container = new PIXI.Container();            
 
         this.basicText = new PIXI.Text('Basic text in pixi');

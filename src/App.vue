@@ -1,6 +1,7 @@
 <template>
     <div id="main" v-if="showInfo">
         <top-menu></top-menu>
+        <main-game-view></main-game-view>
     </div>
 </template>
 <script>
@@ -8,6 +9,7 @@
     import P from '../common/protocol'
     import $ from 'jquery'   
     import TopMenu from './components/TopMenuMobile.vue' 
+    import MainGameView from './components/MainGameView.vue'
 
     export default {
         data: function() {
@@ -16,7 +18,8 @@
             }
         },
         components: { 
-            'top-menu': TopMenu
+            'top-menu': TopMenu,
+            'main-game-view': MainGameView
         },
         created: function() {            
         },

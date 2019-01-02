@@ -24,8 +24,8 @@
         },
         methods: {            
         },
-        mounted: function() {  
-            PixiTitle.create(document.getElementById('cvs'));
+        mounted: function() {              
+            PixiTitle.create(window.innerWidth, 400, document.getElementById('cvs'));
         }
     }
 </script>

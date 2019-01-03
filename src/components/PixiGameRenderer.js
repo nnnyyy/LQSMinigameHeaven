@@ -10,7 +10,7 @@ import {Matrix} from 'pixi.js'
 
 class PixiTitleCanvas {
     constructor() {
-    }
+    }    
 
     create(width, height, element) {        
         cvs.width = width
@@ -26,7 +26,7 @@ class PixiTitleCanvas {
         this.container.buttonMode = true;
         this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
         this.container.on('pointerdown', (e)=> {
-            this.moveObject(e.data.global.x, e.data.global.y, this.basicText);
+            this.moveObject(e.data.global.x, e.data.global.y, this.getRandomInt(10,14), this.basicText);
             
         });
         this.container.addChild(this.basicText);                
@@ -45,8 +45,6 @@ class PixiTitleCanvas {
         ticker.add( time => {
             this.update(time);
         });
-
-        this.moveText();
     }
 
     update(time) {
@@ -58,10 +56,14 @@ class PixiTitleCanvas {
         this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
     }
 
-    moveObject(x,y, obj) {        
-        if( !obj ) return;
-        const dx = (x - obj.x)/20;
-        const dy = (y - obj.y)/20;    
+    moveObject(x,y,spd,obj) {        
+        if( !obj || obj.isMoving ) return;
+        if( spd >= 20 ) {
+            spd = 20;
+        }
+        obj.isMoving = true;
+        const dx = (x - obj.x)/(20 - spd + 1);
+        const dy = (y - obj.y)/(20 - spd + 1);    
         
         this.moveObjectNext(dx, dy, x, y, obj);
     }
@@ -73,7 +75,9 @@ class PixiTitleCanvas {
         if( ( dx >= 0 && obj.x >= destX ) || 
             ( dx < 0 && obj.x <= destX ) ) 
             {
-
+                obj.x = destX;
+                obj.y = destY;
+                obj.isMoving = false;
             }
         else {
             requestAnimationFrame(() => {
@@ -84,8 +88,10 @@ class PixiTitleCanvas {
         this.renderer.render(this.container);
     }
 
-    moveText() {
-        this.moveObject(100,200, this.basicText);
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 

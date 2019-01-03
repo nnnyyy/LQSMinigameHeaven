@@ -16,13 +16,21 @@ class PixiTitleCanvas {
         cvs.width = width
         cvs.height = height
         this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xff007f, view: element, antialias: true} )
-        this.container = new Container();            
+        this.container = new Container();        
 
         this.basicText = new PIXI.Text('Basic text in pixi');
         this.basicText.x = 0;
         this.basicText.y = 0;
 
-        this.container.addChild(this.basicText);            
+        this.container.interactive = true;
+        this.container.buttonMode = true;
+        this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
+        this.container.on('pointerdown', (e)=> {
+            this.moveObject(e.data.global.x, e.data.global.y, this.basicText);
+            
+        });
+        this.container.addChild(this.basicText);                
+        
 
         let ticker = PIXI.ticker.shared;
         // Set this to prevent starting this ticker when listeners are added.
@@ -36,7 +44,9 @@ class PixiTitleCanvas {
 
         ticker.add( time => {
             this.update(time);
-        });         
+        });
+
+        this.moveText();
     }
 
     update(time) {
@@ -45,31 +55,31 @@ class PixiTitleCanvas {
 
     resize(width, height) {
         this.renderer.resize(width,height);
+        this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
     }
 
     moveObject(x,y, obj) {        
         if( !obj ) return;
-        if( x - obj.x ) {
-            obj.x += (x / 20);
-        }
-        else {
-            obj.x -= (x / 20);
-        }
+        const dx = (x - obj.x)/20;
+        const dy = (y - obj.y)/20;    
         
-        if( y - obj.y ) {
-            obj.y += (y / 20);
-        }
-        else {
-            obj.y -= (y / 20);            
-        }
+        this.moveObjectNext(dx, dy, x, y, obj);
+    }
 
-        if( obj.x >= x ) {
-            return;
+    moveObjectNext(dx, dy, destX, destY, obj) {        
+        obj.x += dx;
+        obj.y += dy;        
+
+        if( ( dx >= 0 && obj.x >= destX ) || 
+            ( dx < 0 && obj.x <= destX ) ) 
+            {
+
+            }
+        else {
+            requestAnimationFrame(() => {
+                this.moveObjectNext(dx, dy, destX, destY, obj);
+            });            
         }        
-        
-        requestAnimationFrame(() => {
-            this.moveObject(x, y, obj);
-        });
 
         this.renderer.render(this.container);
     }

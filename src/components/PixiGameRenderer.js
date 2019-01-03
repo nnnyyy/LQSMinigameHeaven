@@ -7,6 +7,7 @@ import {Graphics} from 'pixi.js'
 import {Filter} from 'pixi.js'
 import {Matrix} from 'pixi.js'
 
+
 class PixiTitleCanvas {
     constructor() {
     }
@@ -15,7 +16,7 @@ class PixiTitleCanvas {
         cvs.width = width
         cvs.height = height
         this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xff007f, view: element, antialias: true} )
-        this.container = new PIXI.Container();            
+        this.container = new Container();            
 
         this.basicText = new PIXI.Text('Basic text in pixi');
         this.basicText.x = 0;
@@ -35,12 +36,46 @@ class PixiTitleCanvas {
 
         ticker.add( time => {
             this.update(time);
-        }); 
+        });         
     }
 
     update(time) {
+        this.renderer.render(this.container);        
+    }
+
+    resize(width, height) {
+        this.renderer.resize(width,height);
+    }
+
+    moveObject(x,y, obj) {        
+        if( !obj ) return;
+        if( x - obj.x ) {
+            obj.x += (x / 20);
+        }
+        else {
+            obj.x -= (x / 20);
+        }
+        
+        if( y - obj.y ) {
+            obj.y += (y / 20);
+        }
+        else {
+            obj.y -= (y / 20);            
+        }
+
+        if( obj.x >= x ) {
+            return;
+        }        
+        
+        requestAnimationFrame(() => {
+            this.moveObject(x, y, obj);
+        });
+
         this.renderer.render(this.container);
-        this.basicText.rotation += 0.1 * time;
+    }
+
+    moveText() {
+        this.moveObject(100,200, this.basicText);
     }
 }
 

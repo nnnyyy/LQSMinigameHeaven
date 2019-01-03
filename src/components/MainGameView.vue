@@ -1,8 +1,6 @@
 <template>
     <div id="main">
-        <canvas id="cvs">
-
-        </canvas>
+        <canvas id="cvs"/>        
     </div>
 </template>
 <script>
@@ -10,7 +8,7 @@
     import P from '../../common/protocol'
     import $ from 'jquery'
     
-    import PixiTitle from './PixiTitleCanvas.js'
+    import PixiTitle from './PixiGameRenderer.js'
 
     export default {
         data: function() {
@@ -20,11 +18,17 @@
         },
         components: {            
         },
-        created: function() {            
+        created() {            
         },
         methods: {            
+            onResize() {
+                const windowW = window.innerWidth;
+                const windowH = window.innerHeight;
+                PixiTitle.resize(windowW, 400);
+            }
         },
-        mounted: function() {              
+        mounted() {              
+            $(window).resize(this.onResize);
             PixiTitle.create(window.innerWidth, 400, document.getElementById('cvs'));
         }
     }

@@ -6,41 +6,50 @@ import {Sprite} from 'pixi.js'
 import {Graphics} from 'pixi.js'
 import {Filter} from 'pixi.js'
 import {Matrix} from 'pixi.js'
+import Promise from 'promise'
 
 class PixiUtil {
     constructor() {}
 
-    static fadein(obj) {
-        
+    static fadein(obj, forced, cb) {
+        if( forced ) obj.alpha = 0;
+
         if( obj.alpha >= 1.0 ) {
             obj.alpha = 1.0;
+            if( cb ) {
+                cb();
+            }
             return;
         }
 
-        obj.alpha += .03;
+        obj.alpha += .02;
         
         requestAnimationFrame(() => {
-            PixiUtil.fadein(obj);
+            PixiUtil.fadein(obj, false, cb);
         });     
         
         //this.renderer.render(this.container);
     }    
 
-    static fadeout(obj) {
+    static fadeout(obj, forced, cb) {        
+        if( forced ) obj.alpha = 1;
         
         if( obj.alpha <= 0.0 ) {
             obj.alpha = 0.0;
+            if( cb ) {
+                cb();
+            }
             return;
         }
 
-        obj.alpha -= .03;
+        obj.alpha -= .02;
         
         requestAnimationFrame(() => {
-            PixiUtil.fadeout(obj);
+            PixiUtil.fadeout(obj, false, cb);
         });
     } 
 
-    static move(destX, destY, spd, obj) {
+    static move(destX, destY, spd, obj, cb) {
         if( !obj || obj.isMoving ) return;
         if( spd >= 20 ) {
             spd = 20;
@@ -49,10 +58,10 @@ class PixiUtil {
         const dx = (destX - obj.x)/(20 - spd + 1);
         const dy = (destY - obj.y)/(20 - spd + 1);    
         
-        PixiUtil.moveNext(dx, dy, destX, destY, obj);        
+        PixiUtil.moveNext(dx, dy, destX, destY, obj, cb);        
     }
 
-    static moveNext(dx, dy, destX, destY, obj) {        
+    static moveNext(dx, dy, destX, destY, obj, cb) {        
         obj.x += dx;
         obj.y += dy;        
 
@@ -62,10 +71,13 @@ class PixiUtil {
                 obj.x = destX;
                 obj.y = destY;
                 obj.isMoving = false;
+                if( cb ) {
+                    cb();
+                }
             }
         else {
             requestAnimationFrame(() => {
-                PixiUtil.moveNext(dx, dy, destX, destY, obj);
+                PixiUtil.moveNext(dx, dy, destX, destY, obj, cb);
             });            
         }        
 
@@ -79,7 +91,6 @@ class PixiUtil {
     }
 }
 
-
 class PixiMain {
     constructor() {
     }    
@@ -87,43 +98,38 @@ class PixiMain {
     create(width, height, element) {        
         cvs.width = width
         cvs.height = height
-        this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xff007f, view: element, antialias: true} )
+        this.renderer = new PIXI.WebGLRenderer(element.width, element.height, {backgroundColor : 0xffffff, view: element, antialias: true} )
         this.container = new Container();      
         
         var style = new PIXI.TextStyle({
             fontFamily: 'Arial',
-            fontSize: 20,
-            fontStyle: 'italic',
+            fontSize: 20,            
             fontWeight: 'bold',
-            fill: ['#ffffff', '#00ff99'], // gradient
-            stroke: '#4a1850',
-            strokeThickness: 5,
-            dropShadow: true,
-            dropShadowColor: '#000000',
-            dropShadowBlur: 4,
-            dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 6,            
+            fill: ['#ffffff', '#ff007f'], // gradient
+            stroke: '#000000',
+            strokeThickness: 5,            
+            wordWrap: true,
+            wordWrapWidth: width >= 600 ? 600 : width,
+            breakWords: true,                     
             align: 'center'
         });
 
-        this.basicText = new PIXI.Text('과연 픽시는 어느정도의 성능을 낼 수 있을까요? 굉장히 궁금합니다.', style);
+        this.basicText = new PIXI.Text('문제 내기 전', style);
         this.basicText.x = width / 2;
-        this.basicText.y = 0;
+        this.basicText.y = 10;
         this.basicText.anchor.x = 0.5;     
         this.basicText.anchor.y = 0;        
-        this.basicText.alpha = 0.0;
+        this.basicText.alpha = 0.0;                
 
-        this.container.interactive = true;
-        this.container.buttonMode = true;
-        this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
-        this.container.on('pointerdown', (e)=> {
-            PixiUtil.move(e.data.global.x, e.data.global.y, PixiUtil.getRandomInt(10,14), this.basicText);
-            if(this.basicText.alpha <= 0.0 )
-                PixiUtil.fadein(this.basicText);
-            else 
-                PixiUtil.fadeout(this.basicText);
-            
+        PixiUtil.fadein(this.basicText);
+
+        this.container.interactive = true;        
+        this.container.hitArea = new PIXI.Rectangle(0,0, width, height);        
+
+        this.container.on('pointerdown', () => { 
+            this.setTitle('변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 변경된 타이틀 ');
         });
+
         this.container.addChild(this.basicText);                
         
 
@@ -150,6 +156,26 @@ class PixiMain {
         this.renderer.resize(width,height);
         this.container.hitArea = new PIXI.Rectangle(0,0, width, height);
     }    
+
+    setTitle(sTitle) {
+        new Promise( (res, rej) => {
+            PixiUtil.fadeout(this.basicText, true, () => {                
+                res();
+            })            
+        })
+        .then(()=> {
+            return new Promise((res,rej)=> {
+                this.basicText.text = sTitle;
+                setTimeout(()=>{ res() }, 400);                
+            });
+        })
+        .then(()=> {
+            PixiUtil.fadein(this.basicText, true, ()=> {
+
+            })
+        });
+        
+    }
 }
 
 const _obj = new PixiMain();

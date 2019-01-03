@@ -10,6 +10,8 @@
     
     import PixiTitle from './PixiGameRenderer.js'
 
+    const maxWidth = 800;
+
     export default {
         data: function() {
             return {
@@ -24,19 +26,20 @@
             onResize() {
                 const windowW = window.innerWidth;
                 const windowH = window.innerHeight;
-                PixiTitle.resize(windowW, 400);
+                PixiTitle.resize(window.innerWidth >= maxWidth ? maxWidth : window.innerWidth, 400);
             }
         },
         mounted() {              
             $(window).resize(this.onResize);
-            PixiTitle.create(window.innerWidth, 400, document.getElementById('cvs'));
+            PixiTitle.create(window.innerWidth >= maxWidth ? maxWidth : window.innerWidth, 400, document.getElementById('cvs'));
         }
     }
 </script>
 
 <style scoped>
 #main {
-    width: 100%;
+    width: 800px;
     height: 400px;
+    margin: 0 auto;
 }
 </style>

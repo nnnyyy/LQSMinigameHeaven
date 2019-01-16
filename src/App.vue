@@ -1,7 +1,7 @@
 <template>
     <div id="main" v-if="showInfo">
-        <top-menu></top-menu>
-        <main-game-view></main-game-view>
+        <Top/>
+        <Main/>        
     </div>
 </template>
 <script>
@@ -10,6 +10,7 @@
     import $ from 'jquery'   
     import TopMenu from './components/TopMenuMobile.vue' 
     import MainGameView from './components/MainGameView.vue'
+    import Main from './components/Main.vue'    
 
     export default {
         data: function() {
@@ -17,9 +18,8 @@
                 showInfo: false
             }
         },
-        components: { 
-            'top-menu': TopMenu,
-            'main-game-view': MainGameView
+        components: {
+            Main
         },
         created: function() {            
         },

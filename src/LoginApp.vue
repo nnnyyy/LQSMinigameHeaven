@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        Login Page     
+        <Top/>     
         <input type="text" v-model="iid"/>
         <input type="password" v-model="ipw"/>
         <button @click="onBtnLogin">로그인</button>
@@ -11,6 +11,8 @@
     import P from '../common/protocol'
     import $ from 'jquery'    
 
+    import Top from './components/Top.vue'
+
     export default {
         data: function() {
             return {
@@ -18,7 +20,8 @@
                 ipw: ''
             }
         },
-        components: {            
+        components: {
+            Top
         },
         created: function() {            
         },

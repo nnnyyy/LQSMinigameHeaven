@@ -1,14 +1,14 @@
 <template>
-    <div id="main">        
-        <msgbox
-            msg="1시간에 3번씩 뽑을 수 있습니다"
-            height=40px
-        />
+    <div id="main">                
         <msgbox
             :msg=msgRemain
             height=40px
         />
         <GachaBox/>
+        <msgbox
+            :msg=msgResult
+            height=40px
+        />
     </div>
 </template>
 <script>
@@ -21,17 +21,26 @@
     export default {
         data: function() {
             return {
-                msgRemain: '-'                
+                msgRemain: '로드중',
+                msgResult: ''                
             }
         },
         components: {  
             GachaBox          
         },
-        created: function() {            
+        created() {            
         },
         methods: {            
+            onSetResultMsg(msg) {
+                this.msgResult = msg;
+            },
+            onSetRemainMsg(msg) {
+                this.msgRemain = msg;
+            }
         },
-        mounted: function() {            
+        mounted() {
+            G.on(P.SetResultMsg, this.onSetResultMsg);
+            G.on(P.SetRemainMsg, this.onSetRemainMsg);
         }
     }
 </script>

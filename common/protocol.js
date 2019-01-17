@@ -5,10 +5,13 @@ const VueBus = {
     GoLoginPage: "GoLoginPage",
     Disconnect: "disconnect",
     EnterUser: "EnterUser",
+    SetResultMsg: "SetResultMsg",
+    SetRemainMsg: "SetRemainMsg",
     http: {
         CheckLogin: "/auth/checklogin",
         Login: "/auth/login",
-        OpenGacha: "/gacha/open"
+        OpenGacha: "/gacha/open",
+        GetGachaPoint: "/gacha/get"
     }
 };
 

@@ -27,6 +27,10 @@ class Global {
         this.v.$bus.$on(protocol, cb);
     }
 
+    emit( protocol, data ) {
+        this.v.$bus.$emit(protocol, data);
+    }
+
     hget( addr, cb ) {
         this.v.$http.get(addr).then(res => cb(res.data))
         .catch(err => console.log(err));

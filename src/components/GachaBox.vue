@@ -34,8 +34,22 @@
             },
             openGachaRet(info) {
                 console.log(info);
+                if( info.ret === -2 ) {
+                    alert('가챠 포인트가 부족합니다.');
+                    window.location.href = '/';
+                    return;                    
+                }
                 this.isOpen = true;
                 isProc = false;
+
+                const msg = `${info.item.name}을(를) 획득하셨습니다`;
+                
+                G.emit(P.SetResultMsg, msg);
+                G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
+            },
+            getGachaPointRet(info) {
+                const msg = `가챠포인트가 ${info.gp}포인트 남아있습니다.`;
+                G.emit(P.SetRemainMsg, msg);
             },
             getImgUrl(isOpen) {
                 if( isOpen ) {
@@ -47,6 +61,7 @@
             }
         },
         mounted: function() {
+            G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
         }
     }
 </script>

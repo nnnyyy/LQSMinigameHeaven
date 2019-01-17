@@ -20,12 +20,28 @@ class GachaManager {
     }
 
     getGacha(id, cb) {
-        this.pm_checkRemainCount(id)
+        this.pm_getRemainCount(id)
         .then(info => {
             cb(info);
         })
         .catch(err=> {
             cb({ret: err.ret});
+        });
+    }
+
+    pm_getRemainCount(id) {
+        let info = { ret: 0, id: id }
+        return new Promise((res,rej)=> {
+            DBHelper.getGachaPoint(id, result=> {
+                if( result.ret === 0 ) {
+                    info.gp = result.gp;
+                    info.sgp = result.sgp;                    
+                    res(info);                    
+                }
+                else {                    
+                    rej(info);
+                }                
+            });            
         });
     }
 
@@ -48,8 +64,7 @@ class GachaManager {
                     rej(info);
                 }                
             });            
-        })
-
+        });
     }
 
     pm_getItem(info) {        

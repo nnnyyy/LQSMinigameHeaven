@@ -1,19 +1,18 @@
 <template>
     <div id="GachaBox">    
-        <img :src=getImgUrl(isOpen) @click="onOpenGacha"/>
+        <img :class="{gachaImg: isProc}" :src=getImgUrl(isOpen) @click="onOpenGacha"/>
     </div>
 </template>
 <script>
     import G from '../global'
     import P from '../../common/protocol'
-    import $ from 'jquery'
-
-    let isProc = false;    
+    import $ from 'jquery'    
 
     export default {
         data: function() {
             return {
-                isOpen: false
+                isOpen: false,
+                isProc: false
             }
         },
         components: {
@@ -22,25 +21,24 @@
         },
         methods: {
             onOpenGacha() {
-                if( this.isOpen && !isProc ) {
+                if( this.isOpen && !this.isProc ) {
                     alert('이미 오픈이 완료되었습니다. 기회가 남았으면 새로고침 후 다시 시도해주세요.');
                     return;
                 }
 
-                if( !this.isOpen && !isProc ){
-                    isProc = true;
-                    G.hget(P.http.OpenGacha, this.openGachaRet);
+                if( !this.isOpen && !this.isProc ){
+                    this.isProc = true;
+                    setTimeout(()=> G.hget(P.http.OpenGacha, this.openGachaRet), 3000);                    
                 }
             },
-            openGachaRet(info) {
-                console.log(info);
+            openGachaRet(info) {                
                 if( info.ret === -2 ) {
                     alert('가챠 포인트가 부족합니다.');
                     window.location.href = '/';
                     return;                    
                 }
                 this.isOpen = true;
-                isProc = false;
+                this.isProc = false;
 
                 const msg = `${info.item.name}을(를) 획득하셨습니다`;
                 
@@ -76,5 +74,27 @@
 
 #GachaBox img {
     background-color: inherit;
+}
+
+.gachaImg {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 0.5s; 
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite; 
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 </style>

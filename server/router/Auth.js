@@ -8,7 +8,6 @@ const Router = express.Router();
 const DBHelper = require('../modules/DBHelper');
 
 Router.get('/checklogin', function(req, res, next) {    
-    console.log(req.session.user);
     res.send({ret: req.session.user ? 0 : -1 });
 });
 

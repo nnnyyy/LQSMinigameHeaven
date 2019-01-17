@@ -7,7 +7,8 @@ const VueBus = {
     EnterUser: "EnterUser",
     http: {
         CheckLogin: "/auth/checklogin",
-        Login: "/auth/login"
+        Login: "/auth/login",
+        OpenGacha: "/gacha/open"
     }
 };
 

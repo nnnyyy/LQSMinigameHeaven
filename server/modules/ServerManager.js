@@ -10,7 +10,9 @@ const P = require('../../common/protocol');
 const DBHelper = require('./DBHelper');
 const routes = require('../router/index.js');
 const routesAuth = require('../router/Auth.js');
+const routesGacha = require('../router/Gacha.js');
 const BJLobby = require('./BlackjackLobby');
+const GachaMan = require('./GachaManager');
 const User = require('./User');
 
 function normalizePort(val) {
@@ -31,6 +33,8 @@ function normalizePort(val) {
 
 class ServerManager {
     constructor(app) {
+        this.gcm = new GachaMan(this);
+
         this.http = http.Server(app);
         const sm = this;
 
@@ -40,6 +44,7 @@ class ServerManager {
         } );
         app.use('/', routes );
         app.use('/auth', routesAuth);
+        app.use('/gacha', routesGacha);
 
         this.io = socketio(this.http, {
             origins: '*:*',

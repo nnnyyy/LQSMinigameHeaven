@@ -36,11 +36,30 @@
             },
             onSetRemainMsg(msg) {
                 this.msgRemain = msg;
+            },
+            onBtnLogout() {
+                G.hget(P.http.Logout, data=> {
+                    if( data.ret === 0 ) {
+                        alert('로그아웃 되었습니다.');
+                        window.location.href = '/';
+                    }
+                });
+            },
+            onCheckLoginRet(packet) {                
+                if( packet.ret === 0 ) {                                 
+                    this.showInfo = true;
+                    G.emit(P.Login);                    
+                    
+                }
+                else {
+                    window.location.href = '/login/'
+                }
             }
         },
         mounted() {
             G.on(P.SetResultMsg, this.onSetResultMsg);
             G.on(P.SetRemainMsg, this.onSetRemainMsg);
+            G.hget(P.http.CheckLogin, this.onCheckLoginRet);   
         }
     }
 </script>

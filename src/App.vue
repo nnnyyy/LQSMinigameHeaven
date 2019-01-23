@@ -1,5 +1,5 @@
 <template>
-    <div id="main" v-if="showInfo">
+    <div id="main">
         <Top/>
         <Main/>        
     </div>
@@ -8,37 +8,25 @@
     import G from './global'
     import P from '../common/protocol'
     import $ from 'jquery'   
+    import Top from './components/Top.vue' 
     import TopMenu from './components/TopMenuMobile.vue' 
     import MainGameView from './components/MainGameView.vue'
     import Main from './components/Main.vue'    
 
     export default {
         data: function() {
-            return {
-                showInfo: false
+            return {                
             }
         },
         components: {
+            Top,
             Main
         },
         created: function() {            
         },
-        methods: {
-            onCheckLoginRet(packet) {
-                if( packet.ret === 0 ) {
-                    G.connectSocket();
-                    G.on(P.EnterUser, this.onEnterUser);
-                }
-                else {
-                    window.location.href = '/login/'
-                }
-            },
-            onEnterUser(packet) {
-                this.showInfo = true;
-            }
+        methods: {            
         },
-        mounted: function() {            
-            G.hget(P.http.CheckLogin, this.onCheckLoginRet);
+        mounted() {            
         }
     }
 </script>

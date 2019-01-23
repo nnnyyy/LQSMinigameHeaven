@@ -13,9 +13,55 @@ class DBHelper {
 
     login(id, pw, ip, cb) {
         try {
-            cb({ret: 0});
-        }catch(e) {
-            console.log("login", e);
+            this.sql.query("CALL login(?,?,?, @ret); select @ret;", [id, pw, ip] , function(err, rows) {
+                if(err) {
+                    console.log('error : ' + err);
+                    cb({ret: -99});
+                    return;
+                }
+
+                var ret = rows[rows.length - 1][0]['@ret'];
+                var data = rows[0][0];
+                cb({id: data.id, nick: data.nick, auth: data.auth_state, adminMemberVal: data.adminMemberVal, ret: ret});
+            });
+        }catch(err) {
+
+            cb({ret: -99});
+        }
+    }
+
+    getUserInfo(id, cb) {
+        //  getBanCnt, getActivePoint 를 통합
+        try {
+            this.sql.query("CALL getUserInfo( ? )", [id], function(err, rows) {
+                try {
+                    if(err) {
+                        console.log('error : ' + err);
+                        cb({ret: -99});
+                        return;
+                    }
+    
+                    const IDX = {
+                        OXWIN_CNT: 0,
+                        BAN_CNT: 1, 
+                        ACTIVE_POINT: 3
+                    };
+    
+                    let info = {
+                        oxwincnt: rows[IDX.OXWIN_CNT][0].cnt,
+                        bancnt: rows[IDX.BAN_CNT][0].bancnt,
+                        ap: rows[IDX.ACTIVE_POINT][0] ? rows[IDX.ACTIVE_POINT][0].ap : 0
+                    }
+    
+                    cb({ret: 0, info: info });
+                }
+                catch(e) {
+                    console.log(e);
+                    cb({ret: -99 });
+                }                
+            });
+        }catch(err) {
+
         }
     }
 

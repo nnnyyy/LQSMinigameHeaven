@@ -31,16 +31,22 @@
                     // 다시 메인으로
                     window.location.href = '/';
                 }
+                else {
+                    
+                }
             },
             onBtnLogin() {
                 const id = this.iid;
-                const pw = this.ipw;
+                const pw = this.ipw;                
 
                 G.hpost(P.http.Login, {id: id, pw: pw}, this.onLoginRet);
             },
             onLoginRet(data) {                
                 if( data.ret === 0 ) {
                     window.location.href = '/';
+                }
+                else {
+                    alert('로그인 실패');
                 }
             }
         },

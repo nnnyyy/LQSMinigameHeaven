@@ -8,7 +8,6 @@ import App from './App.vue'
 import LoginApp from './LoginApp.vue'
 import $ from 'jquery'
 import axios from 'axios';
-import Top from './components/Top.vue'
 import VueAdsense from './components/VueAdsense.vue'
 import MsgBox from './components/MessageBox.vue'
 
@@ -22,8 +21,7 @@ const routes = {
 
 $(document).ready(function() {
     Vue.prototype.$bus = new Vue();
-    Vue.prototype.$http = axios;
-    Vue.component('Top', Top);
+    Vue.prototype.$http = axios;    
     Vue.component('adsense', VueAdsense);
     Vue.component('msgbox', MsgBox);
 

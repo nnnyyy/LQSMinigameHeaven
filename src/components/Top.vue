@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div class="title">라이브 퀴즈 공유기 뽑기</div>
+        <div class="title">라이브 퀴즈 공유기 뽑기 <button v-show="logined" @click="onBtnLogout">로그아웃</button></div>
     </div>
 </template>
 <script>
@@ -11,17 +11,44 @@
     export default {
         data: function() {
             return {
-                mobile: G.isMobile()                
+                mobile: G.isMobile(),
+                logined: false
             }
         },
         components: { 
             
         },
-        created: function() {            
-        },
+        
         methods: {            
+            onBtnLogout() {
+                G.hget(P.http.Logout, data=> {
+                    if( data.ret === 0 ) {
+                        alert('로그아웃 되었습니다.');
+                        window.location.href = '/';
+                    }
+                });
+            },
+            onCheckLoginRet(packet) {                
+                if( packet.ret === 0 ) {                                 
+                    this.showInfo = true;
+                    G.emit(P.Login);                    
+                    
+                }
+                else {
+                    window.location.href = '/login/'
+                }
+            },
+            onEnterUser(packet) {
+                
+            }
         },
-        mounted: function() {
+        beforeCreate() {            
+            G.on(P.Login, data=> {
+                this.logined = true;
+            });
+        },
+        mounted() {            
+                     
         }
     }
 </script>

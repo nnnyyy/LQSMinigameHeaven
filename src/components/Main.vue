@@ -5,7 +5,8 @@
             adClient="ca-pub-3598320494828213"
             adSlot="6063555131"
             adStyle="display:inline-block;width:320px; height:50px;"            
-            />
+            >
+            </adsense>
         </div>        
                                  
         <div class="title">
@@ -29,7 +30,8 @@
             adSlot="9659718043"
             adStyle="display:inline-block;width:320px; height:50px;"            
             fullWidthResponsive="true"
-            />
+            >
+            </adsense>
         </div>          
     </div>
 </template>

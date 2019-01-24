@@ -12,7 +12,8 @@
         data: function() {
             return {
                 isOpen: false,
-                isProc: false
+                isProc: false,
+                cnt: 0
             }
         },
         components: {
@@ -23,6 +24,11 @@
             onOpenGacha() {
                 if( this.isOpen && !this.isProc ) {
                     alert('이미 오픈이 완료되었습니다. 기회가 남았으면 새로고침 후 다시 시도해주세요.');
+                    return;
+                }
+
+                if( this.cnt <= 0 ) {
+                    alert('GP가 부족합니다. GP를 모아오세요.');
                     return;
                 }
 
@@ -49,6 +55,7 @@
             },
             getGachaPointRet(info) {
                 const msg = `기회가 ${info.gp}회 남아있습니다.`;
+                this.cnt = info.gp;
                 G.emit(P.SetRemainMsg, msg);
             },
             getImgUrl(isOpen) {

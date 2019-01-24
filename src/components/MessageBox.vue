@@ -3,7 +3,7 @@
     :style="{
         'width': width,
         'height': height,
-        'font-size': fontsize,'background-color': bgcolor, 'text-align': align,'line-height': lineHeight
+        'font-size': fontsize,'background-color': bgcolor, 'text-align': align,'line-height': lineHeight, 'color': color
         }">
     </div>
 </template>
@@ -29,6 +29,11 @@
             default: '100%'
             },
             bgcolor: {
+            type: String,
+            required: false,
+            default: 'inherit'
+            },
+            color: {
             type: String,
             required: false,
             default: 'inherit'

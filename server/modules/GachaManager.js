@@ -100,7 +100,7 @@ class GachaManager {
 
     randomGacha() {
         //  현재는 포인트만 적립한다.
-        const inc = this.getRandomInt(10, 100);
+        const inc = this.getRandomInt(1, 50);
 
         return {
             name: '포인트',

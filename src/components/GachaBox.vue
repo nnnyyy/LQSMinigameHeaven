@@ -48,7 +48,7 @@
                 G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
             },
             getGachaPointRet(info) {
-                const msg = `가챠포인트가 ${info.gp}포인트 남아있습니다.`;
+                const msg = `기회가 ${info.gp}회 남아있습니다.`;
                 G.emit(P.SetRemainMsg, msg);
             },
             getImgUrl(isOpen) {

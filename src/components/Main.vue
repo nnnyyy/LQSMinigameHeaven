@@ -1,14 +1,36 @@
 <template>
-    <div id="main">                
+    <div id="main">   
+        <div class="ads-top">
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="6063555131"
+            adStyle="display:inline-block;width:320px; height:50px;"            
+            />
+        </div>        
+                                 
+        <div class="title">
+            랜덤 포인트 얻기
+        </div>
         <msgbox
             :msg=msgRemain
-            height=40px
+            height=40px            
         />
         <GachaBox/>
         <msgbox
-            :msg=msgResult
+            v-show="resultVisible"
+            :msg=msgResult            
             height=40px
+            bgcolor='#9d0000'
+            color='white'
         />
+        <div class="ads-top">
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="9659718043"
+            adStyle="display:inline-block;width:320px; height:50px;"            
+            fullWidthResponsive="true"
+            />
+        </div>          
     </div>
 </template>
 <script>
@@ -22,7 +44,8 @@
         data: function() {
             return {
                 msgRemain: '로드중',
-                msgResult: ''                
+                msgResult: ''    ,
+                resultVisible: false            
             }
         },
         components: {  
@@ -33,6 +56,7 @@
         methods: {            
             onSetResultMsg(msg) {
                 this.msgResult = msg;
+                this.resultVisible = true;
             },
             onSetRemainMsg(msg) {
                 this.msgRemain = msg;
@@ -70,4 +94,41 @@
     width: 100%;
     height: calc(100vh - 78px);    
 }
+
+.ads-top {
+    margin: 0 auto;        
+}
+
+.title {
+    margin: 0 auto;
+    text-align: center;
+    color: #9d0000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 500px) {
+    .ads-top {
+        position: relative;
+        width: 80%;
+        height: 50px;
+    }
+
+    .title {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    .ads-top {
+        width: 800px;
+        text-align: center;
+    }
+
+    .title {
+        width: 800px;
+        font-size: 20px;
+    }
+}
+
 </style>

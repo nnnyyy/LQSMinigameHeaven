@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div class="title">라이브 퀴즈 공유기 뽑기 <button v-show="logined" @click="onBtnLogout">로그아웃</button></div>
+        <div class="title">라이브 퀴즈 공유기 뽑기<button v-show="logined" @click="onBtnLogout">로그아웃</button></div>
     </div>
 </template>
 <script>
@@ -59,14 +59,29 @@
     background-color:bisque;
 }
 
-.title {
-    background-color: inherit;
-    width: 400px;
-    height: inherit;
-    line-height: 78px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 19px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+@media screen and (max-width: 500px) {
+    .title {
+        background-color: inherit;
+        width: 80%;
+        height: inherit;
+        line-height: 78px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 16px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    .title {
+        background-color: inherit;
+        width: 400px;
+        height: inherit;
+        line-height: 78px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 19px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }    
 }
 </style>

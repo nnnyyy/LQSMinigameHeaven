@@ -9,8 +9,7 @@
     import P from '../common/protocol'
     import $ from 'jquery'   
     import Top from './components/Top.vue' 
-    import TopMenu from './components/TopMenuMobile.vue' 
-    import MainGameView from './components/MainGameView.vue'
+    import TopMenu from './components/TopMenuMobile.vue'     
     import Main from './components/Main.vue'    
 
     export default {

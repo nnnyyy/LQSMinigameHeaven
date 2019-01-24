@@ -11,10 +11,10 @@ class GachaManager {
         this.pm_checkRemainCount(id)
         .then(this.pm_getItem)
         .then(this.pm_save)
-        .then(info=> {
-            cb(info);
+        .then(info=> {                   
+            cb({ret: info.ret, item: info.item});
         })
-        .catch(err=> {            
+        .catch(err=> {              
             cb({ret: err.ret});
         })
     }
@@ -46,7 +46,7 @@ class GachaManager {
     }
 
     pm_checkRemainCount(id) {
-        let info = { ret: 0, id: id }
+        let info = { ret: 0, id: id, gm: this }
         return new Promise((res,rej)=> {
             DBHelper.getGachaPoint(id, result=> {
                 if( result.ret === 0 ) {
@@ -57,7 +57,7 @@ class GachaManager {
                         info.ret = -2;
                         rej(info);
                         return;
-                    }
+                    }                    
                     res(info);                    
                 }
                 else {                    
@@ -73,12 +73,11 @@ class GachaManager {
                 if( result.ret !== 0 ) {
                     info.ret = -3;
                     rej(info);
+                    return;
                 }
 
-                info.item = {
-                    name: '포인트',
-                    itemsn: 0
-                }
+                const rginfo = info.gm.randomGacha();
+                info.item = rginfo;                
                 
                 res(info);
             })            
@@ -87,8 +86,32 @@ class GachaManager {
 
     pm_save(info) {
         return new Promise((res,rej)=> {
-            res(info);
+            DBHelper.call2('incActivePoint', [info.id, info.item.desc], result=> {
+                if( result.ret !== 0 ) {
+                    info.ret = -4;
+                    rej(info);
+                    return;
+                }
+                
+                res(info);                
+            });            
         })
+    }
+
+    randomGacha() {
+        //  현재는 포인트만 적립한다.
+        const inc = this.getRandomInt(10, 100);
+
+        return {
+            name: '포인트',
+            desc: inc
+        }
+    }
+
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 

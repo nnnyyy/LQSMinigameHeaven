@@ -39,9 +39,9 @@ Router.get('/open', function(req, res, next) {
         if( !gcm ) {
             res.send({ret: -102});
             return;
-        }
+        }        
         
-        gcm.openGacha(req.user.id, info=> {
+        gcm.openGacha(req.user.id, info=> {            
             res.send(info);
         })
     }catch(e) {

@@ -1,9 +1,19 @@
 <template>
     <div id="main">
         <Top/>     
-        <input type="text" v-model="iid"/>
-        <input type="password" v-model="ipw"/>
-        <button @click="onBtnLogin">로그인</button>
+        <table class="tb-login">
+            <tr>
+                <td>아이디</td>
+                <td><input type="text" v-model="iid"/></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" v-model="ipw"/></td>
+            </tr>
+            <tr>
+                <td colspan=2><button @click="onBtnLogin">로그인</button></td>
+            </tr>
+        </table>
     </div>
 </template>
 <script>
@@ -57,4 +67,38 @@
 </script>
 
 <style scoped>
+/* 모바일 대응 */
+@media screen and (max-width: 500px) {
+    .tb-login {
+        width: 80%;        
+        margin: 0 auto;
+        margin-top: 20px;
+    }        
+}
+
+/* PC 대응 */
+@media screen and (min-width: 501px) {
+    .tb-login {
+        width: 350px;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+}
+
+
+.tb-login td {
+    height: 36px;
+    text-align: center;
+}
+
+.tb-login input {
+    width: 100%;
+    height: 36px;
+    background-color: white;
+}
+
+.tb-login button {
+    width: 100%;
+    height: 48px;
+}
 </style>

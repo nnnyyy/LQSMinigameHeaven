@@ -40,7 +40,9 @@
                 this.isOpen = true;
                 this.isProc = false;
 
-                const msg = `${info.item.name}을(를) 획득하셨습니다`;
+                console.log(info);
+
+                const msg = `${info.item.name}을(를) ${info.item.desc} 획득하셨습니다`;
                 
                 G.emit(P.SetResultMsg, msg);
                 G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
@@ -65,15 +67,31 @@
 </script>
 
 <style scoped>
-#GachaBox {
-    position: relative;
-    width: 100%;
-    height: 300px;    
-    text-align: center;
-}
-
 #GachaBox img {
     background-color: inherit;
+}
+
+@media screen and (max-width: 500px) {
+    #GachaBox {
+        position: relative;
+        width: 60%;
+        height: 40%;    
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #GachaBox img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    #GachaBox {
+        position: relative;
+        width: 100%;
+        height: 300px;    
+        text-align: center;
+    }
 }
 
 .gachaImg {

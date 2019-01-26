@@ -172,7 +172,7 @@ class ServerManager {
     }
 
     getSessionInfo(socket) {
-        return socket.handshake.session.user;
+        return socket.handshake.session.userdata;
     }
 
     reconnectUser(socket, id) {        
@@ -193,7 +193,7 @@ class ServerManager {
     }
 
     checkLoginState(socket) {
-        if( !socket.handshake.session.user ) return false;
+        if( !socket.handshake.session.userdata ) return false;
         
         return true;
     }

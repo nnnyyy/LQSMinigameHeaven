@@ -8,12 +8,12 @@ const Router = express.Router();
 const DBHelper = require('../modules/DBHelper');
 
 Router.use((req,res,next)=> {
-    if( !req.session.user ) {
+    if( !req.session.userdata ) {
         res.send({ret: -101});
         return;
     }
 
-    req.user = req.session.user;
+    req.user = req.session.userdata;
     next();
 });
 

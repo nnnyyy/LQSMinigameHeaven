@@ -7,7 +7,7 @@ const express = require('express');
 const Router = express.Router();
 
 Router.get('/', function(req, res, next) {
-    res.render('index',{user: req.session.userdata});
+    res.render('index',{user: req.session.userdatadata});
 });
 
 Router.get('/login', function(req, res, next) {

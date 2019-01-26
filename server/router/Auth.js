@@ -8,11 +8,11 @@ const Router = express.Router();
 const DBHelper = require('../modules/DBHelper');
 
 Router.get('/checklogin', function(req, res, next) {    
-    res.send({ret: req.session.user ? 0 : -1 });
+    res.send({ret: req.session.userdata ? 0 : -1 });
 });
 
 Router.get('/logout', function(req, res, next) {    
-    delete req.session.user;
+    delete req.session.userdata;
     req.session.save();
     
     res.send({ret: 0});
@@ -55,7 +55,7 @@ Router.post('/login', function(req, res, next) {
                         data.userinfo.banCnt = result.info.bancnt;
                         data.userinfo.point = result.info.ap;
 
-                        req.session.user = data.userinfo;
+                        req.session.userdata = data.userinfo;
                         req.session.save();
 
                         //Logger.i(`[login] ${data.userinfo.id} / ${data.userinfo.nick} / ${data.userinfo.level} / ${data.userinfo.adminLevel} / ${data.userinfo.point}`);

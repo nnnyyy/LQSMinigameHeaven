@@ -1,5 +1,12 @@
 <template>
-    <div id="main">   
+    <div id="main">
+        <msgbox
+            v-show="resultVisible"
+            :msg=msgResult            
+            height=40px
+            bgcolor='#9d0000'
+            color='white'
+        />   
         <div class="ads-top">
             <adsense
             adClient="ca-pub-3598320494828213"
@@ -8,22 +15,16 @@
             >
             </adsense>
         </div>        
-                                 
-        <div class="title">
-            랜덤 포인트 얻기
-        </div>
+
         <msgbox
             :msg=msgRemain
-            height=40px            
-        />
-        <GachaBox/>
-        <msgbox
-            v-show="resultVisible"
-            :msg=msgResult            
             height=40px
-            bgcolor='#9d0000'
-            color='white'
-        />
+            fontsize=20px
+        />                   
+        <div class="title">
+            랜덤 포인트 얻기
+        </div>        
+        <GachaBox/>        
         <div class="ads-top">
             <adsense
             adClient="ca-pub-3598320494828213"
@@ -32,7 +33,12 @@
             fullWidthResponsive="true"
             >
             </adsense>
-        </div>          
+        </div>  
+        <div class="line"></div>   
+        <div class="title">
+            랜덤 폰트 컬러 구입 ( 50GP )
+        </div>
+        <GachaFontColor/>            
     </div>
 </template>
 <script>
@@ -41,6 +47,7 @@
     import $ from 'jquery'
 
     import GachaBox from './GachaBox.vue'
+    import GachaFontColor from './GachaFontColor.vue'
 
     export default {
         data: function() {
@@ -51,7 +58,8 @@
             }
         },
         components: {  
-            GachaBox          
+            GachaBox,
+            GachaFontColor
         },
         created() {            
         },
@@ -59,9 +67,12 @@
             onSetResultMsg(msg) {
                 this.msgResult = msg;
                 this.resultVisible = true;
+                setTimeout(()=> {
+                    this.resultVisible = false;
+                },7000);
             },
-            onSetRemainMsg(msg) {
-                this.msgRemain = msg;
+            onSetRemainGacha(msg) {
+                this.msgRemain = `남은 GP : ${msg}GP`;
             },
             onBtnLogout() {
                 G.hget(P.http.Logout, data=> {
@@ -84,7 +95,7 @@
         },
         mounted() {
             G.on(P.SetResultMsg, this.onSetResultMsg);
-            G.on(P.SetRemainMsg, this.onSetRemainMsg);
+            G.on(P.GachaPoint, this.onSetRemainGacha);
             G.hget(P.http.CheckLogin, this.onCheckLoginRet);   
         }
     }
@@ -133,4 +144,12 @@
     }
 }
 
+.line {
+    height: 1px;
+    width: 80%;
+    border-top: 1px dotted gray;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 </style>

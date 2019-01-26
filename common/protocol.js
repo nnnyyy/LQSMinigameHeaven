@@ -6,14 +6,16 @@ const VueBus = {
     Disconnect: "disconnect",
     EnterUser: "EnterUser",
     SetResultMsg: "SetResultMsg",
-    SetRemainMsg: "SetRemainMsg",
+    SetRemainPoint: "SetRemainPoint",
+    GachaPoint: "GachaPoint",
     Login: "Login",
     http: {
         CheckLogin: "/auth/checklogin",
         Login: "/auth/login",
         OpenGacha: "/gacha/open",
         GetGachaPoint: "/gacha/get",
-        Logout:"/auth/logout"
+        Logout:"/auth/logout",
+        OpenGachaFontColor: "/gacha/fontcoloropen",
     }
 };
 

@@ -53,10 +53,10 @@
                 G.emit(P.SetResultMsg, msg);
                 G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
             },
-            getGachaPointRet(info) {
-                const msg = `기회가 ${info.gp}회 남아있습니다.`;
+            getGachaPointRet(info) {                
                 this.cnt = info.gp;
-                G.emit(P.SetRemainMsg, msg);
+                G.emit(P.GachaPoint, info.gp);
+                G.emit(P.SetRemainPoint, info.gp);
             },
             getImgUrl(isOpen) {
                 if( isOpen ) {

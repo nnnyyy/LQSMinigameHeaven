@@ -49,4 +49,16 @@ Router.get('/open', function(req, res, next) {
     }    
 });
 
+Router.get('/fontcoloropen', (req,res)=> {
+    const gcm = req.sm.gcm;
+    if( !gcm ) {
+        res.send({ret: -102});
+        return;
+    }        
+    
+    gcm.openFontColorGacha(req.user.id, info=> {            
+        res.send(info);
+    })
+});
+
 module.exports = Router;

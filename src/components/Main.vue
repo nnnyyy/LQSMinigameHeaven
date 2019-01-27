@@ -38,7 +38,14 @@
         <div class="title">
             랜덤 폰트 컬러 구입 ( 50GP )
         </div>
-        <GachaFontColor/>            
+        <GachaFontColor/>        
+
+        <div class="line"></div>  
+
+        <div class="title">
+            랜덤 닉네임 강조 색상 ( 100GP )
+        </div>
+        <GachaNickShadow/>       
     </div>
 </template>
 <script>
@@ -48,6 +55,7 @@
 
     import GachaBox from './GachaBox.vue'
     import GachaFontColor from './GachaFontColor.vue'
+    import GachaNickShadow from './GachaNickShadow.vue'
 
     export default {
         data: function() {
@@ -59,7 +67,8 @@
         },
         components: {  
             GachaBox,
-            GachaFontColor
+            GachaFontColor,
+            GachaNickShadow
         },
         created() {            
         },

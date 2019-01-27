@@ -61,4 +61,16 @@ Router.get('/fontcoloropen', (req,res)=> {
     })
 });
 
+Router.get('/nickshadowopen', (req,res)=> {
+    const gcm = req.sm.gcm;
+    if( !gcm ) {
+        res.send({ret: -102});
+        return;
+    }        
+    
+    gcm.openNickShadowGacha(req.user.id, info=> {            
+        res.send(info);
+    })
+});
+
 module.exports = Router;

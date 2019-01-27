@@ -4,7 +4,8 @@ const DBHelper = require('./DBHelper');
 
 const GTYPE = {
     BOX: 0,
-    FONTCOLOR: 1
+    FONTCOLOR: 1,
+    NICKSHADOW: 2
 }
 
 class GachaManager {
@@ -33,7 +34,19 @@ class GachaManager {
         })
         .catch(err=> {              
             cb({ret: err.ret});
-        })        
+        })
+    }
+
+    openNickShadowGacha(id, cb) {
+        this.pm_checkRemainCount(id,GTYPE.NICKSHADOW)
+        .then(this.pm_getItem)        
+        .then(this.pm_save)
+        .then(info=> {
+            cb({ret: info.ret, item: info.item});
+        })
+        .catch(err=> {              
+            cb({ret: err.ret});
+        })
     }
 
     getGacha(id, cb) {
@@ -69,7 +82,13 @@ class GachaManager {
             {
                 info.pt = 50;
                 break;
-            }            
+            }
+
+            case GTYPE.NICKSHADOW:
+            {
+                info.pt = 100;
+                break;
+            }
         }
         return new Promise((res,rej)=> {
             DBHelper.getGachaPoint(id, result=> {
@@ -109,6 +128,7 @@ class GachaManager {
                     }
 
                     case GTYPE.FONTCOLOR:
+                    case GTYPE.NICKSHADOW:
                     {
                         info.item = info.gm.randomFontColorGacha();
                         break;
@@ -135,6 +155,17 @@ class GachaManager {
             }
             else if(info.gtype === GTYPE.FONTCOLOR ) {
                 DBHelper.call2('ei_insert', [info.id, 1, info.item.desc], result=> {
+                    if( result.ret !== 0 ) {
+                        info.ret = -4;
+                        rej(info);
+                        return;
+                    }
+                    
+                    res(info);                
+                });                
+            }
+            else if(info.gtype === GTYPE.NICKSHADOW ) {
+                DBHelper.call2('ei_insert', [info.id, 2, info.item.desc], result=> {
                     if( result.ret !== 0 ) {
                         info.ret = -4;
                         rej(info);

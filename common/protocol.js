@@ -16,6 +16,7 @@ const VueBus = {
         GetGachaPoint: "/gacha/get",
         Logout:"/auth/logout",
         OpenGachaFontColor: "/gacha/fontcoloropen",
+        OpenGachaNickShadow: "/gacha/nickshadowopen"
     }
 };
 

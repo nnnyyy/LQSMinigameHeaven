@@ -20,16 +20,16 @@
         },
         methods: {
             onBuyFontColor() {
-                if( this.cnt < 50 ) {
+                if( this.cnt < 100 ) {
                     alert('포인트가 부족합니다!');
                     return;
                 } 
                 
-                G.hget(P.http.OpenGachaFontColor, data=> {
+                G.hget(P.http.OpenGachaNickShadow, data=> {
                     if( data.ret === 0 ) {
                         G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
 
-                        const msg = `${data.item.desc} 색을 획득하셨습니다. 채팅에 사용 가능합니다.`;
+                        const msg = `${data.item.desc} 색을 획득하셨습니다. 닉네임 꾸미기에 사용 가능합니다.`;
                         G.emit(P.SetResultMsg, msg);
                     }
                     else {

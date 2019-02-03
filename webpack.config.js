@@ -12,7 +12,7 @@ const sourceMap = env === 'development' ? 'inline-source-map' : '';
 
 const devServerConfig = {
     proxy: {
-        "**": "http://127.0.0.1:10002"
+        "**": "http://127.0.0.1:30002"
     }
 };
 

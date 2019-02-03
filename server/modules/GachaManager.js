@@ -5,7 +5,8 @@ const DBHelper = require('./DBHelper');
 const GTYPE = {
     BOX: 0,
     FONTCOLOR: 1,
-    NICKSHADOW: 2
+    NICKSHADOW: 2,
+    BLINK: 3
 }
 
 class GachaManager {
@@ -39,6 +40,18 @@ class GachaManager {
 
     openNickShadowGacha(id, cb) {
         this.pm_checkRemainCount(id,GTYPE.NICKSHADOW)
+        .then(this.pm_getItem)        
+        .then(this.pm_save)
+        .then(info=> {
+            cb({ret: info.ret, item: info.item});
+        })
+        .catch(err=> {              
+            cb({ret: err.ret});
+        })
+    }
+
+    openBlinkGacha(id, cb) {
+        this.pm_checkRemainCount(id,GTYPE.BLINK)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
@@ -89,6 +102,12 @@ class GachaManager {
                 info.pt = 100;
                 break;
             }
+
+            case GTYPE.BLINK:
+            {
+                info.pt = 800;
+                break;
+            }
         }
         return new Promise((res,rej)=> {
             DBHelper.getGachaPoint(id, result=> {
@@ -100,7 +119,12 @@ class GachaManager {
                         info.ret = -2;
                         rej(info);
                         return;
-                    }                    
+                    }
+
+                    if( info.gp < info.pt ) {
+                        info.ret = -3;
+                        rej(info);                        
+                    }
                     res(info);                    
                 }
                 else {                    
@@ -166,6 +190,17 @@ class GachaManager {
             }
             else if(info.gtype === GTYPE.NICKSHADOW ) {
                 DBHelper.call2('ei_insert', [info.id, 2, info.item.desc], result=> {
+                    if( result.ret !== 0 ) {
+                        info.ret = -4;
+                        rej(info);
+                        return;
+                    }
+                    
+                    res(info);                
+                });                
+            }
+            else if(info.gtype === GTYPE.BLINK ) {
+                DBHelper.call2('ei_insert', [info.id, 3, '1'], result=> {
                     if( result.ret !== 0 ) {
                         info.ret = -4;
                         rej(info);

@@ -1,12 +1,13 @@
 <template>
     <div id="main">
-        <msgbox
-            v-show="resultVisible"
-            :msg=msgResult            
-            height=40px
-            bgcolor='#9d0000'
-            color='white'
-        />   
+        <div style="position:fixed; top:0; width: 100%; z-index: 400000;" v-show="resultVisible">
+            <msgbox                
+                :msg=msgResult            
+                height=40px
+                bgcolor='#9d0000'
+                color='white'
+            />   
+        </div>        
         <div class="ads-top">
             <adsense
             adClient="ca-pub-3598320494828213"
@@ -46,6 +47,14 @@
             랜덤 닉네임 강조 색상 ( 100GP )
         </div>
         <GachaNickShadow/>       
+        <div class="line"></div>  
+        <div class="title">
+            채팅 깜빡이기 아이템 ( 800GP )
+        </div>
+        <div class="subtitle">
+            한번 구입하면 다시 구입 안하셔도 됩니다.
+        </div>
+        <GachaBlink/>
     </div>
 </template>
 <script>
@@ -56,6 +65,7 @@
     import GachaBox from './GachaBox.vue'
     import GachaFontColor from './GachaFontColor.vue'
     import GachaNickShadow from './GachaNickShadow.vue'
+    import GachaBlink from './GachaBlink.vue'
 
     export default {
         data: function() {
@@ -68,7 +78,8 @@
         components: {  
             GachaBox,
             GachaFontColor,
-            GachaNickShadow
+            GachaNickShadow,
+            GachaBlink
         },
         created() {            
         },
@@ -127,6 +138,14 @@
     color: #9d0000;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bolder;
+}
+
+.subtitle {
+    margin: 0 auto;
+    text-align: center;
+    color: gray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    font-size: 14px;
 }
 
 @media screen and (max-width: 500px) {

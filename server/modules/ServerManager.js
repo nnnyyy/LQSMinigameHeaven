@@ -82,10 +82,12 @@ class ServerManager {
 
         let before = '';
 
-        let port = normalizePort(process.env.PORT || '10001');
+        let port = normalizePort(process.env.PORT || '10002');
 
         sm.serv_name = 'Server15';
         sm.enterLimit = -1;
+
+        let bReleaseServer = false;
 
         process.argv.forEach(function(val, idx, arr) {
             if( before == '-p') {
@@ -96,8 +98,17 @@ class ServerManager {
                 sm.serv_name = val;
             }
 
+            if( val == '-release') {
+                bReleaseServer = true;
+            }
+
             before = val;
-        })        
+        });
+
+        if( !bReleaseServer ) {
+            port += 20000;
+            console.log('###### Debug Mode ######');
+        }
 
         this.http.listen(port, function() {
             console.log('Server listening on *:' + port);

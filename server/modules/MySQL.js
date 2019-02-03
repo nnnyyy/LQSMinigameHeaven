@@ -10,7 +10,16 @@ class Mysql {
     }
 
     init() {
-        const configPath = __dirname + '/../../config/config.json';
+        let bReleaseServer = false;
+        process.argv.forEach(function(val, idx, arr) {           
+
+            if( val == '-release') {
+                bReleaseServer = true;
+            }            
+        });
+
+        const configPath = __dirname + ( bReleaseServer ? '/../../config/config.json' : '/../../config/configdev.json') ;
+        console.log('mysql path', configPath);
         const parsed = JSON.parse(fs.readFileSync(configPath, 'UTF-8'));
 
         this.pool = mysql.createPool({

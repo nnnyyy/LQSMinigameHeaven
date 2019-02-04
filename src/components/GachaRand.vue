@@ -47,7 +47,7 @@
                     BLINK: 3
                 }
 
-                if( this.cnt < 25 ) {
+                if( this.cnt < 15 ) {
                     alert('포인트가 부족합니다!');
                     return;
                 }

@@ -63,7 +63,7 @@ class GachaManager {
     }
 
     openRand(id, cb) {
-        const fixedGP = 25;
+        const fixedGP = 15;
         const aTypes = [
             {type: GTYPE.BLINK, rate: 2},
             {type: GTYPE.NICKSHADOW, rate: 6},

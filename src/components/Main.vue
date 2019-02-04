@@ -21,9 +21,17 @@
             :msg=msgRemain
             height=40px
             fontsize=20px
-        />                   
+        />            
         <div class="title">
-            랜덤 포인트 얻기
+            랜덤 뽑기 ( 25GP )
+        </div>
+        <div class="subtitle">
+            확률            
+        </div>        
+        <GachaRand/>
+        <div class="line"></div>  
+        <div class="title">
+            포인트 얻기 ( 1 ~ 50 )
         </div>        
         <GachaBox/>        
         <div class="ads-top">
@@ -66,20 +74,23 @@
     import GachaFontColor from './GachaFontColor.vue'
     import GachaNickShadow from './GachaNickShadow.vue'
     import GachaBlink from './GachaBlink.vue'
+    import GachaRand from './GachaRand.vue'
 
     export default {
-        data: function() {
+        data() {
             return {
                 msgRemain: '로드중',
                 msgResult: ''    ,
-                resultVisible: false            
+                resultVisible: false,
+                lastTimeoutIdx: -1
             }
         },
         components: {  
             GachaBox,
             GachaFontColor,
             GachaNickShadow,
-            GachaBlink
+            GachaBlink,
+            GachaRand
         },
         created() {            
         },
@@ -87,7 +98,12 @@
             onSetResultMsg(msg) {
                 this.msgResult = msg;
                 this.resultVisible = true;
-                setTimeout(()=> {
+                if( this.lastTimeoutIdx ) {
+                    clearTimeout( this.lastTimeoutIdx );
+                    this.lastTimeoutIdx = -1;
+                }
+                
+                this.lastTimeoutIdx = setTimeout(()=> {
                     this.resultVisible = false;
                 },7000);
             },

@@ -14,52 +14,92 @@ class GachaManager {
         this.sm = sm;
     }
 
-    openGacha(id, cb) {
-        this.pm_checkRemainCount(id,GTYPE.BOX)
+    openGacha(id, cb, fixedGP) {
+        this.pm_checkRemainCount(id,GTYPE.BOX, fixedGP)
         .then(this.pm_getItem)
         .then(this.pm_save)
         .then(info=> {                   
-            cb({ret: info.ret, item: info.item});
+            cb({ret: info.ret, item: info.item, type: info.gtype});
         })
         .catch(err=> {              
             cb({ret: err.ret});
         })
     }
 
-    openFontColorGacha(id, cb) {
-        this.pm_checkRemainCount(id,GTYPE.FONTCOLOR)
+    openFontColorGacha(id, cb, fixedGP) {
+        this.pm_checkRemainCount(id,GTYPE.FONTCOLOR, fixedGP)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
-            cb({ret: info.ret, item: info.item});
+            cb({ret: info.ret, item: info.item, type: info.gtype});
         })
         .catch(err=> {              
             cb({ret: err.ret});
         })
     }
 
-    openNickShadowGacha(id, cb) {
-        this.pm_checkRemainCount(id,GTYPE.NICKSHADOW)
+    openNickShadowGacha(id, cb, fixedGP) {
+        this.pm_checkRemainCount(id,GTYPE.NICKSHADOW, fixedGP)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
-            cb({ret: info.ret, item: info.item});
+            cb({ret: info.ret, item: info.item, type: info.gtype});
         })
         .catch(err=> {              
             cb({ret: err.ret});
         })
     }
 
-    openBlinkGacha(id, cb) {
-        this.pm_checkRemainCount(id,GTYPE.BLINK)
+    openBlinkGacha(id, cb, fixedGP) {
+        this.pm_checkRemainCount(id,GTYPE.BLINK, fixedGP)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
-            cb({ret: info.ret, item: info.item});
+            cb({ret: info.ret, item: info.item, type: info.gtype});
         })
         .catch(err=> {              
             cb({ret: err.ret});
         })
+    }
+
+    openRand(id, cb) {
+        const fixedGP = 25;
+        const aTypes = [
+            {type: GTYPE.BLINK, rate: 2},
+            {type: GTYPE.NICKSHADOW, rate: 6},
+            {type: GTYPE.FONTCOLOR, rate: 12},
+            {type: GTYPE.BOX, rate: 80},
+        ];
+
+        let sumProb = 0;
+        aTypes.forEach(item=> {
+            sumProb += item.rate;
+        });
+        
+        for( let i = 0 ; i < aTypes.length ; ++i) {
+            const r = this.getRandomInt(0, sumProb);
+            if( r < aTypes[i].rate ) {
+                //  당첨
+                switch(aTypes[i].type) {
+                    case GTYPE.BLINK:
+                        this.openBlinkGacha(id, cb, fixedGP);
+                    break;
+                    case GTYPE.NICKSHADOW:
+                        this.openNickShadowGacha(id, cb, fixedGP);
+                    break;
+                    case GTYPE.FONTCOLOR:
+                        this.openFontColorGacha(id, cb, fixedGP);
+                    break;
+                    case GTYPE.BOX:
+                        this.openGacha(id, cb, fixedGP);
+                    break;                    
+                }
+                break;
+            }
+            else {
+                sumProb -= aTypes[i].rate;
+            }
+        }
     }
 
     getGacha(id, cb) {
@@ -88,7 +128,7 @@ class GachaManager {
         });
     }
 
-    pm_checkRemainCount(id, gtype) {
+    pm_checkRemainCount(id, gtype, fixedGP) {
         let info = { ret: 0, id: id, gm: this, gtype: gtype, pt: 1 }
         switch(gtype) {
             case GTYPE.FONTCOLOR:
@@ -109,6 +149,11 @@ class GachaManager {
                 break;
             }
         }
+
+        if( fixedGP ) {
+            info.pt = fixedGP;
+        }
+
         return new Promise((res,rej)=> {
             DBHelper.getGachaPoint(id, result=> {
                 if( result.ret === 0 ) {

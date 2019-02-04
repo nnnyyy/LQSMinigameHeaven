@@ -31,7 +31,7 @@
         <GachaRand/>
         <div class="line"></div>  
         <div class="title">
-            포인트 얻기 ( 1 ~ 50 )
+            포인트 얻기 ( 1GP, 1 ~ 50포인트 )
         </div>        
         <GachaBox/>        
         <div class="ads-top">

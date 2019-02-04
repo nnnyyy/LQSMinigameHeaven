@@ -23,7 +23,7 @@
             fontsize=20px
         />            
         <div class="title">
-            랜덤 뽑기 ( 25GP )
+            랜덤 뽑기 ( 15GP )
         </div>
         <div class="subtitle">
             확률            
@@ -102,7 +102,7 @@
                     clearTimeout( this.lastTimeoutIdx );
                     this.lastTimeoutIdx = -1;
                 }
-                
+
                 this.lastTimeoutIdx = setTimeout(()=> {
                     this.resultVisible = false;
                 },7000);

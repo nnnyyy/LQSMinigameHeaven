@@ -18,6 +18,10 @@
                     <td>채팅 깜박임 효과</td>
                     <td>2%</td>
                 </tr>
+                <tr>
+                    <td>무지개 닉네임 효과</td>
+                    <td>0.1%</td>
+                </tr>
             </table>
         </div>
         <div style="text-align: center; margin: 10px 0;">
@@ -44,7 +48,8 @@
                     BOX: 0,
                     FONTCOLOR: 1,
                     NICKSHADOW: 2,
-                    BLINK: 3
+                    BLINK: 3,
+                    RAINBOWNICK: 4
                 }
 
                 if( this.cnt < 15 ) {
@@ -62,6 +67,7 @@
                             case GTYPE.FONTCOLOR: msg=`폰트 색상 ${data.item.desc}을 획득했습니다.`; break;
                             case GTYPE.NICKSHADOW: msg=`닉네임 효과 ${data.item.desc}를 획득했습니다.`; break;
                             case GTYPE.BLINK: msg='##채팅 깜빡임 효과##를 획득했습니다. 축하합니다!'; break;
+                            case GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
                         }
                         
                         G.emit(P.SetResultMsg, msg);

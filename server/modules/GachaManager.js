@@ -6,7 +6,8 @@ const GTYPE = {
     BOX: 0,
     FONTCOLOR: 1,
     NICKSHADOW: 2,
-    BLINK: 3
+    BLINK: 3,
+    RAINBOWNICK: 4
 }
 
 class GachaManager {
@@ -38,8 +39,8 @@ class GachaManager {
         })
     }
 
-    openNickShadowGacha(id, cb, fixedGP) {
-        this.pm_checkRemainCount(id,GTYPE.NICKSHADOW, fixedGP)
+    openNickShadowGacha(id, cb, fixedGP, isRainbow) {
+        this.pm_checkRemainCount(id, isRainbow ? GTYPE.RAINBOWNICK : GTYPE.NICKSHADOW, fixedGP)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
@@ -65,10 +66,11 @@ class GachaManager {
     openRand(id, cb) {
         const fixedGP = 15;
         const aTypes = [
-            {type: GTYPE.BLINK, rate: 2},
-            {type: GTYPE.NICKSHADOW, rate: 6},
-            {type: GTYPE.FONTCOLOR, rate: 12},
-            {type: GTYPE.BOX, rate: 80},
+            {type: GTYPE.BLINK, rate: 20},
+            {type: GTYPE.NICKSHADOW, rate: 60},
+            {type: GTYPE.FONTCOLOR, rate: 120},
+            {type: GTYPE.BOX, rate: 800},
+            {type: GTYPE.RAINBOWNICK, rate: 1},
         ];
 
         let sumProb = 0;
@@ -92,7 +94,10 @@ class GachaManager {
                     break;
                     case GTYPE.BOX:
                         this.openGacha(id, cb, fixedGP);
-                    break;                    
+                    break;  
+                    case GTYPE.RAINBOWNICK:
+                        this.openNickShadowGacha(id, cb, fixedGP, true);
+                    break;                  
                 }
                 break;
             }
@@ -146,6 +151,12 @@ class GachaManager {
             case GTYPE.BLINK:
             {
                 info.pt = 800;
+                break;
+            }
+
+            case GTYPE.RAINBOWNICK:
+            {
+                info.pt = 2000;
                 break;
             }
         }
@@ -202,6 +213,12 @@ class GachaManager {
                         info.item = info.gm.randomFontColorGacha();
                         break;
                     }
+
+                    case GTYPE.RAINBOWNICK:
+                    {
+                        info.item = info.gm.getRainbowNickGacha();
+                        break;
+                    }
                 }                
                 
                 res(info);
@@ -233,7 +250,7 @@ class GachaManager {
                     res(info);                
                 });                
             }
-            else if(info.gtype === GTYPE.NICKSHADOW ) {
+            else if(info.gtype === GTYPE.NICKSHADOW || info.gtype === GTYPE.RAINBOWNICK ) {
                 DBHelper.call2('ei_insert', [info.id, 2, info.item.desc], result=> {
                     if( result.ret !== 0 ) {
                         info.ret = -4;
@@ -275,6 +292,13 @@ class GachaManager {
         return {
             name: '폰트',
             desc: '#' + this.toHex(rr) + this.toHex(rg) + this.toHex(rb)
+        }
+    }
+
+    getRainbowNickGacha() {
+        return {
+            name: '레인보우 닉네임',
+            desc: '@rainbow'
         }
     }
 

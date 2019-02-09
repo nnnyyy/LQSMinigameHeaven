@@ -7,7 +7,8 @@ const GTYPE = {
     FONTCOLOR: 1,
     NICKSHADOW: 2,
     BLINK: 3,
-    RAINBOWNICK: 4
+    RAINBOWNICK: 4,
+    YELLOWBLINK: 5
 }
 
 class GachaManager {
@@ -27,8 +28,8 @@ class GachaManager {
         })
     }
 
-    openFontColorGacha(id, cb, fixedGP) {
-        this.pm_checkRemainCount(id,GTYPE.FONTCOLOR, fixedGP)
+    openFontColorGacha(id, cb, fixedGP, isYellowBlink) {
+        this.pm_checkRemainCount(id,isYellowBlink ? GTYPE.YELLOWBLINK : GTYPE.FONTCOLOR, fixedGP)
         .then(this.pm_getItem)        
         .then(this.pm_save)
         .then(info=> {
@@ -71,6 +72,7 @@ class GachaManager {
             {type: GTYPE.FONTCOLOR, rate: 120},
             {type: GTYPE.BOX, rate: 800},
             {type: GTYPE.RAINBOWNICK, rate: 1},
+            {type: GTYPE.YELLOWBLINK, rate: 1}
         ];
 
         let sumProb = 0;
@@ -92,6 +94,9 @@ class GachaManager {
                     case GTYPE.FONTCOLOR:
                         this.openFontColorGacha(id, cb, fixedGP);
                     break;
+                    case GTYPE.YELLOWBLINK:
+                        this.openFontColorGacha(id, cb, fixedGP, true);
+                    break;                  
                     case GTYPE.BOX:
                         this.openGacha(id, cb, fixedGP);
                     break;  
@@ -155,6 +160,7 @@ class GachaManager {
             }
 
             case GTYPE.RAINBOWNICK:
+            case GTYPE.YELLOWBLINK:
             {
                 info.pt = 2000;
                 break;
@@ -219,6 +225,12 @@ class GachaManager {
                         info.item = info.gm.getRainbowNickGacha();
                         break;
                     }
+
+                    case GTYPE.YELLOWBLINK:
+                    {
+                        info.item = info.gm.getYellowBlinkChatGacha();
+                        break;
+                    }
                 }                
                 
                 res(info);
@@ -239,7 +251,7 @@ class GachaManager {
                     res(info);                
                 });
             }
-            else if(info.gtype === GTYPE.FONTCOLOR ) {
+            else if(info.gtype === GTYPE.FONTCOLOR || info.gtype === GTYPE.YELLOWBLINK ) {
                 DBHelper.call2('ei_insert', [info.id, 1, info.item.desc], result=> {
                     if( result.ret !== 0 ) {
                         info.ret = -4;
@@ -300,6 +312,13 @@ class GachaManager {
             name: '레인보우 닉네임',
             desc: '@rainbow'
         }
+    }
+
+    getYellowBlinkChatGacha() {
+        return {
+            name: '채팅 노랑 반짝이',
+            desc: '@yellowblink'
+        }        
     }
 
     getRandomInt(min, max) {

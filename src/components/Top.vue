@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div class="title">라이브 퀴즈 공유기 뽑기<button v-show="logined" @click="onBtnLogout">로그아웃</button></div>
+        <div class="title">라이브 퀴즈 공유기 상점</div>
     </div>
 </template>
 <script>
@@ -55,33 +55,51 @@
 
 <style scoped>
 #main {
-    height:78px;
-    background-color:bisque;
+    height:80px;    
+    background:
+    radial-gradient(circle, transparent 20%, white 20%, white 80%, transparent 80%, transparent),
+    radial-gradient(circle, transparent 20%, white 20%, white 80%, transparent 80%, transparent) 50px 50px,
+    linear-gradient(gray 8px, transparent 8px) 0 -4px,
+    linear-gradient(90deg, gray 8px, transparent 8px) -4px 0;
+    background-color: white;
+    background-size:100px 100px, 100px 100px, 50px 50px, 50px 50px;
 }
 
 @media screen and (max-width: 500px) {
     .title {
-        background-color: inherit;
+        background: transparent;
         width: 80%;
         height: inherit;
-        line-height: 78px;
+        line-height: 80px;
         margin: 0 auto;
         text-align: center;
-        font-size: 16px;
+        font-weight: bolder;        
+        font-size: 20px;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        text-shadow: 
+        1px 2px 1px white,
+        1px 2px 2px white,
+        1px 2px 4px white,
+        1px 2px 8px white;
     }
 }
 
 @media screen and (min-width: 501px) {
-    .title {
-        background-color: inherit;
+    .title {        
+        background: transparent;
         width: 400px;
         height: inherit;
-        line-height: 78px;
+        line-height: 80px;
         margin: 0 auto;
         text-align: center;
-        font-size: 19px;
+        font-size: 25px;
+        font-weight: bolder;        
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        text-shadow: 
+        1px 2px 1px white,
+        1px 2px 2px white,
+        1px 2px 4px white,
+        1px 2px 8px white;
     }    
 }
 </style>

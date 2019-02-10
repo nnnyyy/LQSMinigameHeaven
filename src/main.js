@@ -9,6 +9,7 @@ import LoginApp from './LoginApp.vue'
 import $ from 'jquery'
 import axios from 'axios';
 import VueAdsense from './components/VueAdsense.vue'
+import Ads300x250 from './components/Ads300x250.vue'
 import MsgBox from './components/MessageBox.vue'
 
 const NotFound = { template: '<p>페이지가 존재하지 않습니다.</p>'};
@@ -24,6 +25,7 @@ $(document).ready(function() {
     Vue.prototype.$http = axios;    
     Vue.component('adsense', VueAdsense);
     Vue.component('msgbox', MsgBox);
+    Vue.component('ads300x250', Ads300x250);
 
     new Vue({
         el: '#app',

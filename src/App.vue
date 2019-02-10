@@ -8,12 +8,11 @@
     import G from './global'
     import P from '../common/protocol'
     import $ from 'jquery'   
-    import Top from './components/Top.vue' 
-    import TopMenu from './components/TopMenuMobile.vue'     
+    import Top from './components/Top.vue'     
     import Main from './components/Main.vue'    
 
     export default {
-        data: function() {
+        data() {
             return {                
             }
         },
@@ -21,11 +20,11 @@
             Top,
             Main
         },
-        created: function() {            
+        created() {
         },
         methods: {            
         },
-        mounted() {            
+        mounted() {
         }
     }
 </script>

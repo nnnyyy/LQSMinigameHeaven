@@ -1,8 +1,111 @@
 <template>
 <div id="main">
     <template v-if="isMobile">
-        아직 PC에서만 메뉴를 볼 수 있습니다.
+        <div style="width: 100%; margin: 14px auto; text-align:center;">
+            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 16px;">{{ currentGP }}</span> GP
+        </div>
+        <table class="tb-list">
+            <tr>
+                <td>
+                    <adsense
+                    adClient="ca-pub-3598320494828213"
+                    adSlot="2407753256"
+                    adStyle="display:inline-block;width:320px;height:100px;"                        
+                    fullWidthResponsive="false"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td class="item-title">
+                    아무거나 랜덤( 15GP )
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px 0;">
+                    <table class="tb-prob">
+                        <tr>
+                            <td>포인트 얻기</td>
+                            <td>80%</td>
+                        </tr>
+                        <tr>
+                            <td>랜덤 채팅 컬러</td>
+                            <td>12%</td>
+                        </tr>
+                        <tr>
+                            <td>랜덤 닉네임 강조 색상</td>
+                            <td>6%</td>
+                        </tr>
+                        <tr>
+                            <td>채팅 깜박임 효과</td>
+                            <td>2%</td>
+                        </tr>
+                        <tr>
+                            <td>무지개 닉네임 효과</td>
+                            <td>0.1%</td>
+                        </tr>
+                        <tr>
+                            <td>노랑 빤짝이 채팅 효과</td>
+                            <td>0.1%</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="item-btn line">
+                    <button class="btn-buy-item" @click="onBuyAllRandom()">구입하기</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <adsense
+                    adClient="ca-pub-3598320494828213"
+                    adSlot="5013925241"
+                    adStyle="display:inline-block;width:320px;height:100px;"                        
+                    fullWidthResponsive="false"
+                    />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="height: 40px;" class="item-title">경험치(점수) 가챠( 1GP )</div>
+                    <div style="height: 40px; font-size: 13px;">1~50 포인트 중 랜덤</div>
+                </td>
+            </tr>            
+            <tr>
+                <td class="item-btn line">
+                    <button class="btn-buy-item" @click="onBuyPoint()">구입하기</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="height: 40px;" class="item-title">랜덤 채팅 색상 ( 50GP )</div>
+                    <div style="height: 40px; font-size: 13px;">채팅 폰트 색상을 랜덤하게 뽑습니다</div>
+                </td>
+            </tr>            
+            <tr>
+                <td class="item-btn line">
+                    <button class="btn-buy-item" @click="onBuyRandChatColor()">구입하기</button>
+                </td>
+            </tr>            
+            <tr>
+                <td>
+                    <div style="height: 40px;" class="item-title">랜덤 닉네임 강조 색상 ( 100GP )</div>
+                    <div style="height: 40px; font-size: 13px;">닉네임을 다양한 색으로 강조할 수 있습니다.</div>
+                </td>
+            </tr>            
+            <tr>
+                <td class="item-btn line">
+                    <button class="btn-buy-item" @click="onBuyRandNickEffect()">구입하기</button>
+                </td>
+            </tr>
+        </table>
     </template>
+
+    <!-- PC 버젼 시작 -->
+
     <template v-else>
         <div style="width: 900px; margin: 20px auto;">
             현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP
@@ -286,7 +389,40 @@
 
 <style scoped>
 @media screen and (max-width: 500px) {
-    
+    .tb-list {
+        width: 95%;        
+        margin: 0 auto;
+    }
+
+    .tb-list td {
+        text-align: center;
+    }
+
+    .tb-list .item-btn {
+        height: 50px;
+    }
+
+    .line {
+        border-bottom: 1px solid black;
+    }
+
+    .tb-prob {
+        width: 95%;
+        font-size: 13px;
+    }
+
+    .item-title {
+        height: 36px;
+        font-size: 20px;
+        text-shadow: 1px 1px 1px #f40000;
+    }
+
+    .btn-buy-item {
+        width: 100%;
+        height: 100%;
+        border: none;  
+        font-size: 17px;
+    }
 }
 
 @media screen and (min-width: 501px) {    

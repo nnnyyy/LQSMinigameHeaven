@@ -92,7 +92,7 @@
                         <table class="tb-item">
                             <tr>
                                 <td>
-                                    <div style="height: 40px;" class="item-title">랜덤 채팅 색상</div>
+                                    <div style="height: 40px;" class="item-title">랜덤 채팅 색상 ( 50GP )</div>
                                     <div style="height: 40px; font-size: 13px;">채팅 폰트 색상을 랜덤하게 뽑습니다</div>
                                 </td>
                             </tr>
@@ -115,7 +115,7 @@
                         <table class="tb-item">
                             <tr>
                                 <td>
-                                    <div style="height: 40px;" class="item-title">랜덤 닉네임 강조 색상</div>
+                                    <div style="height: 40px;" class="item-title">랜덤 닉네임 강조 색상 ( 100GP )</div>
                                     <div style="height: 40px; font-size: 13px;">닉네임을 다양한 색으로 강조할 수 있습니다.</div>
                                 </td>
                             </tr>

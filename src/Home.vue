@@ -1,12 +1,15 @@
 <template>
     <div id="main">
-        <router-view></router-view>      
+        <Top/>
+        <Main/>        
     </div>
 </template>
 <script>
     import G from './global'
     import P from '../common/protocol'
-    import $ from 'jquery' 
+    import $ from 'jquery'   
+    import Top from './components/Top.vue'     
+    import Main from './components/Main.vue'    
 
     export default {
         data() {
@@ -14,6 +17,8 @@
             }
         },
         components: {
+            Top,
+            Main
         },
         created() {
         },

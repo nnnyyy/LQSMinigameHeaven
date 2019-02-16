@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div class="title">라이브 퀴즈 공유기 상점</div>
+        <div class="title" style="cursor: pointer;" @click="onBtnTitle()">라이브 퀴즈 공유기 상점</div>
     </div>
 </template>
 <script>
@@ -19,7 +19,10 @@
             
         },
         
-        methods: {            
+        methods: {         
+            onBtnTitle() {
+                window.location.href = '/';
+            },
             onBtnLogout() {
                 G.hget(P.http.Logout, data=> {
                     if( data.ret === 0 ) {

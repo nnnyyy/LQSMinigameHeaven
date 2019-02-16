@@ -3,42 +3,41 @@
  */
 import './css/style.css'
 import Vue from 'vue'
-import PIXI from 'pixi.js'
 import App from './App.vue'
+import Home from './Home.vue'
 import LoginApp from './LoginApp.vue'
+import MyInfo from './MyInfo.vue'
 import $ from 'jquery'
 import axios from 'axios';
 import VueAdsense from './components/VueAdsense.vue'
 import Ads300x250 from './components/Ads300x250.vue'
 import MsgBox from './components/MessageBox.vue'
+import VueRouter from 'vue-router'
 
 const NotFound = { template: '<p>페이지가 존재하지 않습니다.</p>'};
 
-const routes = {
-    '/': App,
-    '/login': LoginApp,
-    '/login/': LoginApp
-};
-
 $(document).ready(function() {
+    Vue.use(VueRouter);
     Vue.prototype.$bus = new Vue();
     Vue.prototype.$http = axios;    
     Vue.component('adsense', VueAdsense);
     Vue.component('msgbox', MsgBox);
     Vue.component('ads300x250', Ads300x250);
 
-    new Vue({
-        el: '#app',
-        data: {
-            currentRoute: window.location.pathname
+    const router = new VueRouter({
+        mode: 'history',
+        routes: [
+          { path: '/', component: Home },          
+          { path: '/login', component: LoginApp },
+          { path: '/myinfo', component: MyInfo },
+        ]
+      })
+
+      new Vue({
+        el: '#app',        
+        render: h => {
+            return h( App );
         },
-        computed: {
-            ViewComponent() {
-                return routes[this.currentRoute] || NotFound;
-            }
-        },
-        render: function(h) {
-            return h( this.ViewComponent );
-        }
+        router
     });
 });

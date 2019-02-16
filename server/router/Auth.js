@@ -70,4 +70,16 @@ Router.post('/login', function(req, res, next) {
         });
 });
 
+Router.get('/myinfo', (req,res)=> {
+    if( !req.session.userdata ) {
+        res.redirect('/');
+        return;
+    }
+    DBHelper.call2('ei_get', [req.session.userdata.id], result=> {
+        if( result.ret === 0 ) {
+            res.send({ret: 0, list: result.rows[0]});
+        }
+    })
+});
+
 module.exports = Router;

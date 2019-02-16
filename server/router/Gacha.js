@@ -97,5 +97,19 @@ Router.get('/randopen', (req,res)=> {
     })
 });
 
+Router.post('/sellitem', (req,res)=> {
+    if( !req.session.userdata ) {
+        res.redirect('/');
+        return;
+    }
+
+    const sn = req.body.sn;
+    DBHelper.call2('ei_sell', [req.session.userdata.id, sn], result=> {
+        if( result.ret === 0 ) {
+            res.send({ret: 0});
+        }        
+    })    
+})
+
 
 module.exports = Router;

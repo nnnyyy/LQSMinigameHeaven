@@ -108,7 +108,7 @@
 
     <template v-else>
         <div style="width: 900px; margin: 20px auto;">
-            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP
+            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span>
         </div>
         <div style="border: 0.5px solid gray; margin: 20px auto; width: 900px; height: 1px;"/>
         <table class="tb-list">
@@ -378,6 +378,9 @@
                         alert('알 수 없는 오류');
                     }
                 })
+            },
+            onBtnMyInfo() {
+                window.location.href = '/myinfo';
             }
         },
         mounted() {
@@ -506,6 +509,15 @@
 
     .tb-prob td:first-child {
         width: 80%;
+    }
+
+    .myinfoBtn {
+        background-color: #6d6d6d;
+        padding: 6px;
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
+        color: white;
+        cursor: pointer;
     }
 }
 </style>

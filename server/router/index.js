@@ -14,4 +14,8 @@ Router.get('/login', function(req, res, next) {
     res.render('index');
 });
 
+Router.get('/myinfo', function(req, res, next) {
+    res.render('index');
+});
+
 module.exports = Router;

@@ -57,11 +57,14 @@
                     return '채팅 색상';
                 }
                 else if( item.effectid == 2 ) {
-                    if( item.effectdesc == '@rainbow' ) return '채팅 특수 효과';
+                    if( item.effectdesc == '@rainbow' ) return '닉네임 특수 효과';
                     return '닉네임 그림자 색상';
                 }
                 else if( item.effectid == 3 ) {
                     return '투명 반짝이 효과';
+                }
+                else if( item.effectid == 4 ) {
+                    return '빅 폰트 효과';
                 }
             } ,
             getItemStyle(item) {

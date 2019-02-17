@@ -40,6 +40,10 @@
                             <td>2%</td>
                         </tr>
                         <tr>
+                            <td>빅 폰트 효과</td>
+                            <td>0.2%</td>
+                        </tr>
+                        <tr>
                             <td>무지개 닉네임 효과</td>
                             <td>0.1%</td>
                         </tr>
@@ -136,6 +140,10 @@
                                             <tr>
                                                 <td>채팅 깜박임 효과</td>
                                                 <td>2%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>빅 폰트 효과</td>
+                                                <td>0.2%</td>
                                             </tr>
                                             <tr>
                                                 <td>무지개 닉네임 효과</td>
@@ -282,7 +290,8 @@
                     NICKSHADOW: 2,
                     BLINK: 3,
                     RAINBOWNICK: 4,
-                    YELLOWBLINK: 5
+                    YELLOWBLINK: 5,
+                    BIGFONT: 6
                 }
 
                 if( this.cnt < 15 ) {
@@ -303,6 +312,7 @@
                             case GTYPE.BLINK: msg='##채팅 깜빡임 효과##를 획득했습니다. 축하합니다!'; break;
                             case GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
                             case GTYPE.YELLOWBLINK: msg='@#@#@#@# !!노랑 빤짝이 효과 획득!! #@#@#@#@'; break;
+                            case GTYPE.BIGFONT: msg='@#@#@#@# !!빅 폰트 효과 획득!! #@#@#@#@'; break;
                         }
                         
                         G.emit(P.SetResultMsg, msg);

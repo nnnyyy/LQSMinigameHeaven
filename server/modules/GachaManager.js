@@ -8,7 +8,8 @@ const GTYPE = {
     NICKSHADOW: 2,
     BLINK: 3,
     RAINBOWNICK: 4,
-    YELLOWBLINK: 5
+    YELLOWBLINK: 5,
+    BIGFONT: 6
 }
 
 class GachaManager {
@@ -52,6 +53,18 @@ class GachaManager {
         })
     }
 
+    openBigFontGacha(id, cb, fixedGP) {
+        this.pm_checkRemainCount(id, GTYPE.BIGFONT, fixedGP)
+        .then(this.pm_getItem)        
+        .then(this.pm_save)
+        .then(info=> {
+            cb({ret: info.ret, item: info.item, type: info.gtype});
+        })
+        .catch(err=> {              
+            cb({ret: err.ret});
+        })
+    }
+
     openBlinkGacha(id, cb, fixedGP) {
         this.pm_checkRemainCount(id,GTYPE.BLINK, fixedGP)
         .then(this.pm_getItem)        
@@ -72,7 +85,8 @@ class GachaManager {
             {type: GTYPE.FONTCOLOR, rate: 120},
             {type: GTYPE.BOX, rate: 800},
             {type: GTYPE.RAINBOWNICK, rate: 1},
-            {type: GTYPE.YELLOWBLINK, rate: 1}
+            {type: GTYPE.YELLOWBLINK, rate: 1},
+            {type: GTYPE.BIGFONT, rate: 2}
         ];
 
         let sumProb = 0;
@@ -102,7 +116,10 @@ class GachaManager {
                     break;  
                     case GTYPE.RAINBOWNICK:
                         this.openNickShadowGacha(id, cb, fixedGP, true);
-                    break;                  
+                    break;
+                    case GTYPE.BIGFONT:
+                        this.openBigFontGacha(id, cb, fixedGP);
+                    break;
                 }
                 break;
             }
@@ -161,6 +178,7 @@ class GachaManager {
 
             case GTYPE.RAINBOWNICK:
             case GTYPE.YELLOWBLINK:
+            case GTYPE.BIGFONT:
             {
                 info.pt = 2000;
                 break;
@@ -231,6 +249,12 @@ class GachaManager {
                         info.item = info.gm.getYellowBlinkChatGacha();
                         break;
                     }
+
+                    case GTYPE.BIGFONT:
+                    {
+                        info.item = info.gm.getBigFontGacha();
+                        break;
+                    }
                 }                
                 
                 res(info);
@@ -284,6 +308,17 @@ class GachaManager {
                     res(info);                
                 });                
             }
+            else if(info.gtype === GTYPE.BIGFONT ) {
+                DBHelper.call2('ei_insert', [info.id, 4, info.item.desc], result=> {
+                    if( result.ret !== 0 ) {
+                        info.ret = -4;
+                        rej(info);
+                        return;
+                    }
+                    
+                    res(info);                
+                });                
+            }
         })
     }
 
@@ -318,6 +353,13 @@ class GachaManager {
         return {
             name: '채팅 노랑 반짝이',
             desc: '@yellowblink'
+        }        
+    }
+
+    getBigFontGacha() {
+        return {
+            name: '빅 폰트',
+            desc: '@bigfont'
         }        
     }
 

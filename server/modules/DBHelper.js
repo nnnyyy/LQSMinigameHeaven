@@ -110,6 +110,10 @@ class DBHelper {
 
     getGachaPoint( id, cb ) {
         this.sql.query("CALL getGachaPoint(?, @gp, @sgp); SELECT @gp, @sgp", [id], (err, rows)=> {
+            if( err ) {
+                if( cb ) cb({ret: -99});
+                return;
+            }
             const info = rows[2][0];
             const gp = info['@gp'];
             const sgp = info['@sgp'];

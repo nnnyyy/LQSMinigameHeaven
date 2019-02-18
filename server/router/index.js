@@ -18,4 +18,8 @@ Router.get('/myinfo', function(req, res, next) {
     res.render('index');
 });
 
+Router.get('/free', (req, res, next) => {
+    res.render('index');
+});
+
 module.exports = Router;

@@ -77,8 +77,7 @@
         margin: 0 auto;
         text-align: center;
         font-weight: bolder;        
-        font-size: 20px;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 26px;        
         text-shadow: 
         1px 2px 1px white,
         1px 2px 2px white,
@@ -95,9 +94,8 @@
         line-height: 80px;
         margin: 0 auto;
         text-align: center;
-        font-size: 25px;
-        font-weight: bolder;        
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 32px;
+        font-weight: bolder;
         text-shadow: 
         1px 2px 1px white,
         1px 2px 2px white,

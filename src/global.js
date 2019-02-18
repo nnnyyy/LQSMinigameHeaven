@@ -18,9 +18,6 @@ class Global {
     }
 
     initSocketListener() {
-        this.socket.on(P.GoLoginPage, packet => this.routePacket(P.GoLoginPage, packet));
-        this.socket.on(P.EnterUser, packet => this.routePacket(P.EnterUser, packet));
-        this.socket.on(P.Disconnect, () => { window.location.href = '/login/' });
     }
 
     on( protocol, cb ) {

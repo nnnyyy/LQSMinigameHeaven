@@ -8,7 +8,7 @@
                 color='white'
             />
         </div> 
-        <ItemList/>                    
+        <ItemList/>
     </div>
 </template>
 <script>

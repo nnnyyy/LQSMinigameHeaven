@@ -10,6 +10,7 @@ import MyInfo from './MyInfo.vue'
 import $ from 'jquery'
 import axios from 'axios';
 import VueAdsense from './components/VueAdsense.vue'
+import FreeGacha from './components/FreeGacha.vue'
 import Ads300x250 from './components/Ads300x250.vue'
 import MsgBox from './components/MessageBox.vue'
 import VueRouter from 'vue-router'
@@ -30,6 +31,7 @@ $(document).ready(function() {
           { path: '/', component: Home },          
           { path: '/login', component: LoginApp },
           { path: '/myinfo', component: MyInfo },
+          { path: '/free', component: FreeGacha },
         ]
       })
 

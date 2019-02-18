@@ -109,7 +109,31 @@ Router.post('/sellitem', (req,res)=> {
             res.send({ret: 0});
         }        
     })    
-})
+});
+
+Router.get('/freeGacha', (req,res)=> {
+    if( !req.session.userdata ) {
+        res.redirect('/');
+        return;
+    }
+
+    const gcm = req.sm.gcm;
+    if( !gcm ) {
+        res.send({ret: -102});
+        return;
+    }
+
+    gcm.getFreeGacha(req.session.userdata.id, result=> {
+        if( result.ret === 0 ) {
+            res.send({ret: 0, item: result.item, type: result.type });
+        }
+        else {
+            res.send({ret: result.ret});
+        }
+    });
+});
+
+
 
 
 module.exports = Router;

@@ -3,6 +3,7 @@ const Promise = require('promise');
 const DBHelper = require('./DBHelper');
 
 const GTYPE = {
+    FAILED: -1,
     BOX: 0,
     FONTCOLOR: 1,
     NICKSHADOW: 2,
@@ -15,6 +16,7 @@ const GTYPE = {
 class GachaManager {
     constructor(sm) {
         this.sm = sm;
+        this.mFreeGacha = new Map();
     }
 
     openGacha(id, cb, fixedGP) {
@@ -190,6 +192,11 @@ class GachaManager {
         }
 
         return new Promise((res,rej)=> {
+            if( info.pt <= 0 ) {
+                res(info);
+                return;
+            }
+
             DBHelper.getGachaPoint(id, result=> {
                 if( result.ret === 0 ) {
                     info.gp = result.gp;
@@ -216,6 +223,45 @@ class GachaManager {
 
     pm_getItem(info) {        
         return new Promise((res,rej) => {
+            if( info.pt <= 0 ) {
+                switch(info.gtype) {
+                    case GTYPE.BOX: 
+                    {
+                        const rginfo = info.gm.randomGacha();
+                        info.item = rginfo;
+                        break;
+                    }
+
+                    case GTYPE.FONTCOLOR:
+                    case GTYPE.NICKSHADOW:
+                    {
+                        info.item = info.gm.randomFontColorGacha();
+                        break;
+                    }
+
+                    case GTYPE.RAINBOWNICK:
+                    {
+                        info.item = info.gm.getRainbowNickGacha();
+                        break;
+                    }
+
+                    case GTYPE.YELLOWBLINK:
+                    {
+                        info.item = info.gm.getYellowBlinkChatGacha();
+                        break;
+                    }
+
+                    case GTYPE.BIGFONT:
+                    {
+                        info.item = info.gm.getBigFontGacha();
+                        break;
+                    }
+                }                
+                
+                res(info);
+                return;
+            }
+
             DBHelper.call2('useGachaPoint', [info.id, info.pt], result=> {
                 if( result.ret !== 0 ) {
                     info.ret = -3;
@@ -322,6 +368,19 @@ class GachaManager {
         })
     }
 
+    pm_freeCheck(info) {
+        return new Promise((res,rej)=> {
+            if( info.pt > 0 ) {
+                res(info);
+                return;
+            }
+
+            DBHelper.call2('setFreeListItemCount', [info.gtype], result=> {
+                 res(info);
+            });
+        });        
+    }
+
     randomGacha() {
         //  현재는 포인트만 적립한다.
         const inc = this.getRandomInt(1, 50);
@@ -376,6 +435,65 @@ class GachaManager {
         }
 
         return hex;
+    }
+
+    getFreeGacha(id, cb) {
+
+        DBHelper.call('getFreeGachaList', result=> {
+            if( result.ret !== 0 ) {
+                cb({ret: -101});
+                return;
+            }
+
+            let aTypes = result.rows[0];
+            aTypes.push({type: GTYPE.FAILED, rate: 1000000});
+
+            const tCur = new Date();
+            if( !this.mFreeGacha.get(id) ) {
+                this.mFreeGacha.set(id, {tLastGacha: 0});
+            }
+
+            const item = this.mFreeGacha.get(id);
+            if( !item ) {
+                if( cb ) cb({ret: -99});
+                return;
+            }
+
+            if( tCur - item.tLastGacha < 1 * 15 * 1000 ) {
+                if( cb ) cb({ret: -2});
+                return;
+            } 
+
+            item.tLastGacha = tCur;
+            
+            let sumProb = 0;
+            aTypes.forEach(item=> {
+                sumProb += item.rate;
+            });
+            
+            for( let i = 0 ; i < aTypes.length ; ++i) {
+                const r = this.getRandomInt(0, sumProb);
+                if( r < aTypes[i].rate ) {
+                    //  당첨
+                    switch(aTypes[i].type) {                    
+                        case GTYPE.YELLOWBLINK:
+                            this.openFontColorGacha(id, cb, 0, true);
+                        break;                    
+                        case GTYPE.RAINBOWNICK:
+                            this.openNickShadowGacha(id, cb, 0, true);
+                        break;
+                        case GTYPE.FAILED:
+                            cb({ret: 0, type: aTypes[i].type });
+                        break;
+                    }
+                    break;
+                }
+                else {
+                    sumProb -= aTypes[i].rate;
+                }
+            }
+
+        });        
     }
 }
 

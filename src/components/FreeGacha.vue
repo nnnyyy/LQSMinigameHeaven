@@ -8,24 +8,17 @@
             adStyle="display:inline-block;width:970px;height:250px;"                        
             fullWidthResponsive="false"
             />
-            <button class="btnFreeGacha">무료 가챠 뽑기 ( 클릭 )</button>
+            <button class="btnFreeGacha" @click="onBtnFreeGacha">무료 가챠 뽑기 ( 클릭 )</button>
             <div class="remainItem">
                 <span style="font-size: 24px;">남은 아이템 목록</span>
                 <table class="tb-remain-item">
                     <tr>
                         <th>아이템명</th>
                         <th>남은 갯수</th>
-                    </tr>
-                    <tr>
-                        <td>노랑 빤짝이</td>
-                        <td>1개</td>
-                    </tr>
-                    <tr>
-                        <td>무지개 닉네임</td>
-                        <td>1개</td>
-                    </tr>                    
+                    </tr>                                      
                 </table>
             </div>
+            <div>해당 아이템이 소진 될 때까지 계속 시도할 수 있습니다</div>
         </div>
     </div>
 </template>
@@ -44,7 +37,30 @@
         components: {
             Top
         },
-        methods: {            
+        methods: {
+            onBtnFreeGacha() {
+                G.hget('/gacha/freeGacha', data=> {
+                    if( data.ret === 0 ) {
+                        if( data.type === -1 ) {
+                            //  꽝
+                            alert('아쉽게도 꽝입니다! 15초 후에 다시 도전 해주세요');
+                        }
+                        else {
+
+                        }
+                    }
+                    else { 
+                        switch(data.ret) {
+                            case -2:
+                            {
+                                alert('잠시 후에 다시 도전 해주세요');
+                                window.location.href = '/free';
+                            }
+                            break;
+                        }                       
+                    }
+                })
+            }
         },
         beforeCreate() {
 

@@ -133,6 +133,14 @@ Router.get('/freeGacha', (req,res)=> {
     });
 });
 
+Router.get('/freeGachaList', (req,res)=> {
+    DBHelper.call('getFreeGachaListForClient', result=> {
+        if( result.ret === 0 ) {
+            res.send({ret: 0, list: result.rows[0]});
+        }
+    })
+})
+
 
 
 

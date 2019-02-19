@@ -8,7 +8,7 @@
     import G from './global'
     import P from '../common/protocol'
     import $ from 'jquery'   
-    import Top from './components/Top.vue'     
+    import Top from './components/Top.vue'
     import Main from './components/Main.vue'    
 
     export default {

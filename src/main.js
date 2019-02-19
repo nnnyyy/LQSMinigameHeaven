@@ -12,6 +12,7 @@ import axios from 'axios';
 import VueAdsense from './components/VueAdsense.vue'
 import FreeGacha from './components/FreeGacha.vue'
 import Ads300x250 from './components/Ads300x250.vue'
+import Ads728x90 from './components/Ads728x90.vue'
 import MsgBox from './components/MessageBox.vue'
 import VueRouter from 'vue-router'
 
@@ -24,6 +25,7 @@ $(document).ready(function() {
     Vue.component('adsense', VueAdsense);
     Vue.component('msgbox', MsgBox);
     Vue.component('ads300x250', Ads300x250);
+    Vue.component('ads728x90', Ads728x90);
 
     const router = new VueRouter({
         mode: 'history',

@@ -8,7 +8,27 @@ import $ from 'jquery'
 
 class Global {
     constructor() {
-        this.v = new Vue();        
+        this.v = new Vue();     
+        
+        this.GTYPE = {
+            BOX: 0,
+            FONTCOLOR: 1,
+            NICKSHADOW: 2,
+            BLINK: 3,
+            RAINBOWNICK: 4,
+            YELLOWBLINK: 5
+        }
+    }
+
+    getGachaTypeName( gtype ) {
+        switch( gtype ) {
+            case this.GTYPE.BOX: return '포인트';
+            case this.GTYPE.FONTCOLOR: return '폰트 컬러';
+            case this.GTYPE.NICKSHADOW: return '닉네임 효과';
+            case this.GTYPE.BLINK: return '투명 반짝이 효과';
+            case this.GTYPE.RAINBOWNICK: return '무지개 닉네임 효과';
+            case this.GTYPE.YELLOWBLINK: return '노란 반짝이 효과';
+        }
     }
 
     connectSocket() {
@@ -53,7 +73,7 @@ class Global {
         }
 
         return false;
-    }    
+    }
 }
 
 const GlobalObject = new Global();

@@ -11,7 +11,8 @@ const GTYPE = {
     RAINBOWNICK: 4,
     YELLOWBLINK: 5,
     BIGFONT: 6,
-    EARN_GP: 100
+    EARN_GP: 100,
+    EARN_GP_TYPE2: 101
 }
 
 class GachaManager {
@@ -47,7 +48,7 @@ class GachaManager {
     openGachaEx(id, cb, options) {
         this.pm_checkRemainCountEx(id, options)
         .then(this.pm_getItem)     
-        .then(this.pm_earnGP)   
+        .then(this.pm_free_earnGP)   
         .then(this.pm_free_save)
         .then(this.pm_save)
         .then(info=> {
@@ -276,8 +277,10 @@ class GachaManager {
     pm_getItem(info) {        
         return new Promise((res,rej) => {
 
+            //  획득할 아이템 정보 얻기
             info.item = info.gm.getRandItem( info.gtype );
 
+            //  프리 가챠 모드일 땐 다음으로 바로 넘기기
             if( info.isFree ) {
                 res(info);
                 return;
@@ -295,16 +298,24 @@ class GachaManager {
         })
     }
 
-    pm_earnGP(info) {
+    pm_free_earnGP(info) {
         return new Promise((res,rej) => {
             if( !info.isFree ) {
                 res(info);
                 return;
+            }            
+
+            if( info.gtype !== GTYPE.EARN_GP && info.gtype !== GTYPE.EARN_GP_TYPE2 ) {
+                res(info);
+                return;
             }
 
-            DBHelper.call2('incGachaPoint', [info.id, 50], result=> {
+            const earnGP = info.gm.getEarnGP(info.gtype);
+
+            DBHelper.call2('incGachaPoint', [info.id, earnGP], result=> {
                 if( result.ret !== 0 ) {
                     rej({ret: -101});
+                    return;
                 }
 
                 res(info);
@@ -476,6 +487,7 @@ class GachaManager {
                         case GTYPE.RAINBOWNICK:
                         case GTYPE.BIGFONT:
                         case GTYPE.EARN_GP:
+                        case GTYPE.EARN_GP_TYPE2:
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:
@@ -549,6 +561,7 @@ class GachaManager {
             }
 
             case GTYPE.EARN_GP:
+            case GTYPE.EARN_GP_TYPE2:
             {
                 return {
                     name: 'GP 획득',
@@ -572,6 +585,15 @@ class GachaManager {
             case GTYPE.BIGFONT: return 4;            
         }
         return -1;
+    }
+
+    getEarnGP( gtype ) {
+        switch(gtype) {
+            case GTYPE.EARN_GP: return 50;
+            case GTYPE.EARN_GP_TYPE2: return 1000;
+        }
+
+        return 0;
     }
 }
 

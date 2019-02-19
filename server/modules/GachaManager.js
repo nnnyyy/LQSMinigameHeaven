@@ -474,6 +474,7 @@ class GachaManager {
                     switch(aTypes[i].gtype) {                    
                         case GTYPE.YELLOWBLINK:
                         case GTYPE.RAINBOWNICK:
+                        case GTYPE.BIGFONT:
                         case GTYPE.EARN_GP:
                             this.openGachaEx(id, cb, options);
                         break;

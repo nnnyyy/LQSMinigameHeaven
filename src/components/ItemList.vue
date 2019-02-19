@@ -112,7 +112,7 @@
 
     <template v-else>
         <div style="width: 900px; margin: 20px auto;">
-            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span>
+            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span> <span class="myinfoBtn" @click="onBtnFree">무료 가챠 페이지</span>
         </div>
         <div style="border: 0.5px solid gray; margin: 20px auto; width: 900px; height: 1px;"/>
         <table class="tb-list">
@@ -391,7 +391,10 @@
             },
             onBtnMyInfo() {
                 window.location.href = '/myinfo';
-            }
+            },
+            onBtnFree() {
+                window.location.href = '/free';
+            }            
         },
         mounted() {
             G.on(P.Login, this.onLogin);

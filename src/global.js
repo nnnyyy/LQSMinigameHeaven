@@ -16,7 +16,8 @@ class Global {
             NICKSHADOW: 2,
             BLINK: 3,
             RAINBOWNICK: 4,
-            YELLOWBLINK: 5
+            YELLOWBLINK: 5,
+            EARN_GP: 100
         }
     }
 
@@ -28,6 +29,7 @@ class Global {
             case this.GTYPE.BLINK: return '투명 반짝이 효과';
             case this.GTYPE.RAINBOWNICK: return '무지개 닉네임 효과';
             case this.GTYPE.YELLOWBLINK: return '노란 반짝이 효과';
+            case this.GTYPE.EARN_GP: return 'GP 50 획득';
         }
     }
 

@@ -10,7 +10,8 @@ const GTYPE = {
     BLINK: 3,
     RAINBOWNICK: 4,
     YELLOWBLINK: 5,
-    BIGFONT: 6
+    BIGFONT: 6,
+    EARN_GP: 100
 }
 
 class GachaManager {
@@ -45,7 +46,8 @@ class GachaManager {
 
     openGachaEx(id, cb, options) {
         this.pm_checkRemainCountEx(id, options)
-        .then(this.pm_getItem)        
+        .then(this.pm_getItem)     
+        .then(this.pm_earnGP)   
         .then(this.pm_free_save)
         .then(this.pm_save)
         .then(info=> {
@@ -293,6 +295,23 @@ class GachaManager {
         })
     }
 
+    pm_earnGP(info) {
+        return new Promise((res,rej) => {
+            if( !info.isFree ) {
+                res(info);
+                return;
+            }
+
+            DBHelper.call2('incGachaPoint', [info.id, 50], result=> {
+                if( result.ret !== 0 ) {
+                    rej({ret: -101});
+                }
+
+                res(info);
+            });
+        });
+    }
+
     pm_free_save(info) {        
         return new Promise((res,rej)=> {
             if( !info.isFree ) {
@@ -455,6 +474,7 @@ class GachaManager {
                     switch(aTypes[i].gtype) {                    
                         case GTYPE.YELLOWBLINK:
                         case GTYPE.RAINBOWNICK:
+                        case GTYPE.EARN_GP:
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:
@@ -525,6 +545,14 @@ class GachaManager {
             case GTYPE.BIGFONT:
             {
                 return this.getBigFontGacha();                
+            }
+
+            case GTYPE.EARN_GP:
+            {
+                return {
+                    name: 'GP 획득',
+                    desc: ''
+                } 
             }
         }
 

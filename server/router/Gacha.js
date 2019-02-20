@@ -141,7 +141,13 @@ Router.get('/freeGachaList', (req,res)=> {
     })
 })
 
-
+Router.get('/freeGachaLogRecent', (req,res)=> {
+    DBHelper.call('getFreeGachaLogRecent', result=> {
+        if( result.ret === 0 ) {
+            res.send({ret: 0, list: result.rows[0]});
+        }        
+    });
+})
 
 
 module.exports = Router;

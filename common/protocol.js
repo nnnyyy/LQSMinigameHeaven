@@ -20,7 +20,8 @@ const VueBus = {
         OpenGachaBlink: "/gacha/blinkopen",
         OpenGachaRand: "/gacha/randopen",
         MyInfo: "/auth/myinfo",
-        SellItem: "/gacha/sellitem"
+        SellItem: "/gacha/sellitem",
+        GetFreeGachaLogRecent: "/gacha/freeGachaLogRecent"
     }
 };
 

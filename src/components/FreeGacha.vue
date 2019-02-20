@@ -30,11 +30,24 @@
                 </table>
             </div>
             <div style="margin-top: 30px;margin-bottom: 30px;">해당 아이템이 소진 될 때까지 계속 시도할 수 있습니다</div>
-            <div>
+            <div style="margin:20px;">
                 <ads728x90
                         unitId="DAN-1k25krkvdtr8z"
                     />                
             </div>
+            <span style="font-size: 24px;">최근 당첨자 목록</span>
+            <table class="tb-remain-item" style="margin-bottom: 30px;">
+                <tr>
+                    <th>닉네임</th>
+                    <th>날짜</th>
+                </tr>         
+                <template v-for="item in freeGachaLogRecent">
+                    <tr>
+                        <td>{{item.nick}}</td>
+                        <td>{{getDate(item.regdate)}}</td>
+                    </tr>         
+                </template>                             
+            </table>
         </div>
     </div>
 </template>
@@ -49,6 +62,7 @@
         data() {
             return {  
                 freeGachaList: [],
+                freeGachaLogRecent: [],
                 isRemainItem: false           
             }
         },
@@ -94,12 +108,24 @@
                         this.freeGachaList = data.list;
                     }
                 });
+            },
+            getFreeGachaLog() {
+                G.hget(P.http.GetFreeGachaLogRecent, data=> {
+                    if( data.ret === 0 ) {
+                        this.freeGachaLogRecent = data.list;
+                    }
+                })
+            },
+            getDate(dateStr) {
+                const newStr = new Date(dateStr).toLocaleString();                
+                return newStr;
             }
         },
         beforeCreate() {            
         },
         mounted() {
             this.getFreeGachaList();
+            this.getFreeGachaLog();
         }
     }
 </script>

@@ -246,7 +246,26 @@ class GachaManager {
 
         return new Promise((res,rej)=> {
             if( info.isFree ) {
-                res(info);
+                DBHelper.call2('getLastGetFreeGachaTime', [info.id], result=> {
+                    if( result.ret !== 0 ) {
+                        rej({ret: -101});
+                        return;
+                    }
+
+                    const _data = result.rows[0][0];
+                    if( !_data ) res(info);
+                    else {
+                        const d = new Date( new Date(_data.regdate).toLocaleString() );
+                        const tCur = new Date();
+                        const dtMin = ( tCur - d ) / 1000 / 60;
+                        if( dtMin >= 10 ) {
+                            res(info);
+                        }
+                        else {
+                            rej({ret: -5});
+                        }
+                    }                    
+                });                
                 return;
             }
 

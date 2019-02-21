@@ -36,14 +36,16 @@
                     />                
             </div>
             <span style="font-size: 24px;">최근 당첨자 목록</span>
-            <table class="tb-remain-item" style="margin-bottom: 30px;">
+            <table class="tb-earn-item" style="margin-bottom: 30px;">
                 <tr>
                     <th>닉네임</th>
+                    <th>상품명</th>
                     <th>날짜</th>
                 </tr>         
                 <template v-for="item in freeGachaLogRecent">
                     <tr>
                         <td>{{item.nick}}</td>
+                        <td>{{getName(item.gtype)}}</td>
                         <td>{{getDate(item.regdate)}}</td>
                     </tr>         
                 </template>                             
@@ -80,6 +82,7 @@
                         else {
                             alert('축하합니다!! 당첨 되었습니다!!! 인벤토리를 확인 해보세요~');
                             this.getFreeGachaList();
+                            this.getFreeGachaLog();
                         }
                     }
                     else { 
@@ -87,6 +90,13 @@
                             case -2:
                             {
                                 alert('잠시 후에 다시 도전 해주세요');
+                                window.location.href = '/free';
+                            }
+                            break;
+
+                            case -5: 
+                            {
+                                alert('당첨 된 이력이 10분 이내에 존재합니다. 10분이 지난 후에 도전 해주세요');
                                 window.location.href = '/free';
                             }
                             break;
@@ -117,9 +127,10 @@
                 })
             },
             getDate(dateStr) {
-                const newStr = new Date(dateStr).toLocaleString();                
+                const newStr = new Date(dateStr).toLocaleString();
                 return newStr;
-            }
+            },
+            getName(idx) { return G.getGachaTypeName(idx); }
         },
         beforeCreate() {            
         },
@@ -131,51 +142,21 @@
 </script>
 
 <style scoped>
-table {
-    border-collapse: collapse;
-}
-.conetent {
-    width: 1000px;
-    margin: 0 auto;   
-    text-align: center; 
-}
+table           {    border-collapse: collapse;}
+.conetent       {    width: 1000px;    margin: 0 auto;       text-align: center; }
+.btnFreeGacha   {    width: 100%;    height: 80px;    font-size: 35px;}
+.remainItem     {    margin-top: 24px;}
+.tb-remain-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
+.tb-remain-item th,td {    text-align: center;    width: 50%;    height: 60px;}
+.tb-remain-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+.tb-remain-item td {    border-bottom: 1px solid gray;    }
+.tb-remain-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
 
-.btnFreeGacha {
-    width: 100%;
-    height: 80px;
-    font-size: 35px;
-}
-
-.remainItem {
-    margin-top: 24px;
-}
-
-.tb-remain-item {
-    margin: 0 auto; width: 800px;
-    margin-top: 24px;
-}
-
-.tb-remain-item th,td {
-    text-align: center;
-    width: 50%;
-    height: 60px;
-}
-
-.tb-remain-item th {
-    background-color: #5b5454;
-    color: white;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-}
-
-.tb-remain-item td {
-    border-bottom: 1px solid gray;    
-}
-
-.tb-remain-item td:first-child, th:first-child {
-    border-right: 1px solid gray;    
-}
-
+.tb-earn-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
+.tb-earn-item th,td {    text-align: center;    width: 33%;    height: 45px;}
+.tb-earn-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+.tb-earn-item td {    border-bottom: 1px solid gray;    }
+.tb-earn-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
 @media screen and (max-width: 500px) {
     
 }

@@ -11,8 +11,10 @@ const GTYPE = {
     RAINBOWNICK: 4,
     YELLOWBLINK: 5,
     BIGFONT: 6,
+    RAINBOWBLINK:7,
     EARN_GP: 100,
-    EARN_GP_TYPE2: 101
+    EARN_GP_TYPE2: 101,
+    FONT_FAMILY: 200
 }
 
 class GachaManager {
@@ -157,6 +159,10 @@ class GachaManager {
         });
     }
 
+    buyGungSeo(id, cb) {
+        this.openGachaEx(id, cb, {type: GTYPE.FONT_FAMILY, desc: 'GungsuhChe'});
+    }
+
     pm_getRemainCount(id) {
         let info = { ret: 0, id: id }
         return new Promise((res,rej)=> {
@@ -242,6 +248,7 @@ class GachaManager {
         const fixedGP = options.fixedGP;
         const isFree = options.isFree ? true : false;
         let info = { ret: 0, id: id, gm: this, gtype: gtype, pt: 1, isFree: isFree }
+        if( options.desc ) info.desc = options.desc;
         info.pt = fixedGP > 0 ? fixedGP : this.getRemainGP( gtype );        
 
         return new Promise((res,rej)=> {
@@ -298,6 +305,9 @@ class GachaManager {
 
             //  획득할 아이템 정보 얻기
             info.item = info.gm.getRandItem( info.gtype );
+            if( info.desc ) {
+                info.item.desc = info.desc;
+            }
 
             //  프리 가챠 모드일 땐 다음으로 바로 넘기기
             if( info.isFree ) {
@@ -546,6 +556,11 @@ class GachaManager {
             {
                 return 2000;
             }
+
+            case GTYPE.FONT_FAMILY:
+            {
+                return 2000;
+            }
         }
 
         return 999999;
@@ -587,6 +602,14 @@ class GachaManager {
                     desc: ''
                 } 
             }
+
+            case GTYPE.FONT_FAMILY:
+            {
+                return {
+                    name: '서체 획득',
+                    desc: ''
+                }
+            }
         }
 
         return null;
@@ -601,7 +624,9 @@ class GachaManager {
             case GTYPE.NICKSHADOW: return 2;
 
             case GTYPE.BLINK: return 3;
-            case GTYPE.BIGFONT: return 4;            
+            case GTYPE.BIGFONT: return 4;      
+            
+            case GTYPE.FONT_FAMILY: return 5;
         }
         return -1;
     }

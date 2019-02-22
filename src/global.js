@@ -11,12 +11,15 @@ class Global {
         this.v = new Vue();     
         
         this.GTYPE = {
+            FAILED: -1,
             BOX: 0,
             FONTCOLOR: 1,
             NICKSHADOW: 2,
             BLINK: 3,
             RAINBOWNICK: 4,
             YELLOWBLINK: 5,
+            BIGFONT: 6,
+            RAINBOWBLINK:7,
             EARN_GP: 100,
             EARN_GP_TYPE2: 101
         }

@@ -17,6 +17,7 @@ const VueBus = {
         Logout:"/auth/logout",
         OpenGachaFontColor: "/gacha/fontcoloropen",
         OpenGachaNickShadow: "/gacha/nickshadowopen",
+        OpenGachaGungseo: "/gacha/gungseo",
         OpenGachaBlink: "/gacha/blinkopen",
         OpenGachaRand: "/gacha/randopen",
         MyInfo: "/auth/myinfo",

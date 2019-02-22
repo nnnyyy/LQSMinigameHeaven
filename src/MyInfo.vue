@@ -53,7 +53,7 @@
             },
             getItemTypeName(item) {
                 if( item.effectid == 1 ) {
-                    if( item.effectdesc == '@yellowblink' ) return '채팅 특수 효과';
+                    if( item.effectdesc == '@yellowblink' || item.effectdesc == '@rainbowblink' ) return '채팅 특수 효과';
                     return '채팅 색상';
                 }
                 else if( item.effectid == 2 ) {
@@ -65,6 +65,9 @@
                 }
                 else if( item.effectid == 4 ) {
                     return '빅 폰트 효과';
+                }
+                else if( item.effectid == 5 ) {                    
+                    return '서체';
                 }
             } ,
             getItemStyle(item) {
@@ -81,6 +84,11 @@
             }   ,
             getItemDesc(item) {
                 if( item.effectid == 3 ) return '-';
+                if( item.effectid == 5 ) {
+                    if( item.effectdesc === 'GungsuhChe' ) {
+                        return '궁서체(진지)';
+                    }
+                }
                 return item.effectdesc;
             } ,
             onSellItem(item) {

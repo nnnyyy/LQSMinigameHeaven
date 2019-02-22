@@ -111,6 +111,14 @@
     <!-- PC 버젼 시작 -->
 
     <template v-else>
+        <div style="width: 970px; margin: 0 auto;">
+            <adsense
+                adClient="ca-pub-3598320494828213"
+                adSlot="9714459258"
+                adStyle="display:inline-block;width:970px;height:250px;"                        
+                fullWidthResponsive="false"
+            />
+        </div>        
         <div style="width: 900px; margin: 20px auto;">
             현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 24px;">{{ currentGP }}</span> GP <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span> <span class="myinfoBtn" @click="onBtnFree">무료 가챠 페이지</span>
         </div>
@@ -239,6 +247,30 @@
             </tr>
         </table>              
         <div style="border: 0.5px solid gray; margin: 20px auto; width: 900px; height: 1px;"/>
+
+        <table class="tb-list">
+            <tr>
+                <td>
+                    <div class="item">
+                        <table class="tb-item">
+                            <tr>
+                                <td>
+                                    <div style="height: 40px; font-family: '궁서'" class="item-title">궁서체 구입 ( 2000GP )</div>
+                                    <div style="height: 40px; font-size: 13px; font-family: '궁서'">진지한 폰트입니다. ( 2월말까지 )</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="item-btn">
+                        <button class="btn-buy-item" @click="onBuyGungseo()">구입하기</button>
+                    </div>
+                </td>
+                <td>                    
+                </td>
+                <td>                    
+                </td>                                        
+            </tr>
+        </table>          
     </template>
 </div>
 </template>
@@ -389,6 +421,28 @@
                     }
                 })
             },
+            onBuyGungseo() {
+                if( !this.isAbleProc() ) {
+                    alert('아직 처리 중인 명령이 있습니다');
+                    return;
+                }
+
+                this.isProc = true;
+
+                G.hget(P.http.OpenGachaGungseo, data=> {
+                    if( data.ret === 0 ) {
+                        G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
+
+                        const msg = `궁서체를 획득 했습니다. 저는 진지합니다.`;
+                        G.emit(P.SetResultMsg, msg);
+
+                        this.isProc = false;
+                    }
+                    else {
+                        alert('알 수 없는 오류');
+                    }                    
+                })
+            },
             onBtnMyInfo() {
                 window.location.href = '/myinfo';
             },
@@ -405,132 +459,33 @@
 
 <style scoped>
 @media screen and (max-width: 500px) {
-    .tb-list {
-        width: 95%;        
-        margin: 0 auto;
-    }
-
-    .tb-list td {
-        text-align: center;
-    }
-
-    .tb-list .item-btn {
-        height: 50px;
-    }
-
-    .line {
-        border-bottom: 1px solid black;
-    }
-
-    .tb-prob {
-        width: 95%;
-        font-size: 13px;
-    }
-
-    .item-title {
-        height: 36px;
-        font-size: 20px;
-        text-shadow: 1px 1px 1px #f40000;
-    }
-
-    .btn-buy-item {
-        width: 100%;
-        height: 100%;
-        border: none;  
-        font-size: 17px;
-    }
+    .tb-list {        width: 95%;                margin: 0 auto;    }
+    .tb-list td {        text-align: center;    }
+    .tb-list .item-btn {        height: 50px;    }
+    .line {        border-bottom: 1px solid black;    }
+    .tb-prob {        width: 95%;        font-size: 13px;    }
+    .item-title {        height: 36px;        font-size: 20px;        text-shadow: 1px 1px 1px #f40000;    }
+    .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;    }
 }
 
 @media screen and (min-width: 501px) {    
-
-    .tb-list {        
-        width: auto;
-        height: 250px;
-        margin: 20px auto;
-        border-collapse: collapse;
-    }
-
-    .tb-list td {
-        width: 300px;
-        height: 250px;
-        text-align: center;
-        border-left: gray 3px dotted;
-        border-right: gray 3px dotted;
-    }
-
-    .tb-list .item {
-        width: 100%;
-        height: 200px;
-        background-color: red;
-    }
-
-    .tb-list .item-btn {
-        height: 50px;
-    }
-
-    .tb-item {
-        width: 100%;
-        height: 100%;
-    }
-
-    .tb-item td {
-        border: none;
-    }
-
-    .item-title {
-        font-size: 18px;
-    }
-
-    .btn-buy-item {
-        width: 100%;
-        height: 100%;
-        border: none;  
-        font-size: 17px;      
-        cursor: pointer;
-    }
-
-    .btn-buy-item:hover {
-        animation-duration: 0.3s;
-        animation-name: btnEffect;   
-        animation-fill-mode: forwards;   
-    }
-
+    .tb-list {                width: auto;        height: 250px;        margin: 20px auto;        border-collapse: collapse;    }
+    .tb-list td {        width: 300px;        height: 250px;        text-align: center;        border-left: gray 3px dotted;        border-right: gray 3px dotted;    }
+    .tb-list .item {        width: 100%;        height: 200px;        background-color: red;    }
+    .tb-list .item-btn {        height: 50px;    }
+    .tb-item {        width: 100%;       height: 100%;    }
+    .tb-item td {        border: none;    }
+    .item-title {        font-size: 18px;    }
+    .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;              cursor: pointer;    }
+    .btn-buy-item:hover {        animation-duration: 0.3s;        animation-name: btnEffect;           animation-fill-mode: forwards;       }
     @keyframes btnEffect {
-        from {
-            color: #000000;
-            font-size: 17px;
-        }   
-
-        to {
-            color: #f40000;
-            font-size: 25px;   
-            font-weight: bolder;            
-        }     
+        from {            color: #000000;            font-size: 17px;        }   
+        to {            color: #f40000;            font-size: 25px;               font-weight: bolder;                    }     
     }
 
-    .tb-prob {
-        height: 80%;
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .tb-prob td {
-        height: auto;
-        font-size: 13px;
-        text-align: center;
-    }
-
-    .tb-prob td:first-child {
-        width: 80%;
-    }
-
-    .myinfoBtn {
-        background-color: #6d6d6d;
-        padding: 6px;
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
-        color: white;
-        cursor: pointer;
-    }
+    .tb-prob {        height: 80%;        width: 80%;        margin: 0 auto;    }
+    .tb-prob td {        height: auto;        font-size: 13px;        text-align: center;    }
+    .tb-prob td:first-child {        width: 80%;    }
+    .myinfoBtn {        background-color: #6d6d6d;        padding: 6px;        border-bottom: 2px solid black;        border-right: 2px solid black;        color: white;        cursor: pointer;    }
 }
 </style>

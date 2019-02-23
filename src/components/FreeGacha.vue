@@ -94,6 +94,13 @@
                             }
                             break;
 
+                            case -3:
+                            {
+                                alert('순위에 밀려 아이템 획득에 실패 했습니다.');
+                                window.location.href = '/free';
+                            }
+                            break;
+
                             case -5: 
                             {
                                 alert('당첨 된 이력이 10분 이내에 존재합니다. 10분이 지난 후에 도전 해주세요');

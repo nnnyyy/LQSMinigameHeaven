@@ -108,6 +108,33 @@ class DBHelper {
         }        
     }
 
+    call3( procname, params, cb) {
+        try {            
+            let paramQ = '';
+            for( let i = 0 ; i < params.length ; ++i ) {
+                paramQ += '?';
+                if( i + 1 < params.length) {
+                    paramQ +=',';
+                }
+            }
+            this.sql.query("CALL " + procname + "(" + paramQ + ", @ret); SELECT @ret", params, function(err, rows) {
+                 if(err) {
+                    console.log('error : ' + err);
+                    if( cb ) cb({ret: -99});
+                    return;
+                }
+
+                const retVal = rows[rows.length - 1][0];
+    
+                if( cb ) {
+                    cb({ret: 0, rows: rows, retVal: retVal});
+                }
+            });            
+        }catch(err) {
+            if( cb ) cb({ret: -1});            
+        }        
+    }
+
     getGachaPoint( id, cb ) {
         this.sql.query("CALL getGachaPoint(?, @gp, @sgp); SELECT @gp, @sgp", [id], (err, rows)=> {
             if( err ) {

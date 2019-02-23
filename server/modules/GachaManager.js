@@ -49,8 +49,7 @@ class GachaManager {
 
     openGachaEx(id, cb, options) {
         this.pm_checkRemainCountEx(id, options)
-        .then(this.pm_getItem)     
-        .then(this.pm_free_earnGP)   
+        .then(this.pm_getItem)          
         .then(this.pm_free_save)
         .then(this.pm_save)
         .then(info=> {
@@ -360,12 +359,16 @@ class GachaManager {
             }
 
             const effectid = info.gm.getEffectId( info.gtype );
-            DBHelper.call2('insertFreeGacha', [info.id, info.gtype, effectid, info.item.desc], result=> {
+            DBHelper.call3('insertFreeGacha', [info.id, info.gtype, effectid, info.item.desc], result=> {
                 if( result.ret !== 0 ) {
                     info.ret = -101;
                     rej(info);
                     return;
                 }
+
+                if( result.retVal['@ret'] == -2 ) {
+                    info.ret = -3;
+                }                
 
                 res(info);
             })
@@ -508,7 +511,7 @@ class GachaManager {
             
             for( let i = 0 ; i < aTypes.length ; ++i) {
                 const r = this.getRandomInt(0, sumProb);
-                 if( r < aTypes[i].rate ) {
+                 if( r <= aTypes[i].rate ) {
                     //  당첨
                     const options = {isFree: true, type: aTypes[i].gtype};
                     switch(aTypes[i].gtype) {                    

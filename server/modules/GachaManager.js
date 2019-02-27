@@ -476,7 +476,15 @@ class GachaManager {
         return hex;
     }
 
-    getFreeGacha(id, cb) {
+    getFreeGacha(id, cb) {        
+        const tCur = new Date();
+        const tJamliveStart = new Date(tCur.getFullYear(), tCur.getMonth(), tCur.getDate(), 20, 50, 0 );
+        const tJamliveEnd = new Date(tCur.getFullYear(), tCur.getMonth(), tCur.getDate(), 21, 20, 0 );
+
+        if( tCur - tJamliveStart > 0 && tCur - tJamliveEnd < 0 ) {
+            cb({ret: -200});
+            return;
+        }
 
         DBHelper.call('getFreeGachaList', result=> {
             if( result.ret !== 0 ) {
@@ -485,8 +493,7 @@ class GachaManager {
             }
 
             let aTypes = result.rows[0];            
-
-            const tCur = new Date();
+            
             if( !this.mFreeGacha.get(id) ) {
                 this.mFreeGacha.set(id, {tLastGacha: 0});
             }

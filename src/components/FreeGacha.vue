@@ -107,6 +107,12 @@
                                 window.location.href = '/free';
                             }
                             break;
+                            case -200: 
+                            {
+                                alert('20:50 ~ 21:20은 잼라이브 퀴즈 집중 시간대입니다. 그 이후에 도전 해주세요.');
+                                window.location.href = '/free';
+                            }
+                            break;
                         }                       
                     }
                 })

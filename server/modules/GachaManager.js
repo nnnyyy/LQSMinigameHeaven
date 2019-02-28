@@ -99,13 +99,14 @@ class GachaManager {
     openRand(id, cb) {
         const fixedGP = 15;
         const aTypes = [
-            {type: GTYPE.BLINK, rate: 20},
-            {type: GTYPE.NICKSHADOW, rate: 60},
-            {type: GTYPE.FONTCOLOR, rate: 120},
-            {type: GTYPE.BOX, rate: 800},
-            {type: GTYPE.RAINBOWNICK, rate: 1},
-            {type: GTYPE.YELLOWBLINK, rate: 1},
-            {type: GTYPE.BIGFONT, rate: 2}
+            {type: GTYPE.BLINK, rate: 40},
+            {type: GTYPE.NICKSHADOW, rate: 120},
+            {type: GTYPE.FONTCOLOR, rate: 240},
+            {type: GTYPE.BOX, rate: 1600},
+            {type: GTYPE.RAINBOWNICK, rate: 2},
+            {type: GTYPE.YELLOWBLINK, rate: 2},
+            {type: GTYPE.BIGFONT, rate: 4},
+            {type: GTYPE.FONT_FAMILY, rate: 1}
         ];
 
         let sumProb = 0;
@@ -138,6 +139,9 @@ class GachaManager {
                     break;
                     case GTYPE.BIGFONT:
                         this.openBigFontGacha(id, cb, fixedGP);
+                    break;
+                    case GTYPE.FONT_FAMILY:
+                    this.openGachaEx(id, cb, {type: GTYPE.FONT_FAMILY, desc: 'Goyang', fixedGP: fixedGP });
                     break;
                 }
                 break;

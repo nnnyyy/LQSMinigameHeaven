@@ -51,6 +51,10 @@
                             <td>노랑 빤짝이 채팅 효과</td>
                             <td>0.1%</td>
                         </tr>
+                        <tr>
+                            <td>고양이 서체</td>
+                            <td>0.05%</td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -131,7 +135,7 @@
                             <tr>
                                 <td>
                                     <div style="height: 40px;" class="item-title">아무거나 랜덤( 15GP )</div>
-                                    <div style="height: 160px;">
+                                    <div style="height: 180px;">
                                         <table class="tb-prob">
                                             <tr>
                                                 <td>포인트 얻기</td>
@@ -160,6 +164,10 @@
                                             <tr>
                                                 <td>노랑 빤짝이 채팅 효과</td>
                                                 <td>0.1%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>고양이 서체</td>
+                                                <td>0.05%</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -323,7 +331,8 @@
                     BLINK: 3,
                     RAINBOWNICK: 4,
                     YELLOWBLINK: 5,
-                    BIGFONT: 6
+                    BIGFONT: 6,
+                    FONT_FAMILY: 200
                 }
 
                 if( this.cnt < 15 ) {
@@ -345,6 +354,7 @@
                             case GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
                             case GTYPE.YELLOWBLINK: msg='@#@#@#@# !!노랑 빤짝이 효과 획득!! #@#@#@#@'; break;
                             case GTYPE.BIGFONT: msg='@#@#@#@# !!빅 폰트 효과 획득!! #@#@#@#@'; break;
+                            case GTYPE.FONT_FAMILY: msg=`@#@#@#@# ${data.item.desc} 서체 획득!!!! #@#@#@#@`; break;
                         }
                         
                         G.emit(P.SetResultMsg, msg);

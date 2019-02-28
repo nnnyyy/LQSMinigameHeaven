@@ -439,7 +439,12 @@
                         this.isProc = false;
                     }
                     else {
-                        alert('알 수 없는 오류');
+                        if( data.ret === -100 ) {
+                            alert('판매가 일시적으로 중단되었습니다');
+                        }
+                        else {
+                            alert('알 수 없는 오류');
+                        }                        
                     }                    
                 })
             },

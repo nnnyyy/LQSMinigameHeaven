@@ -159,6 +159,7 @@ class GachaManager {
     }
 
     buyGungSeo(id, cb) {
+        cb({ret: -100});
         this.openGachaEx(id, cb, {type: GTYPE.FONT_FAMILY, desc: 'GungsuhChe'});
     }
 

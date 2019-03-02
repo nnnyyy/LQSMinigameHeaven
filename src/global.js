@@ -22,7 +22,8 @@ class Global {
             RAINBOWBLINK:7,
             EARN_GP: 100,
             EARN_GP_TYPE2: 101,
-            FONT_FAMILY: 200
+            FONT_FAMILY: 200,
+            OX_BIG: 300
         }
     }
 
@@ -37,6 +38,7 @@ class Global {
             case this.GTYPE.EARN_GP: return 'GP 50 획득';
             case this.GTYPE.EARN_GP_TYPE2: return 'GP 1000 획득';
             case this.GTYPE.FONT_FAMILY: return '글씨체';
+            case this.GTYPE.OX_BIG: return 'OX 아이콘 거대화';
         }
     }
 

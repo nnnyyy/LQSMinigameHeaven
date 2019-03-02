@@ -23,7 +23,7 @@
                     </tr>         
                     <template v-for="item in freeGachaList">
                         <tr v-show="item.gtype !== -1">
-                            <td>{{getTypeName(item.gtype)}}</td>
+                            <td>{{getTypeName(item)}}</td>
                             <td>{{item.remain}}</td>
                         </tr>         
                     </template>                             
@@ -117,8 +117,12 @@
                     }
                 })
             },
-            getTypeName(gtype) {
-                return G.getGachaTypeName(gtype);
+            getTypeName(item) {
+                let msg = G.getGachaTypeName(item.gtype);
+                if( item.description ) {
+                    msg += `( ${item.description} )`;
+                }
+                return msg;
             },
             getFreeGachaList() {
                 G.hget('/gacha/freeGachaList', data=> {

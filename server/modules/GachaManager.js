@@ -526,13 +526,14 @@ class GachaManager {
                 const r = this.getRandomInt(0, sumProb);
                  if( r <= aTypes[i].rate ) {
                     //  당첨
-                    const options = {isFree: true, type: aTypes[i].gtype};
+                    const options = {isFree: true, type: aTypes[i].gtype, desc: aTypes[i].description};
                     switch(aTypes[i].gtype) {                    
                         case GTYPE.YELLOWBLINK:
                         case GTYPE.RAINBOWNICK:
                         case GTYPE.BIGFONT:
                         case GTYPE.EARN_GP:
                         case GTYPE.EARN_GP_TYPE2:
+                        case GTYPE.FONT_FAMILY:
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:

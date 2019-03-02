@@ -21,7 +21,8 @@ class Global {
             BIGFONT: 6,
             RAINBOWBLINK:7,
             EARN_GP: 100,
-            EARN_GP_TYPE2: 101
+            EARN_GP_TYPE2: 101,
+            FONT_FAMILY: 200
         }
     }
 
@@ -35,6 +36,7 @@ class Global {
             case this.GTYPE.YELLOWBLINK: return '노란 반짝이 효과';
             case this.GTYPE.EARN_GP: return 'GP 50 획득';
             case this.GTYPE.EARN_GP_TYPE2: return 'GP 1000 획득';
+            case this.GTYPE.FONT_FAMILY: return '글씨체';
         }
     }
 

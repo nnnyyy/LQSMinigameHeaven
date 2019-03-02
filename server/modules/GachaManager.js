@@ -14,7 +14,8 @@ const GTYPE = {
     RAINBOWBLINK:7,
     EARN_GP: 100,
     EARN_GP_TYPE2: 101,
-    FONT_FAMILY: 200
+    FONT_FAMILY: 200,
+    OX_BIG: 300
 }
 
 class GachaManager {
@@ -534,6 +535,7 @@ class GachaManager {
                         case GTYPE.EARN_GP:
                         case GTYPE.EARN_GP_TYPE2:
                         case GTYPE.FONT_FAMILY:
+                        case GTYPE.OX_BIG:
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:
@@ -627,6 +629,14 @@ class GachaManager {
                     desc: ''
                 }
             }
+
+            case GTYPE.OX_BIG:
+            {
+                return {
+                    name: 'ox 아이콘 거대화',
+                    desc: 'big'
+                }
+            }
         }
 
         return null;
@@ -644,6 +654,7 @@ class GachaManager {
             case GTYPE.BIGFONT: return 4;      
             
             case GTYPE.FONT_FAMILY: return 5;
+            case GTYPE.OX_BIG: return 6;
         }
         return -1;
     }

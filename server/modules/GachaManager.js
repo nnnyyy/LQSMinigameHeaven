@@ -208,6 +208,7 @@ class GachaManager {
 
             case GTYPE.RAINBOWNICK:
             case GTYPE.YELLOWBLINK:
+            case GTYPE.RAINBOWBLINK:
             case GTYPE.BIGFONT:
             {
                 info.pt = 2000;
@@ -545,6 +546,7 @@ class GachaManager {
                     const options = {isFree: true, type: aTypes[i].gtype, desc: aTypes[i].description};
                     switch(aTypes[i].gtype) {                    
                         case GTYPE.YELLOWBLINK:
+                        case GTYPE.RAINBOWBLINK:
                         case GTYPE.RAINBOWNICK:
                         case GTYPE.BIGFONT:
                         case GTYPE.EARN_GP:
@@ -624,6 +626,14 @@ class GachaManager {
                 return this.getYellowBlinkChatGacha();                
             }
 
+            case GTYPE.RAINBOWBLINK:
+            {
+                return {
+                    name: '채팅 무지개 반짝이',
+                    desc: '@rainbowblink'
+                }  
+            }
+
             case GTYPE.BIGFONT:
             {
                 return this.getBigFontGacha();                
@@ -661,7 +671,8 @@ class GachaManager {
     getEffectId( gtype ) {
         switch(gtype) {
             case GTYPE.FONTCOLOR: return 1;            
-            case GTYPE.YELLOWBLINK: return 1;            
+            case GTYPE.YELLOWBLINK: return 1;
+            case GTYPE.RAINBOWBLINK: return 1;
 
             case GTYPE.RAINBOWNICK: return 2;
             case GTYPE.NICKSHADOW: return 2;

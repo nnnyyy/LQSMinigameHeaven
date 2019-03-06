@@ -35,6 +35,7 @@ class Global {
             case this.GTYPE.BLINK: return '투명 반짝이 효과';
             case this.GTYPE.RAINBOWNICK: return '무지개 닉네임 효과';
             case this.GTYPE.YELLOWBLINK: return '노란 반짝이 효과';
+            case this.GTYPE.RAINBOWBLINK: return '무지개 반짝이 효과';
             case this.GTYPE.EARN_GP: return 'GP 50 획득';
             case this.GTYPE.EARN_GP_TYPE2: return 'GP 1000 획득';
             case this.GTYPE.FONT_FAMILY: return '글씨체';

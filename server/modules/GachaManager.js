@@ -272,6 +272,8 @@ class GachaManager {
                         const tCur = new Date();
                         const dtMin = ( tCur - d ) / 1000 / 60;
                         if( dtMin >= 10 ) {
+                            options.freeGachaItem.tLastWin = tCur;
+                            options.freeGachaItem.winCnt++;
                             res(info);
                         }
                         else {
@@ -518,7 +520,7 @@ class GachaManager {
             
             if( item.winCnt >= 2 ) {
                 if( tCur - item.tLastWin < 3 * 60 * 60 * 1000 ) {
-                    if( cb ) cb({ret: -3});
+                    if( cb ) cb({ret: -4});
                     return;
                 }                
                 else {
@@ -547,9 +549,7 @@ class GachaManager {
                         case GTYPE.EARN_GP_TYPE2:
                         case GTYPE.FONT_FAMILY:
                         case GTYPE.OX_BIG:
-                            item.tLastWin = new Date();
-                            item.winCnt++;
-
+                            options.freeGachaItem = item;
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:

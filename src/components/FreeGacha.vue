@@ -97,6 +97,15 @@
                             case -3:
                             {
                                 alert('순위에 밀려 아이템 획득에 실패 했습니다.');
+
+                                window.location.href = '/free';
+                            }
+                            break;
+
+                            case -4:
+                            {
+                                alert('3시간 이내에 2회의 당첨 이력이 있습니다. 나중에 다시 시도 해주세요.');
+
                                 window.location.href = '/free';
                             }
                             break;

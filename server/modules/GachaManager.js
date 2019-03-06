@@ -502,19 +502,30 @@ class GachaManager {
             let aTypes = result.rows[0];            
             
             if( !this.mFreeGacha.get(id) ) {
-                this.mFreeGacha.set(id, {tLastGacha: 0});
+                this.mFreeGacha.set(id, {tLastGacha: 0, tLastWin: 0, winCnt: 0});
             }
 
-            const item = this.mFreeGacha.get(id);
+            let item = this.mFreeGacha.get(id);
             if( !item ) {
                 if( cb ) cb({ret: -99});
                 return;
-            }
+            }                        
 
             if( tCur - item.tLastGacha < 1 * 15 * 1000 ) {
                 if( cb ) cb({ret: -2});
                 return;
-            } 
+            }
+            
+            if( item.winCnt >= 2 ) {
+                if( tCur - item.tLastWin < 3 * 60 * 60 * 1000 ) {
+                    if( cb ) cb({ret: -3});
+                    return;
+                }                
+                else {
+                    item.winCnt = 0;
+                    item.tLastWin = 0;
+                }                
+            }            
 
             item.tLastGacha = tCur;
             
@@ -536,6 +547,9 @@ class GachaManager {
                         case GTYPE.EARN_GP_TYPE2:
                         case GTYPE.FONT_FAMILY:
                         case GTYPE.OX_BIG:
+                            item.tLastWin = new Date();
+                            item.winCnt++;
+
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:

@@ -517,11 +517,10 @@ class GachaManager {
             if( tCur - item.tLastGacha < 1 * 15 * 1000 ) {
                 if( cb ) cb({ret: -2});
                 return;
-            }
+            }            
             
-            /*
             if( item.winCnt >= 2 ) {
-                if( tCur - item.tLastWin < 3 * 60 * 60 * 1000 ) {
+                if( tCur - item.tLastWin < 1 * 60 * 60 * 1000 ) {
                     if( cb ) cb({ret: -4});
                     return;
                 }                
@@ -529,8 +528,7 @@ class GachaManager {
                     item.winCnt = 0;
                     item.tLastWin = 0;
                 }                
-            } 
-            */           
+            }
 
             item.tLastGacha = tCur;
             

@@ -50,6 +50,7 @@ class Global {
     }
 
     initSocketListener() {
+        this.socket.on(P.SOCK.GachaRealtimeLog, packet => this.onRoutePacket( P.SOCK.GachaRealtimeLog, packet ) );
     }
 
     on( protocol, cb ) {
@@ -74,7 +75,7 @@ class Global {
         this.socket.emit(protocol, packetData);
     }
 
-    routePacket( protocol, packet ) {
+    onRoutePacket( protocol, packet ) {
         this.v.$bus.$emit(protocol, packet);
     }
 

@@ -51,14 +51,12 @@
                 </template>                             
             </table>
         </div>
+        <FreeGachaRealtimeLog/>
     </div>
 </template>
 <script>
-    import G from '../global'
-    import P from '../../common/protocol'
-    import $ from 'jquery'
-
     import Top from './Top.vue'
+    import FreeGachaRealtimeLog from './FreeGachaRealtimeLog.vue'
 
     export default {
         data() {
@@ -69,11 +67,12 @@
             }
         },
         components: {
-            Top
+            Top,
+            FreeGachaRealtimeLog
         },
         methods: {
             onBtnFreeGacha() {
-                G.hget('/gacha/freeGacha', data=> {
+                this.$G.hget('/gacha/freeGacha', data=> {
                     if( data.ret === 0 ) {
                         if( data.type === -1 ) {
                             //  꽝
@@ -129,14 +128,14 @@
                 })
             },
             getTypeName(item) {
-                let msg = G.getGachaTypeName(item.gtype);
+                let msg = this.$G.getGachaTypeName(item.gtype);
                 if( item.description ) {
                     msg += `( ${item.description} )`;
                 }
                 return msg;
             },
             getFreeGachaList() {
-                G.hget('/gacha/freeGachaList', data=> {
+                this.$G.hget('/gacha/freeGachaList', data=> {
                     if( data.ret === 0 ) {
                         data.list.forEach(item=> {
                             if( item.gtype != -1 && item.remain > 0 ) {
@@ -148,7 +147,7 @@
                 });
             },
             getFreeGachaLog() {
-                G.hget(P.http.GetFreeGachaLogRecent, data=> {
+                this.$G.hget(this.$P.http.GetFreeGachaLogRecent, data=> {
                     if( data.ret === 0 ) {
                         this.freeGachaLogRecent = data.list;
                     }
@@ -158,7 +157,7 @@
                 const newStr = new Date(dateStr).toLocaleString();
                 return newStr;
             },
-            getName(idx) { return G.getGachaTypeName(idx); }
+            getName(idx) { return this.$G.getGachaTypeName(idx); }
         },
         beforeCreate() {            
         },

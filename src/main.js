@@ -9,19 +9,24 @@ import LoginApp from './LoginApp.vue'
 import MyInfo from './MyInfo.vue'
 import $ from 'jquery'
 import axios from 'axios';
+import TableTemplate from './components/TableTemplate.vue'
 import VueAdsense from './components/VueAdsense.vue'
 import FreeGacha from './components/FreeGacha.vue'
 import Ads300x250 from './components/Ads300x250.vue'
 import Ads728x90 from './components/Ads728x90.vue'
 import MsgBox from './components/MessageBox.vue'
 import VueRouter from 'vue-router'
+import G from './global'
+import P from '../common/protocol'
 
-const NotFound = { template: '<p>페이지가 존재하지 않습니다.</p>'};
-
-$(document).ready(function() {
+$(document).ready(() => {
     Vue.use(VueRouter);
     Vue.prototype.$bus = new Vue();
-    Vue.prototype.$http = axios;    
+    Vue.prototype.$http = axios;
+    Vue.prototype.$G = G;
+    Vue.prototype.$P = P;
+    G.connectSocket();
+    Vue.component('TableTemplate', TableTemplate);
     Vue.component('adsense', VueAdsense);
     Vue.component('msgbox', MsgBox);
     Vue.component('ads300x250', Ads300x250);

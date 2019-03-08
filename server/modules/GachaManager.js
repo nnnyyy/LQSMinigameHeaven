@@ -22,6 +22,26 @@ class GachaManager {
     constructor(sm) {
         this.sm = sm;
         this.mFreeGacha = new Map();
+
+        this.aLogs = [];
+    }
+
+    addLog(usernick) {        
+        const info = {
+            nick: usernick,
+            level: 0,
+            regdate: Date.now()
+        }
+
+        this.aLogs.push(info);
+
+        if( this.aLogs.length > 20 ) {
+            this.aLogs.splice(0, 1);
+        }        
+    }
+
+    getLogs() {
+        return this.aLogs;
     }
 
     openGacha(id, cb, fixedGP) {
@@ -269,6 +289,7 @@ class GachaManager {
                     const _data = result.rows[0][0];
                     if( !_data ) res(info);
                     else {
+                        info.gm.addLog(options.nick);
                         const d = new Date( new Date(_data.regdate).toLocaleString() );
                         const tCur = new Date();
                         const dtMin = ( tCur - d ) / 1000 / 60;
@@ -486,7 +507,7 @@ class GachaManager {
         return hex;
     }
 
-    getFreeGacha(id, cb) {        
+    getFreeGacha(id, nick, cb) {        
         const tCur = new Date();
         const tJamliveStart = new Date(tCur.getFullYear(), tCur.getMonth(), tCur.getDate(), 20, 50, 0 );
         const tJamliveEnd = new Date(tCur.getFullYear(), tCur.getMonth(), tCur.getDate(), 21, 20, 0 );
@@ -552,9 +573,11 @@ class GachaManager {
                         case GTYPE.FONT_FAMILY:
                         case GTYPE.OX_BIG:
                             options.freeGachaItem = item;
+                            options.nick = nick;
                             this.openGachaEx(id, cb, options);
                         break;
                         case GTYPE.FAILED:
+                            this.addLog(nick);
                             cb({ret: 0, type: aTypes[i].gtype });
                         break;
                     }

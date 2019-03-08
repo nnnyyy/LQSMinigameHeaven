@@ -120,7 +120,11 @@ class ServerManager {
     //  #업데이트
     update() {        
         const tCur = new Date();
-        try {            
+        try {
+
+            const logs = this.gcm.getLogs();
+            this.broadcastPacket(P.SOCK.GachaRealtimeLog,logs);
+
         }catch(e) {
             console.log(e);
         }
@@ -151,79 +155,10 @@ class ServerManager {
     //  유저가 접속합니다.
     connectUser(socket) {
         try {
-            console.log('socket connect user');
-            this.setPreListener(socket);        
-
-            if( !this.checkLoginState(socket) ) {
-                this.disconnectUser(socket, true);
-                return;
-            }
-
-            const sessionInfo = this.getSessionInfo(socket);
-            if( !sessionInfo ) {
-                this.disconnectUser(socket, true);
-                return;
-            }
-            
-            if( this.mUsers.has(sessionInfo.id) ) {
-                this.reconnectUser(socket, sessionInfo.id);
-                return;
-            }
-
-            //  신규 접속
-            let newUser = this.createUser(socket, sessionInfo);
-            this.addUser(newUser);
-
-            this.sendPacket(socket, P.EnterUser, sessionInfo);
-            this.broadcastPacket(P.RefreshLobbyInfo);
-
         } catch(e) {
             console.log(e);
         }       
-    }
-
-    getSessionInfo(socket) {
-        return socket.handshake.session.userdata;
-    }
-
-    reconnectUser(socket, id) {        
-    }
-
-    disconnectUser(socket, forceDelete) {
-        if( forceDelete ) {
-            // 소켓 연결 끊기
-            socket.disconnect('unauthorized');
-            return;
-        }        
-    }
-
-    getUser( id ) {        
-    }
-
-    getUserBySocket( socket ) {        
-    }
-
-    checkLoginState(socket) {
-        if( !socket.handshake.session.userdata ) return false;
-        
-        return true;
-    }
-
-    createUser(socket, sessionInfo) {
-        let user = new User(socket, this);
-    }
-
-    addUser(user) {
-        try {
-            if( !user ) return;
-            if( !user.id ) return;
-
-            this.mUsers.set(user.id , user);
-
-        }catch(e) {
-            console.log(e);
-        }
-    }
+    }    
 }
 
 module.exports = ServerManager;

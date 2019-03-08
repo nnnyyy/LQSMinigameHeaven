@@ -123,7 +123,7 @@ Router.get('/freeGacha', (req,res)=> {
         return;
     }
 
-    gcm.getFreeGacha(req.session.userdata.id, result=> {
+    gcm.getFreeGacha(req.session.userdata.id, req.session.userdata.nick, result=> {
         if( result.ret === 0 ) {
             res.send({ret: 0, item: result.item, type: result.type });
         }

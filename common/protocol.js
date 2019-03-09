@@ -3,7 +3,8 @@
  */
 const VueBus = {
     SOCK: {
-        GachaRealtimeLog: "GachaRealtimeLog"
+        GachaRealtimeLog: "GachaRealtimeLog",
+        AntiMacroQuiz: "AntiMacroQuiz"
     },    
     GoLoginPage: "GoLoginPage",
     Disconnect: "disconnect",

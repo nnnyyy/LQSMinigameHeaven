@@ -11,9 +11,9 @@ const DBHelper = require('./DBHelper');
 const routes = require('../router/index.js');
 const routesAuth = require('../router/Auth.js');
 const routesGacha = require('../router/Gacha.js');
-const BJLobby = require('./BlackjackLobby');
 const GachaMan = require('./GachaManager');
 const User = require('./User');
+const CommonUtil = require('../../common/CommonUtil');
 
 function normalizePort(val) {
     var port = parseInt(val, 10);
@@ -34,6 +34,15 @@ function normalizePort(val) {
 class ServerManager {
     constructor(app) {
         this.gcm = new GachaMan(this);
+        this.tUpdateSlow = 0;
+        this.tRand = 0;
+        this.mAMUser = new Map();
+
+        DBHelper.getRandQuiz(result=> {
+            if( result.ret === 0) {
+                this.curMacroDetectionQuiz = result.quizdata;
+            }
+        })
 
         this.http = http.Server(app);
         const sm = this;
@@ -72,7 +81,6 @@ class ServerManager {
 
     pm_init_blackjackLobby(parent) {        
         return new Promise((res,rej)=> {            
-            parent.lobby = new BJLobby(parent);            
             res(parent);
         });
     }
@@ -125,9 +133,60 @@ class ServerManager {
             const logs = this.gcm.getLogs();
             this.broadcastPacket(P.SOCK.GachaRealtimeLog,logs);
 
+            if( tCur - this.tUpdateSlow >= ((60 * 1000) + this.tRand) ) {
+                this.tUpdateSlow = tCur;
+                DBHelper.getRandQuiz(result=> {
+                    if( result.ret === 0) {
+                        const rRand = CommonUtil.getRandomInt(0, 60);
+                        this.tRand =  rRand * 1000;
+                        this.curMacroDetectionQuiz = result.quizdata;
+                        this.resetAMFailedCnt();
+                    }
+                })
+            }
+            
+            this.sendAntiMacroQuiz();
+
         }catch(e) {
             console.log(e);
         }
+    }
+
+    checkAnswer( id, qidx ) {
+        if( this.curMacroDetectionQuiz.collect !== qidx ) {
+            this.addMacro(id);
+            if( this.mAMUser.get(id).cnt >= 2 ) {
+                this.gcm.setBlock(id);
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    addMacro(id) {
+        if( !this.mAMUser.has(id) ) {
+            this.mAMUser.set(id, { cnt: 0 });
+        }
+        else {
+            let obj = this.mAMUser.get(id);
+            obj.cnt++;
+        }
+    }
+
+    resetAMFailedCnt() {
+        this.mAMUser.clear();
+    }
+
+    sendAntiMacroQuiz() {
+        if( !this.curMacroDetectionQuiz ) return;
+
+        const data = {
+            q: this.curMacroDetectionQuiz.question,
+            a: this.curMacroDetectionQuiz.answer
+        }
+        
+        this.broadcastPacket(P.SOCK.AntiMacroQuiz, data);
     }
 
      

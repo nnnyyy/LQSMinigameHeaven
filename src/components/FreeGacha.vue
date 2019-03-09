@@ -9,11 +9,22 @@
             fullWidthResponsive="false"
             />
             <template v-if="isRemainItem">
-                <button class="btnFreeGacha" @click="onBtnFreeGacha">무료 가챠 뽑기 ( 클릭 )</button>
+                <br/>
+                <div style="font-size:30px; margin-bottom: 10px;">{{amquiz.q}}</div>
+                <button class="btnFreeGacha" @click="onBtnFreeGacha(0)">1. {{amquiz.a[0]}}</button>
+                <button class="btnFreeGacha" @click="onBtnFreeGacha(1)">2. {{amquiz.a[1]}}</button>
+                <button class="btnFreeGacha" @click="onBtnFreeGacha(2)">3. {{amquiz.a[2]}}</button>
+                <div style="margin-top: 15px;">정답을 입력하면 자동으로 무료가챠에 응모 됩니다.</div>
+                <div style="margin-top: 3px; color: red;">같은 문제 2회 이상 오답 클릭 시 1시간동안 참여 불가능합니다.</div>
             </template>
             <template v-else>
                 <div style="font-size: 30px;">현재 아이템이 다 소진되었습니다! 다음에 다시 도전 해주세요!</div>
             </template>
+            <div style="margin:20px;">
+                <ads728x90
+                        unitId="DAN-1k25krkvdtr8z"
+                    />                
+            </div>
             <div class="remainItem">
                 <span style="font-size: 24px;">남은 아이템 목록</span>
                 <table class="tb-remain-item">
@@ -30,11 +41,7 @@
                 </table>
             </div>
             <div style="margin-top: 30px;margin-bottom: 30px;">해당 아이템이 소진 될 때까지 계속 시도할 수 있습니다</div>
-            <div style="margin:20px;">
-                <ads728x90
-                        unitId="DAN-1k25krkvdtr8z"
-                    />                
-            </div>
+            
             <span style="font-size: 24px;">최근 당첨자 목록</span>
             <table class="tb-earn-item" style="margin-bottom: 30px;">
                 <tr>
@@ -63,7 +70,11 @@
             return {  
                 freeGachaList: [],
                 freeGachaLogRecent: [],
-                isRemainItem: false           
+                isRemainItem: false,
+                amquiz: {
+                    q: '',
+                    a: []
+                }
             }
         },
         components: {
@@ -71,8 +82,8 @@
             FreeGachaRealtimeLog
         },
         methods: {
-            onBtnFreeGacha() {
-                this.$G.hget('/gacha/freeGacha', data=> {
+            onBtnFreeGacha(idx) {
+                this.$G.hpost('/gacha/freeGacha', {idx: idx}, data=> {
                     if( data.ret === 0 ) {
                         if( data.type === -1 ) {
                             //  꽝
@@ -117,6 +128,18 @@
                                 window.location.href = '/free';
                             }
                             break;
+                            case -17: 
+                            {
+                                alert('1시간 동안 차단된 아이디 입니다.');
+                                window.location.href = '/free';
+                            }
+                            break;
+                            case -18: 
+                            {
+                                alert('오답입니다.');
+                                window.location.href = '/free';
+                            }
+                            break;
                             case -200: 
                             {
                                 alert('20:50 ~ 21:20은 잼라이브 퀴즈 집중 시간대입니다. 그 이후에 도전 해주세요.');
@@ -157,13 +180,17 @@
                 const newStr = new Date(dateStr).toLocaleString();
                 return newStr;
             },
-            getName(idx) { return this.$G.getGachaTypeName(idx); }
+            getName(idx) { return this.$G.getGachaTypeName(idx); },
+            onAntiMacroQuiz(data) {
+                this.amquiz = data;
+            }
         },
         beforeCreate() {            
         },
         mounted() {
             this.getFreeGachaList();
             this.getFreeGachaLog();
+            this.$G.on(this.$P.SOCK.AntiMacroQuiz, this.onAntiMacroQuiz);
         }
     }
 </script>
@@ -171,7 +198,7 @@
 <style scoped>
 table           {    border-collapse: collapse;}
 .conetent       {    width: 1000px;    margin: 0 auto;       text-align: center; }
-.btnFreeGacha   {    width: 100%;    height: 80px;    font-size: 35px;}
+.btnFreeGacha   {    width: 25%;    height: 80px;    font-size: 18px;}
 .remainItem     {    margin-top: 24px;}
 .tb-remain-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
 .tb-remain-item th,td {    text-align: center;    width: 50%;    height: 60px;}

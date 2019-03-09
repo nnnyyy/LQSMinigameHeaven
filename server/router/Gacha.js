@@ -111,7 +111,7 @@ Router.post('/sellitem', (req,res)=> {
     })    
 });
 
-Router.get('/freeGacha', (req,res)=> {
+Router.post('/freeGacha', (req,res)=> {
     if( !req.session.userdata ) {
         res.redirect('/');
         return;
@@ -120,6 +120,13 @@ Router.get('/freeGacha', (req,res)=> {
     const gcm = req.sm.gcm;
     if( !gcm ) {
         res.send({ret: -102});
+        return;
+    }
+
+    const qidx = req.body.idx;
+
+    if( !req.sm.checkAnswer(req.session.userdata.id, qidx) ) {
+        res.send({ret: -18});
         return;
     }
 

@@ -51,6 +51,7 @@ class Global {
 
     initSocketListener() {
         this.socket.on(P.SOCK.GachaRealtimeLog, packet => this.onRoutePacket( P.SOCK.GachaRealtimeLog, packet ) );
+        this.socket.on(P.SOCK.AntiMacroQuiz, packet => this.onRoutePacket( P.SOCK.AntiMacroQuiz, packet ) );
     }
 
     on( protocol, cb ) {

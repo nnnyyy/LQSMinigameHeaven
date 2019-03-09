@@ -22,6 +22,7 @@ class GachaManager {
     constructor(sm) {
         this.sm = sm;
         this.mFreeGacha = new Map();
+        this.mBlocked = new Map();
 
         this.aLogs = [];
     }
@@ -507,6 +508,10 @@ class GachaManager {
         return hex;
     }
 
+    setBlock(id) {
+        this.mBlocked.set(id, {tStart: Date.now()});
+    }
+
     getFreeGacha(id, nick, cb) {        
         const tCur = new Date();
         const tJamliveStart = new Date(tCur.getFullYear(), tCur.getMonth(), tCur.getDate(), 20, 50, 0 );
@@ -515,6 +520,17 @@ class GachaManager {
         if( tCur - tJamliveStart > 0 && tCur - tJamliveEnd < 0 ) {
             cb({ret: -200});
             return;
+        }
+
+        if( this.mBlocked.has(id) ) {
+            if( tCur - this.mBlocked.get(id).tStart < 1000 * 60 * 60 ) {
+                cb({ret: -17});
+                return;
+            }
+            else{
+                this.mBlocked.delete(id);
+            }
+            
         }
 
         DBHelper.call('getFreeGachaList', result=> {

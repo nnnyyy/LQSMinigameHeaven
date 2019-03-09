@@ -87,12 +87,10 @@
                     if( data.ret === 0 ) {
                         if( data.type === -1 ) {
                             //  꽝
-                            alert('아쉽게도 꽝입니다! 15초 후에 다시 도전 해주세요');
-                            window.location.href = '/free';
+                            alert('아쉽게도 꽝입니다! 15초 후에 다시 도전 해주세요');                            
                         }
                         else {
-                            alert('축하합니다!! 당첨 되었습니다!!! 인벤토리를 확인 해보세요~');
-                            window.location.href = '/free';
+                            alert('축하합니다!! 당첨 되었습니다!!! 인벤토리를 확인 해보세요~');                            
                             //this.getFreeGachaList();
                             //this.getFreeGachaLog();
                         }

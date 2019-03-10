@@ -126,6 +126,11 @@
                                 window.location.href = '/free';
                             }
                             break;
+                            case -14: 
+                            {
+                                alert('아이템이 모두 소진되었습니다');
+                            }
+                            break;
                             case -17: 
                             {
                                 alert('1시간 동안 차단된 아이디 입니다.');

@@ -599,6 +599,11 @@ class GachaManager {
             aTypes.forEach(item=> {
                 sumProb += item.rate;
             });
+
+            if( sumProb <= 0 )  {
+                if( cb ) cb({ret: -14});
+                return;
+            }
             
             for( let i = 0 ; i < aTypes.length ; ++i) {
                 const r = this.getRandomInt(0, sumProb);

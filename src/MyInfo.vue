@@ -10,8 +10,7 @@
                     <td style='width: 300px;border-bottom: 1px solid #e0e0e0;'>
                         {{getItemTypeName(item)}}
                     </td>
-                    <td :style="getItemStyle(item)" style='border-bottom: 1px solid #e0e0e0;'>
-                        {{getItemDesc(item)}}
+                    <td :style="getItemStyle(item)" style='border-bottom: 1px solid #e0e0e0;' v-html="getItemDesc(item)">                        
                     </td>
                     <td style='border-bottom: 1px solid #e0e0e0; cursor: pointer;' @click="onSellItem(item)">
                         팔기
@@ -75,9 +74,9 @@
                     'background-color': 'transparent'
                 }
 
-                if( (item.effectid == 1 || item.effectid == 2 ) 
+                if( (item.effectid == 2 ) 
                     && item.effectdesc.indexOf('@') === -1 )  {
-                        style['background-color'] = item.effectdesc;
+                        style['text-shadow'] = `2px 2px 2px ${item.effectdesc}`;
                 }
 
                 return style;
@@ -87,6 +86,18 @@
                 if( item.effectid == 5 ) {
                     if( item.effectdesc === 'GungsuhChe' ) {
                         return '궁서체(진지)';
+                    }
+                }
+
+                if( item.effectid === 1 ) {
+                    const aColors = item.effectdesc.split('/');
+                    if( aColors.length >= 1 ) {
+                        let desc = '';
+                        for( let i = 0 ; i < aColors.length ; ++i ) {
+                            desc += `<span style="color:${aColors[i]}">${aColors[i]}</span> `;
+                        }
+
+                        return desc;
                     }
                 }
                 return item.effectdesc;

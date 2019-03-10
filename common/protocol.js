@@ -22,6 +22,7 @@ const VueBus = {
         OpenGachaFontColor: "/gacha/fontcoloropen",
         OpenGachaNickShadow: "/gacha/nickshadowopen",
         OpenGachaGungseo: "/gacha/gungseo",
+        OpenGachaChatMultiColor: "/gacha/chatmulticolor",
         OpenGachaBlink: "/gacha/blinkopen",
         OpenGachaRand: "/gacha/randopen",
         MyInfo: "/auth/myinfo",

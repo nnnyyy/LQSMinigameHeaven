@@ -184,15 +184,15 @@
                         <table class="tb-item">
                             <tr>
                                 <td>
-                                    <div style="height: 40px;" class="item-title">경험치(점수) 가챠( 1GP )</div>
-                                    <div style="height: 40px; font-size: 13px;">1~50 포인트 중 랜덤</div>
+                                    <div style="height: 40px;" class="item-title"><span style="color: red">랜덤</span> <span style="color: blue">멀티</span> <span style="color: green">채팅</span>  색상 ( 300GP )</div>
+                                    <div style="height: 40px; font-size: 13px;">2~4개의 색상이 섞여서 나옵니다</div>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="item-btn">
-                        <button class="btn-buy-item" @click="onBuyPoint()">구입하기</button>
-                    </div>
+                        <button class="btn-buy-item" @click="onBuyChatMultiColor()">구입하기</button>
+                    </div>                       
                 </td>
                 <td>
                     <ads300x250
@@ -273,7 +273,20 @@
                         <button class="btn-buy-item" @click="onBuyGungseo()">구입하기</button>
                     </div>
                 </td>
-                <td>                    
+                <td>
+                    <div class="item">
+                        <table class="tb-item">
+                            <tr>
+                                <td>
+                                    <div style="height: 40px;" class="item-title">경험치(점수) 가챠( 1GP )</div>
+                                    <div style="height: 40px; font-size: 13px;">1~50 포인트 중 랜덤</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="item-btn">
+                        <button class="btn-buy-item" @click="onBuyPoint()">구입하기</button>
+                    </div>                                
                 </td>
                 <td>                    
                 </td>                                        
@@ -444,6 +457,38 @@
                         G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
 
                         const msg = `궁서체를 획득 했습니다. 저는 진지합니다.`;
+                        G.emit(P.SetResultMsg, msg);
+
+                        this.isProc = false;
+                    }
+                    else {
+                        if( data.ret === -100 ) {
+                            alert('판매가 일시적으로 중단되었습니다');
+                        }
+                        else {
+                            alert('알 수 없는 오류');
+                        }                        
+                    }                    
+                })
+            },
+            onBuyChatMultiColor() {
+                if( this.cnt < 300 ) {
+                    alert('가챠 포인트가 부족합니다');
+                    return;
+                }
+
+                if( !this.isAbleProc() ) {
+                    alert('아직 처리 중인 명령이 있습니다');
+                    return;
+                }
+
+                this.isProc = true;
+                
+                G.hget(P.http.OpenGachaChatMultiColor, data=> {
+                    if( data.ret === 0 ) {
+                        G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
+                        
+                        const msg = `${data.item.desc} 구입 성공!`;
                         G.emit(P.SetResultMsg, msg);
 
                         this.isProc = false;

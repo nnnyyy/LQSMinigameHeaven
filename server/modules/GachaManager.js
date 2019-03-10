@@ -15,6 +15,7 @@ const GTYPE = {
     EARN_GP: 100,
     EARN_GP_TYPE2: 101,
     FONT_FAMILY: 200,
+    FONT_COLOR_MULTI: 201,
     OX_BIG: 300
 }
 
@@ -188,6 +189,10 @@ class GachaManager {
         cb({ret: -100});
         return;
         this.openGachaEx(id, cb, {type: GTYPE.FONT_FAMILY, desc: 'GungsuhChe'});
+    }
+
+    buyChatMultiColor(id, cb) {
+        this.openGachaEx(id, cb, {type: GTYPE.FONT_COLOR_MULTI});
     }
 
     pm_getRemainCount(id) {
@@ -462,13 +467,34 @@ class GachaManager {
         }
     }
 
-    randomFontColorGacha() {
+    getRandColor() {
         const rr = this.getRandomInt(0, 255);
         const rg = this.getRandomInt(0, 255);
         const rb = this.getRandomInt(0, 255);
+        return '#' + this.toHex(rr) + this.toHex(rg) + this.toHex(rb);
+    }
+
+    randomFontColorGacha() {        
         return {
             name: '폰트',
-            desc: '#' + this.toHex(rr) + this.toHex(rg) + this.toHex(rb)
+            desc: this.getRandColor()
+        }
+    }
+
+    randomFontColorMulti() {
+        const cnt = this.getRandomInt(2,4);
+        let sum = '';
+        for( let i = 0 ; i < cnt ; ++i ) {
+            const c = this.getRandColor();
+            sum += c;
+            if( i !== cnt - 1) {
+                sum += '/';
+            }
+        }
+
+        return {
+            name: '멀티 폰트',
+            desc: sum
         }
     }
 
@@ -624,6 +650,11 @@ class GachaManager {
                 return 800;
             }
 
+            case GTYPE.FONT_COLOR_MULTI:
+            {
+                return 300;
+            }
+
             case GTYPE.RAINBOWNICK:
             case GTYPE.YELLOWBLINK:
             case GTYPE.BIGFONT:
@@ -651,6 +682,11 @@ class GachaManager {
             case GTYPE.NICKSHADOW:
             {
                 return this.randomFontColorGacha();                
+            }
+
+            case GTYPE.FONT_COLOR_MULTI:
+            {
+                return this.randomFontColorMulti();
             }
 
             case GTYPE.RAINBOWNICK:
@@ -707,7 +743,8 @@ class GachaManager {
 
     getEffectId( gtype ) {
         switch(gtype) {
-            case GTYPE.FONTCOLOR: return 1;            
+            case GTYPE.FONTCOLOR: return 1;   
+            case GTYPE.FONT_COLOR_MULTI: return 1;         
             case GTYPE.YELLOWBLINK: return 1;
             case GTYPE.RAINBOWBLINK: return 1;
 

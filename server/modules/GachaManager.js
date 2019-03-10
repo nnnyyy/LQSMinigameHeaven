@@ -596,11 +596,13 @@ class GachaManager {
             item.tLastGacha = tCur;
             
             let sumProb = 0;
+            let bEnd = true;
             aTypes.forEach(item=> {
                 sumProb += item.rate;
+                if( item.gtype !== -1 ) bEnd = false;
             });
 
-            if( sumProb <= 0 )  {
+            if( bEnd )  {
                 if( cb ) cb({ret: -14});
                 return;
             }

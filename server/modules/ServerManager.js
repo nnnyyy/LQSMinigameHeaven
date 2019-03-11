@@ -166,7 +166,7 @@ class ServerManager {
 
     addMacro(id) {
         if( !this.mAMUser.has(id) ) {
-            this.mAMUser.set(id, { cnt: 0 });
+            this.mAMUser.set(id, { cnt: 1 });
         }
         else {
             let obj = this.mAMUser.get(id);

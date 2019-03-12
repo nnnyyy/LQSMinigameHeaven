@@ -14,6 +14,7 @@ const GTYPE = {
     RAINBOWBLINK:7,
     EARN_GP: 100,
     EARN_GP_TYPE2: 101,
+    EARN_GP_TYPE3: 102,
     FONT_FAMILY: 200,
     FONT_COLOR_MULTI: 201,
     OX_BIG: 300
@@ -370,7 +371,9 @@ class GachaManager {
                 return;
             }            
 
-            if( info.gtype !== GTYPE.EARN_GP && info.gtype !== GTYPE.EARN_GP_TYPE2 ) {
+            if( info.gtype !== GTYPE.EARN_GP 
+                && info.gtype !== GTYPE.EARN_GP_TYPE2
+                && info.gtype !== GTYPE.EARN_GP_TYPE3 ) {
                 res(info);
                 return;
             }
@@ -619,6 +622,7 @@ class GachaManager {
                         case GTYPE.BIGFONT:
                         case GTYPE.EARN_GP:
                         case GTYPE.EARN_GP_TYPE2:
+                        case GTYPE.EARN_GP_TYPE3:
                         case GTYPE.FONT_FAMILY:
                         case GTYPE.OX_BIG:
                             options.freeGachaItem = item;
@@ -721,6 +725,7 @@ class GachaManager {
 
             case GTYPE.EARN_GP:
             case GTYPE.EARN_GP_TYPE2:
+            case GTYPE.EARN_GP_TYPE3:
             {
                 return {
                     name: 'GP 획득',
@@ -771,6 +776,7 @@ class GachaManager {
         switch(gtype) {
             case GTYPE.EARN_GP: return 50;
             case GTYPE.EARN_GP_TYPE2: return 1000;
+            case GTYPE.EARN_GP_TYPE3: return 15;
         }
 
         return 0;

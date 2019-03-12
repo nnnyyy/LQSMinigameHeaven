@@ -587,7 +587,7 @@ class GachaManager {
             
             if( item.winCnt >= 2 ) {
                 if( tCur - item.tLastWin < 1 * 60 * 60 * 1000 ) {
-                    if( cb ) cb({ret: -4});
+                    if( cb ) cb({ret: -6});
                     return;
                 }                
                 else {

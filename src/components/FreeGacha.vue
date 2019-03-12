@@ -126,6 +126,13 @@
                                 window.location.href = '/free';
                             }
                             break;
+                            case -6:
+                            {
+                                alert('최근 2회의 당첨 이력이 있습니다. 나중에 다시 시도 해주세요.');
+
+                                window.location.href = '/free';
+                            }
+                            break;
                             case -14: 
                             {
                                 alert('아이템이 모두 소진되었습니다');

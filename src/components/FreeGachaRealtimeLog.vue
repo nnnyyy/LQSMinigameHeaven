@@ -29,12 +29,12 @@
                 const newStr = new Date(dateStr).toLocaleString();
                 return newStr;
             },
-            getName(idx) { return this.$G.getGachaTypeName(idx); }
+            getName(idx) { return this.G.getGachaTypeName(idx); }
         },
         beforeCreate() {            
         },
         mounted() {
-            this.$G.on(this.$P.SOCK.GachaRealtimeLog, packet=>  {
+            this.G.on(this.$P.SOCK.GachaRealtimeLog, packet=>  {
                 packet.forEach(item=> {
                     item.regdate = this.getDate(item.regdate);
                 })

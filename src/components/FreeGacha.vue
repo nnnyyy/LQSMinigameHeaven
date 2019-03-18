@@ -2,15 +2,25 @@
     <div id="id">
         <Top/>
         <div class="conetent">
-            <adsense
-            adClient="ca-pub-3598320494828213"
-            adSlot="6583538077"
-            adStyle="display:inline-block;width:970px;height:250px;"                        
-            fullWidthResponsive="false"
-            />
+            <template v-if="!G.isMobile()">
+                <adsense
+                adClient="ca-pub-3598320494828213"
+                adSlot="6583538077"
+                adStyle="display:inline-block;width:970px;height:250px;"                        
+                fullWidthResponsive="false"
+                />
+            </template>      
+            <template v-else>
+                <adsense
+                adClient="ca-pub-3598320494828213"
+                adSlot="5203611401"
+                adStyle="display:inline-block;width:320px;height:100px;"                        
+                fullWidthResponsive="false"
+                />
+            </template>      
             <template v-if="isRemainItem">
                 <br/>
-                <div style="font-size:30px; margin-bottom: 10px;">{{amquiz.q}}</div>
+                <div class="question">{{amquiz.q}}</div>
                 <button class="btnFreeGacha" @click="onBtnFreeGacha(0)">1. {{amquiz.a[0]}}</button>
                 <button class="btnFreeGacha" @click="onBtnFreeGacha(1)">2. {{amquiz.a[1]}}</button>
                 <button class="btnFreeGacha" @click="onBtnFreeGacha(2)">3. {{amquiz.a[2]}}</button>
@@ -21,9 +31,20 @@
                 <div style="font-size: 30px;">현재 아이템이 다 소진되었습니다! 다음에 다시 도전 해주세요!</div>
             </template>
             <div style="margin:20px;">
-                <ads728x90
+                <template v-if="!G.isMobile()">
+                    <ads728x90
                         unitId="DAN-1k25krkvdtr8z"
                     />                
+                </template>
+                <template v-else>                    
+                    <adsense
+                    adClient="ca-pub-3598320494828213"
+                    adSlot="2676863873"
+                    adStyle="display:inline-block;width:320px;height:100px;"                        
+                    fullWidthResponsive="false"
+                    />
+                </template>
+                
             </div>
             <div class="remainItem">
                 <span style="font-size: 24px;">남은 아이템 목록</span>
@@ -58,7 +79,9 @@
                 </template>                             
             </table>
         </div>
-        <FreeGachaRealtimeLog/>
+        <FreeGachaRealtimeLog
+        v-show="!G.isMobile()"
+        />
     </div>
 </template>
 <script>
@@ -83,7 +106,7 @@
         },
         methods: {
             onBtnFreeGacha(idx) {
-                this.$G.hpost('/gacha/freeGacha', {idx: idx}, data=> {
+                this.G.hpost('/gacha/freeGacha', {idx: idx}, data=> {
                     if( data.ret === 0 ) {
                         if( data.type === -1 ) {
                             //  꽝
@@ -161,14 +184,14 @@
                 })
             },
             getTypeName(item) {
-                let msg = this.$G.getGachaTypeName(item.gtype);
+                let msg = this.G.getGachaTypeName(item.gtype);
                 if( item.description ) {
                     msg += `( ${item.description} )`;
                 }
                 return msg;
             },
             getFreeGachaList() {
-                this.$G.hget('/gacha/freeGachaList', data=> {
+                this.G.hget('/gacha/freeGachaList', data=> {
                     if( data.ret === 0 ) {
                         data.list.forEach(item=> {
                             if( item.gtype != -1 && item.remain > 0 ) {
@@ -180,7 +203,7 @@
                 });
             },
             getFreeGachaLog() {
-                this.$G.hget(this.$P.http.GetFreeGachaLogRecent, data=> {
+                this.G.hget(this.$P.http.GetFreeGachaLogRecent, data=> {
                     if( data.ret === 0 ) {
                         this.freeGachaLogRecent = data.list;
                     }
@@ -190,7 +213,7 @@
                 const newStr = new Date(dateStr).toLocaleString();
                 return newStr;
             },
-            getName(idx) { return this.$G.getGachaTypeName(idx); },
+            getName(idx) { return this.G.getGachaTypeName(idx); },
             onAntiMacroQuiz(data) {
                 this.amquiz = data;
             }
@@ -200,31 +223,50 @@
         mounted() {
             this.getFreeGachaList();
             this.getFreeGachaLog();
-            this.$G.on(this.$P.SOCK.AntiMacroQuiz, this.onAntiMacroQuiz);
+            this.G.on(this.$P.SOCK.AntiMacroQuiz, this.onAntiMacroQuiz);
         }
     }
 </script>
 
 <style scoped>
-table           {    border-collapse: collapse;}
-.conetent       {    width: 1000px;    margin: 0 auto;       text-align: center; }
-.btnFreeGacha   {    width: 25%;    height: 80px;    font-size: 18px;}
-.remainItem     {    margin-top: 24px;}
-.tb-remain-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
-.tb-remain-item th,td {    text-align: center;    width: 50%;    height: 60px;}
-.tb-remain-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
-.tb-remain-item td {    border-bottom: 1px solid gray;    }
-.tb-remain-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
 
-.tb-earn-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
-.tb-earn-item th,td {    text-align: center;    width: 33%;    height: 45px;}
-.tb-earn-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
-.tb-earn-item td {    border-bottom: 1px solid gray;    }
-.tb-earn-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
 @media screen and (max-width: 500px) {
-    
+    table           {    border-collapse: collapse;}
+    .conetent       {    width: 90%;    margin: 0 auto;       text-align: center; }
+    .btnFreeGacha   {    width: 32%;    height: 50px;    font-size: 15px;}
+    .remainItem     {    margin-top: 24px;}
+    .tb-remain-item {    margin: 0 auto; width: 95%;    margin-top: 24px;}
+    .tb-remain-item th,td {    text-align: center;    width: 50%;    height: 60px;}
+    .tb-remain-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+    .tb-remain-item td {    border-bottom: 1px solid gray;    }
+    .tb-remain-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
+
+    .tb-earn-item {    margin: 0 auto; width: 95%;    margin-top: 24px;}
+    .tb-earn-item th,td {    text-align: center;    width: 33%;    height: 45px;}
+    .tb-earn-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+    .tb-earn-item td {    border-bottom: 1px solid gray;    }
+    .tb-earn-item td:first-child, th:first-child {    border-right: 1px solid gray;    }    
+
+    .question { font-size:16px; margin-bottom: 10px; }
 }
 
 @media screen and (min-width: 501px) {    
+    table           {    border-collapse: collapse;}
+    .conetent       {    width: 1000px;    margin: 0 auto;       text-align: center; }
+    .btnFreeGacha   {    width: 25%;    height: 80px;    font-size: 18px;}
+    .remainItem     {    margin-top: 24px;}
+    .tb-remain-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
+    .tb-remain-item th,td {    text-align: center;    width: 50%;    height: 60px;}
+    .tb-remain-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+    .tb-remain-item td {    border-bottom: 1px solid gray;    }
+    .tb-remain-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
+
+    .tb-earn-item {    margin: 0 auto; width: 800px;    margin-top: 24px;}
+    .tb-earn-item th,td {    text-align: center;    width: 33%;    height: 45px;}
+    .tb-earn-item th {    background-color: #5b5454;    color: white;    border-top: 1px solid gray;    border-bottom: 1px solid gray;}
+    .tb-earn-item td {    border-bottom: 1px solid gray;    }
+    .tb-earn-item td:first-child, th:first-child {    border-right: 1px solid gray;    }
+
+    .question { font-size:30px; margin-bottom: 10px; }
 }
 </style>

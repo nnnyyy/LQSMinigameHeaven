@@ -1,8 +1,14 @@
 <template>
 <div id="main">
-    <template v-if="isMobile">
+    <template v-if="G.isMobile()">
         <div style="width: 100%; margin: 14px auto; text-align:center;">
             현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 16px;">{{ currentGP }}</span> GP
+        </div>
+        <div class="menu-btn">
+            <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span>
+        </div>
+        <div class="menu-btn">
+            <span class="myinfoBtn" @click="onBtnFree">무료 가챠 페이지</span>
         </div>
         <table class="tb-list">
             <tr>
@@ -526,6 +532,7 @@
     .tb-prob {        width: 95%;        font-size: 13px;    }
     .item-title {        height: 36px;        font-size: 20px;        text-shadow: 1px 1px 1px #f40000;    }
     .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;    }
+    .menu-btn { text-align: center; padding: 10px; }
 }
 
 @media screen and (min-width: 501px) {    

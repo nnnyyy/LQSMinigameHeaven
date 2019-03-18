@@ -23,7 +23,7 @@ $(document).ready(() => {
     Vue.use(VueRouter);
     Vue.prototype.$bus = new Vue();
     Vue.prototype.$http = axios;
-    Vue.prototype.$G = G;
+    Vue.prototype.G = G;
     Vue.prototype.$P = P;
     G.connectSocket();
     Vue.component('TableTemplate', TableTemplate);

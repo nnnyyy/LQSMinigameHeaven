@@ -533,6 +533,7 @@
     .item-title {        height: 36px;        font-size: 20px;        text-shadow: 1px 1px 1px #f40000;    }
     .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;    }
     .menu-btn { text-align: center; padding: 10px; }
+    .myinfoBtn {        background-color: #6d6d6d;        padding: 6px;        border-bottom: 2px solid black;        border-right: 2px solid black;        color: white;        cursor: pointer;    }
 }
 
 @media screen and (min-width: 501px) {    

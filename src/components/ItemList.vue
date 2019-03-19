@@ -71,6 +71,24 @@
             </tr>
 
             <tr>
+                <td class="item-title">
+                    폰트 랜덤( 500GP )
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px 0;">
+                    랜덤 폰트 당첨률 20%<br/>
+                    실패확률 80%<br/>
+                    ( 고양체, 궁서체, 푸딩체 )
+                </td>
+            </tr>
+            <tr>
+                <td class="item-btn line">
+                    <button class="btn-buy-item" @click="onBuyFontRandom()">구입하기</button>
+                </td>
+            </tr>
+
+            <tr>
                 <td>
                     <adsense
                     adClient="ca-pub-3598320494828213"
@@ -294,7 +312,24 @@
                         <button class="btn-buy-item" @click="onBuyPoint()">구입하기</button>
                     </div>                                
                 </td>
-                <td>                    
+                <td>
+                    <div class="item">
+                        <table class="tb-item">
+                            <tr>
+                                <td>
+                                    <div>폰트 랜덤( 500GP )</div>
+                                    <div style="height: 40px; font-size: 13px; ">
+                                        랜덤 폰트 당첨률 20%<br/>
+                                        실패확률 80%<br/>
+                                        ( 고양체, 궁서체, 푸딩체 )
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="item-btn">
+                        <button class="btn-buy-item" @click="onBuyFontRandom()">구입하기</button>
+                    </div>                                
                 </td>                                        
             </tr>
         </table>          
@@ -341,20 +376,9 @@
                     return;
                 }
 
-                this.isProc = true;
+                this.isProc = true;                
 
-                const GTYPE = {
-                    BOX: 0,
-                    FONTCOLOR: 1,
-                    NICKSHADOW: 2,
-                    BLINK: 3,
-                    RAINBOWNICK: 4,
-                    YELLOWBLINK: 5,
-                    BIGFONT: 6,
-                    FONT_FAMILY: 200
-                }
-
-                if( this.cnt < 15 ) {
+                if( this.currentGP < 15 ) {
                     alert('포인트가 부족합니다!');
                     return;
                 }
@@ -364,24 +388,54 @@
                         this.isProc = false;
                         G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
 
-                        let msg = ''
-                        switch(data.type) {
-                            case GTYPE.BOX: msg=`포인트를 ${data.item.desc} 획득했습니다.`; break;
-                            case GTYPE.FONTCOLOR: msg=`폰트 색상 ${data.item.desc}을 획득했습니다.`; break;
-                            case GTYPE.NICKSHADOW: msg=`닉네임 효과 ${data.item.desc}를 획득했습니다.`; break;
-                            case GTYPE.BLINK: msg='##채팅 깜빡임 효과##를 획득했습니다. 축하합니다!'; break;
-                            case GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
-                            case GTYPE.YELLOWBLINK: msg='@#@#@#@# !!노랑 빤짝이 효과 획득!! #@#@#@#@'; break;
-                            case GTYPE.BIGFONT: msg='@#@#@#@# !!빅 폰트 효과 획득!! #@#@#@#@'; break;
-                            case GTYPE.FONT_FAMILY: msg=`@#@#@#@# ${data.item.desc} 서체 획득!!!! #@#@#@#@`; break;
-                        }
-                        
-                        G.emit(P.SetResultMsg, msg);
+                        this.SetTypeMsg(data.type, data.item.desc);
                     }
                     else {
                         alert('알 수 없는 오류');
                     }
-                })                
+                });
+            },
+            onBuyFontRandom() {
+                if( !this.isAbleProc() ) {
+                    alert('아직 처리 중인 명령이 있습니다');
+                    return;
+                }
+
+                this.isProc = true;                
+
+                if( this.currentGP < 500 ) {
+                    alert('포인트가 부족합니다!');
+                    return;
+                }
+
+                G.hget(P.http.OpenFontGachaRand, data=> {
+                    if( data.ret === 0 ) {
+                        console.log(data);
+                        this.isProc = false;
+                        G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
+
+                        this.SetTypeMsg(data.type, data.item.desc);
+                    }
+                    else {
+                        alert('알 수 없는 오류');
+                    }
+                });
+            },
+            SetTypeMsg(type, desc) {
+                let msg = ''
+                switch(type) {
+                    case G.GTYPE.BOX: msg=`포인트를 ${desc} 획득했습니다.`; break;
+                    case G.GTYPE.FONTCOLOR: msg=`폰트 색상 ${desc}을 획득했습니다.`; break;
+                    case G.GTYPE.NICKSHADOW: msg=`닉네임 효과 ${desc}를 획득했습니다.`; break;
+                    case G.GTYPE.BLINK: msg='##채팅 깜빡임 효과##를 획득했습니다. 축하합니다!'; break;
+                    case G.GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
+                    case G.GTYPE.YELLOWBLINK: msg='@#@#@#@# !!노랑 빤짝이 효과 획득!! #@#@#@#@'; break;
+                    case G.GTYPE.BIGFONT: msg='@#@#@#@# !!빅 폰트 효과 획득!! #@#@#@#@'; break;
+                    case G.GTYPE.FONT_FAMILY: msg=`@#@#@#@# ${desc} 서체 획득!!!! #@#@#@#@`; break;
+                    case G.GTYPE.FAILED: msg=`아쉽게도 획득에 실패했습니다..`; break;
+                }
+                
+                G.emit(P.SetResultMsg, msg);
             },
             onBuyPoint() {
                 if( !this.isAbleProc() ) {

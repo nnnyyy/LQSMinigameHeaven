@@ -176,6 +176,41 @@ class GachaManager {
         }
     }
 
+
+    openFontRand(id, cb) {
+        const fixedGP = 500;
+        const aTypes = [
+            {type: -1, rate: 3},
+            {type: GTYPE.FONT_FAMILY, rate: 1}
+        ];
+
+        let sumProb = 0;
+        aTypes.forEach(item=> {
+            sumProb += item.rate;
+        });
+        
+        for( let i = 0 ; i < aTypes.length ; ++i) {
+            const r = this.getRandomInt(0, sumProb - 1);
+            console.log(r);
+            if( r < aTypes[i].rate ) {
+                //  당첨
+                switch(aTypes[i].type) {                    
+                    case GTYPE.FONT_FAMILY:
+                        const fontName = this.getRandFont();
+                        this.openGachaEx(id, cb, {type: GTYPE.FONT_FAMILY, desc: fontName, fixedGP: fixedGP });
+                    break;
+                    case GTYPE.FAILED:
+                        this.openGachaEx(id, cb, {type: GTYPE.FAILED, desc: '', fixedGP: fixedGP });                                            
+                    break;
+                }
+                break;
+            }
+            else {
+                sumProb -= aTypes[i].rate;
+            }
+        }
+    }
+
     getGacha(id, cb) {
         this.pm_getRemainCount(id)
         .then(info => {
@@ -357,7 +392,7 @@ class GachaManager {
                     info.ret = -3;
                     rej(info);
                     return;
-                }                               
+                }
                 
                 res(info);
             })            
@@ -430,8 +465,11 @@ class GachaManager {
                         return;
                     }
                     
-                    res(info);                
+                    res(info);
                 });
+            }
+            else if ( info.gtype === GTYPE.FAILED ) {
+                res(info);
             }
             else {
                 DBHelper.call2('ei_insert', [info.id, info.gm.getEffectId(info.gtype), info.item.desc], result=> {
@@ -475,6 +513,18 @@ class GachaManager {
         const rg = this.getRandomInt(0, 255);
         const rb = this.getRandomInt(0, 255);
         return '#' + this.toHex(rr) + this.toHex(rg) + this.toHex(rb);
+    }
+
+    getRandFont() {
+        const ar = [
+            "Goyang",
+            "puding",
+            "GungsuhChe"
+        ];
+
+        const idx = this.getRandomInt(0, ar.length - 1);
+
+        return ar[idx];
     }
 
     randomFontColorGacha() {        
@@ -746,6 +796,14 @@ class GachaManager {
                 return {
                     name: 'ox 아이콘 거대화',
                     desc: 'big'
+                }
+            }
+
+            default:
+            {
+                return {
+                    name: '꽝',
+                    desc: ''                    
                 }
             }
         }

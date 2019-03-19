@@ -97,6 +97,18 @@ Router.get('/randopen', (req,res)=> {
     })
 });
 
+Router.get('/randfontopen', (req,res)=> {
+    const gcm = req.sm.gcm;
+    if( !gcm ) {
+        res.send({ret: -102});
+        return;
+    }        
+    
+    gcm.openFontRand(req.user.id, info=> {
+        res.send(info);
+    })
+});
+
 Router.post('/sellitem', (req,res)=> {
     if( !req.session.userdata ) {
         res.redirect('/');

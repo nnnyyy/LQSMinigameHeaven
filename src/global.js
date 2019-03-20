@@ -8,7 +8,10 @@ import $ from 'jquery'
 
 class Global {
     constructor() {
-        this.v = new Vue();     
+        this.v = new Vue();
+        
+        this.bProcBuy = false;
+        this.currentGP = 0;
         
         this.GTYPE = {
             FAILED: -1,
@@ -89,6 +92,29 @@ class Global {
         }
 
         return false;
+    }
+
+    isProcBuy() {
+        return this.bProcBuy;
+    }
+
+    setProcBuy( bProc ) {
+        this.bProcBuy = bProc;
+    }
+
+    getCurGP() {
+        return this.currentGP;
+    }
+
+    setCurGP( gp ) {
+        this.currentGP = gp;
+    }
+
+    reloadGP() {
+        this.hget(P.http.GetGachaPoint, info=> {            
+            this.setCurGP(info.gp);
+            this.emit(P.GachaPoint, info.gp);
+        });
     }
 }
 

@@ -11,6 +11,7 @@ import $ from 'jquery'
 import axios from 'axios';
 import TableTemplate from './components/TableTemplate.vue'
 import VueAdsense from './components/VueAdsense.vue'
+import VueAdfit from './components/VueAdfit.vue'
 import FreeGacha from './components/FreeGacha.vue'
 import Ads300x250 from './components/Ads300x250.vue'
 import Ads728x90 from './components/Ads728x90.vue'
@@ -28,6 +29,7 @@ $(document).ready(() => {
     G.connectSocket();
     Vue.component('TableTemplate', TableTemplate);
     Vue.component('adsense', VueAdsense);
+    Vue.component('adfit', VueAdfit);
     Vue.component('msgbox', MsgBox);
     Vue.component('ads300x250', Ads300x250);
     Vue.component('ads728x90', Ads728x90);

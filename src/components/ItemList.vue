@@ -1,142 +1,65 @@
 <template>
 <div id="main">
-    <template v-if="G.isMobile()">
-        <div style="width: 100%; margin: 14px auto; text-align:center;">
-            현재 보유 GP : <span style="text-shadow: 1px 1px 1px red;font-size: 16px;">{{ currentGP }}</span> GP
-        </div>
-        <div class="menu-btn">
-            <span class="myinfoBtn" @click="onBtnMyInfo">내 아이템 정보</span>
-        </div>
-        <div class="menu-btn">
-            <span class="myinfoBtn" @click="onBtnFree">무료 가챠 페이지</span>
-        </div>
-        <table class="tb-list">
-            <tr>
-                <td>
-                    <adsense
-                    adClient="ca-pub-3598320494828213"
-                    adSlot="2407753256"
-                    adStyle="display:inline-block;width:320px;height:100px;"                        
-                    fullWidthResponsive="false"
+    <ItemCardRandom reqGP=15 />
+    <ItemCardChatEffect reqGP=50 />
+    <div class="mat alcenter mgtb8">
+        <template v-if="G.isMobile()">
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="2407753256"
+            adStyle="display:inline-block;width:320px;height:100px;"                        
+            fullWidthResponsive="false"
+            />
+        </template>
+        <template v-else>
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="1216825049"
+            adStyle="display:inline-block;width:728px;height:90px;"                        
+            fullWidthResponsive="false"
+            />
+        </template>        
+    </div>    
+    <ItemCardRandomFontOnly reqGP=500 />
+    <div class="mat alcenter mgtb8">
+        <template v-if="G.isMobile()">
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="5013925241"
+            adStyle="display:inline-block;width:320px;height:100px;"                        
+            fullWidthResponsive="false"
+            />
+        </template>
+        <template v-else>
+            <adfit
+            unitId="DAN-tofpljkyvq06"
+            adWidth="300"
+            adHeight="250"
                     />
-                </td>
-            </tr>
-            <tr>
-                <td class="item-title">
-                    아무거나 랜덤( 15GP )
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 10px 0;">
-                    <table class="tb-prob">
-                        <tr>
-                            <td>포인트 얻기</td>
-                            <td>80%</td>
-                        </tr>
-                        <tr>
-                            <td>랜덤 채팅 컬러</td>
-                            <td>12%</td>
-                        </tr>
-                        <tr>
-                            <td>랜덤 닉네임 강조 색상</td>
-                            <td>6%</td>
-                        </tr>
-                        <tr>
-                            <td>채팅 깜박임 효과</td>
-                            <td>2%</td>
-                        </tr>
-                        <tr>
-                            <td>빅 폰트 효과</td>
-                            <td>0.2%</td>
-                        </tr>
-                        <tr>
-                            <td>무지개 닉네임 효과</td>
-                            <td>0.1%</td>
-                        </tr>
-                        <tr>
-                            <td>노랑 빤짝이 채팅 효과</td>
-                            <td>0.1%</td>
-                        </tr>
-                        <tr>
-                            <td>고양이 서체</td>
-                            <td>0.05%</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td class="item-btn line">
-                    <button class="btn-buy-item" @click="onBuyAllRandom()">구입하기</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="item-title">
-                    폰트 랜덤( 500GP )
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 10px 0;">
-                    랜덤 폰트 당첨률 20%<br/>
-                    실패확률 80%<br/>
-                    ( 고양체, 궁서체, 푸딩체 )
-                </td>
-            </tr>
-            <tr>
-                <td class="item-btn line">
-                    <button class="btn-buy-item" @click="onBuyFontRandom()">구입하기</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <adsense
-                    adClient="ca-pub-3598320494828213"
-                    adSlot="5013925241"
-                    adStyle="display:inline-block;width:320px;height:100px;"                        
-                    fullWidthResponsive="false"
-                    />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div style="height: 40px;" class="item-title">경험치(점수) 가챠( 1GP )</div>
-                    <div style="height: 40px; font-size: 13px;">1~50 포인트 중 랜덤</div>
-                </td>
-            </tr>            
-            <tr>
-                <td class="item-btn line">
-                    <button class="btn-buy-item" @click="onBuyPoint()">구입하기</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div style="height: 40px;" class="item-title">랜덤 채팅 색상 ( 50GP )</div>
-                    <div style="height: 40px; font-size: 13px;">채팅 폰트 색상을 랜덤하게 뽑습니다</div>
-                </td>
-            </tr>            
-            <tr>
-                <td class="item-btn line">
-                    <button class="btn-buy-item" @click="onBuyRandChatColor()">구입하기</button>
-                </td>
-            </tr>            
-            <tr>
-                <td>
-                    <div style="height: 40px;" class="item-title">랜덤 닉네임 강조 색상 ( 100GP )</div>
-                    <div style="height: 40px; font-size: 13px;">닉네임을 다양한 색으로 강조할 수 있습니다.</div>
-                </td>
-            </tr>            
-            <tr>
-                <td class="item-btn line">
-                    <button class="btn-buy-item" @click="onBuyRandNickEffect()">구입하기</button>
-                </td>
-            </tr>
-        </table>
-    </template>
-
-    <!-- PC 버젼 시작 -->
+        </template> 
+    </div>    
+    <ItemCardChatMultiEffect reqGP=300 />
+    <div class="mat alcenter mgtb8">
+        <template v-if="G.isMobile()">
+            <adsense
+                        adClient="ca-pub-3598320494828213"
+                        adSlot="9873210116"
+                        adStyle="display:inline-block;width:300px;height:250px;"                        
+                        fullWidthResponsive="false"
+                        />            
+        </template>
+        <template v-else>
+            <adsense
+            adClient="ca-pub-3598320494828213"
+            adSlot="1216825049"
+            adStyle="display:inline-block;width:728px;height:90px;"                        
+            fullWidthResponsive="false"
+            />
+        </template> 
+    </div>  
+    
+    <ItemCardNickEffect reqGP=100 />
+    <!--
 
     <template v-else>
         <div style="width: 970px; margin: 0 auto;">
@@ -334,6 +257,7 @@
             </tr>
         </table>          
     </template>
+    -->
 </div>
 </template>
 
@@ -342,15 +266,25 @@
     import P from '../../common/protocol'
     import $ from 'jquery'
 
+    import ItemCardRandom from './ItemCardRandom.vue'
+    import ItemCardRandomFontOnly from './ItemCardRandomFontOnly.vue'
+    import ItemCardChatEffect from './ItemCardChatEffect.vue'
+    import ItemCardChatMultiEffect from './ItemCardChatMultiEffect.vue'
+    import ItemCardNickEffect from './ItemCardNickEffect.vue'
+
     export default {
         data() {
-            return {
-                isMobile: G.isMobile(),
+            return {                
                 currentGP: 0,
                 isProc: false
             }
         },
-        components: {              
+        components: {
+            ItemCardRandom,
+            ItemCardRandomFontOnly,
+            ItemCardChatEffect,
+            ItemCardChatMultiEffect,
+            ItemCardNickEffect
         },
         created() {            
         },
@@ -359,17 +293,10 @@
                 if( data.ret === 0 ) {
                     this.init();
                 }
-            },
-            getGachaPointRet(info) {                
-                this.currentGP = info.gp;
-                G.emit(P.GachaPoint, info.gp);                
-            },
+            },            
             init() {                
-                G.hget(P.http.GetGachaPoint, this.getGachaPointRet);
-            },
-            isAbleProc() {
-                return !this.isProc;
-            },
+                this.G.reloadGP();
+            },            
             onBuyAllRandom() {
                 if( !this.isAbleProc() ) {
                     alert('아직 처리 중인 명령이 있습니다');
@@ -420,23 +347,7 @@
                         alert('알 수 없는 오류');
                     }
                 });
-            },
-            SetTypeMsg(type, desc) {
-                let msg = ''
-                switch(type) {
-                    case G.GTYPE.BOX: msg=`포인트를 ${desc} 획득했습니다.`; break;
-                    case G.GTYPE.FONTCOLOR: msg=`폰트 색상 ${desc}을 획득했습니다.`; break;
-                    case G.GTYPE.NICKSHADOW: msg=`닉네임 효과 ${desc}를 획득했습니다.`; break;
-                    case G.GTYPE.BLINK: msg='##채팅 깜빡임 효과##를 획득했습니다. 축하합니다!'; break;
-                    case G.GTYPE.RAINBOWNICK: msg='@#@#@#@# !!레인보우 닉네임 효과 획득!! #@#@#@#@'; break;
-                    case G.GTYPE.YELLOWBLINK: msg='@#@#@#@# !!노랑 빤짝이 효과 획득!! #@#@#@#@'; break;
-                    case G.GTYPE.BIGFONT: msg='@#@#@#@# !!빅 폰트 효과 획득!! #@#@#@#@'; break;
-                    case G.GTYPE.FONT_FAMILY: msg=`@#@#@#@# ${desc} 서체 획득!!!! #@#@#@#@`; break;
-                    case G.GTYPE.FAILED: msg=`아쉽게도 획득에 실패했습니다..`; break;
-                }
-                
-                G.emit(P.SetResultMsg, msg);
-            },
+            },            
             onBuyPoint() {
                 if( !this.isAbleProc() ) {
                     alert('아직 처리 중인 명령이 있습니다');
@@ -578,36 +489,4 @@
 
 
 <style scoped>
-@media screen and (max-width: 500px) {
-    .tb-list {        width: 95%;                margin: 0 auto;    }
-    .tb-list td {        text-align: center;    }
-    .tb-list .item-btn {        height: 50px;    }
-    .line {        border-bottom: 1px solid black;    }
-    .tb-prob {        width: 95%;        font-size: 13px;    }
-    .item-title {        height: 36px;        font-size: 20px;        text-shadow: 1px 1px 1px #f40000;    }
-    .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;    }
-    .menu-btn { text-align: center; padding: 10px; }
-    .myinfoBtn {        background-color: #6d6d6d;        padding: 6px;        border-bottom: 2px solid black;        border-right: 2px solid black;        color: white;        cursor: pointer;    }
-}
-
-@media screen and (min-width: 501px) {    
-    .tb-list {                width: auto;        height: 250px;        margin: 20px auto;        border-collapse: collapse;    }
-    .tb-list td {        width: 300px;        height: 250px;        text-align: center;        border-left: gray 3px dotted;        border-right: gray 3px dotted;    }
-    .tb-list .item {        width: 100%;        height: 200px;        background-color: red;    }
-    .tb-list .item-btn {        height: 50px;    }
-    .tb-item {        width: 100%;       height: 100%;    }
-    .tb-item td {        border: none;    }
-    .item-title {        font-size: 18px;    }
-    .btn-buy-item {        width: 100%;        height: 100%;        border: none;          font-size: 17px;              cursor: pointer;    }
-    .btn-buy-item:hover {        animation-duration: 0.3s;        animation-name: btnEffect;           animation-fill-mode: forwards;       }
-    @keyframes btnEffect {
-        from {            color: #000000;            font-size: 17px;        }   
-        to {            color: #f40000;            font-size: 25px;               font-weight: bolder;                    }     
-    }
-
-    .tb-prob {        height: 80%;        width: 80%;        margin: 0 auto;    }
-    .tb-prob td {        height: auto;        font-size: 13px;        text-align: center;    }
-    .tb-prob td:first-child {        width: 80%;    }
-    .myinfoBtn {        background-color: #6d6d6d;        padding: 6px;        border-bottom: 2px solid black;        border-right: 2px solid black;        color: white;        cursor: pointer;    }
-}
 </style>

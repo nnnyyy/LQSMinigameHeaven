@@ -9,7 +9,6 @@
 }
 
 .btnBuy { padding: 4px; border-radius: 4px; border: 2px solid #323232; cursor: pointer; width: 140px; height: 50px; line-height: 50px; }
-.btnBuy:hover { padding: 4px; border-radius: 4px; border: 2px solid red; cursor: pointer; width: 140px; height: 50px; line-height: 50px; }
 .mat { margin: 0 auto; }
 .mgtb8 { margin-top: 8px; margin-bottom: 8px; }
 .pdtb8 { padding-top: 8px; padding-bottom: 8px; }
